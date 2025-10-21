@@ -99,7 +99,7 @@ This helps detect brute-force or password-spraying attacks targeting user or adm
 ### Observation:
 Administrator accounts had an unusually high number of failed attempts, indicating potential credential-stuffing activity.
 
-![Query 1 – Top Accounts with Failed Logons](ms_30-day_challenge_ss-1.png)
+![Query 1 – Top Accounts with Failed Logons](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-1.png)
 
 
 
