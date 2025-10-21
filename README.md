@@ -114,7 +114,27 @@ Helps analysts understand which event types dominate the log flow, giving contex
 ### Observation:
 Event ID 4625 (Failed Logons) appeared most frequently, confirming heavy authentication failure activity.
 
-![Query 1 – Top Accounts with Failed Logons](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-2.png)
+![Query 2 — Most Common Event IDs](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-2.png)
+
+## 🧪 Query 3 — Failed Logons by Computer and Account
+```
+SecurityEvent_CL
+| where EventID_s == "4625"
+| summarize FailedAttempts = count() by Computer, Account_s
+| top 5 by FailedAttempts desc
+```
+### Purpose:
+Correlate failed logon attempts with the computers where they occurred.
+### Why It’s Important:
+Reveals which systems are being targeted, supporting scoping and prioritization in investigations.
+### Observation:
+The SOC-FW-RDP host had the highest failed logons, suggesting external RDP brute-force attempts.
+
+![Query 3 — Failed Logons by Computer and Account](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-3.png)
+
+## 🪞 Reflection
+This exercise improved my ability to filter and interpret authentication data using KQL.
+I learned how to pivot between account-level and host-level data to identify potential attack patterns and brute-force activity.
 
 ## 📂 Repository Layout
 ```text
