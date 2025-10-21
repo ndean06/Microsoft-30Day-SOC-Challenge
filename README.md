@@ -92,12 +92,14 @@ SecurityEvent_CL
 | summarize FailedAttempts = count() by Account_s, AccountType_s
 | top 10 by FailedAttempts desc
 ```
-Purpose:
+### Purpose:
 Identify which accounts have the highest number of failed login attempts.
-Why It’s Important:
+### Why It’s Important:
 This helps detect brute-force or password-spraying attacks targeting user or admin accounts.
-Observation:
+### Observation:
 Administrator accounts had an unusually high number of failed attempts, indicating potential credential-stuffing activity.
+
+![Query 1 – Top Accounts with Failed Logons](ms_30-day_challenge_ss-1.png)
 
 
 
