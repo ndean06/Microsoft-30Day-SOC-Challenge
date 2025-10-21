@@ -101,7 +101,20 @@ Administrator accounts had an unusually high number of failed attempts, indicati
 
 ![Query 1 – Top Accounts with Failed Logons](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-1.png)
 
+## 🧪 Query 2 — Most Common Event IDs (Frequency Analysis)
+```
+SecurityEvent_CL
+| summarize RandomCount = count() by EventID_s
+| sort by RandomCount desc
+```
+### Purpose:
+Show which Event IDs are most common in the dataset.
+### Why It’s Important:
+Helps analysts understand which event types dominate the log flow, giving context to noise vs. signal.
+### Observation:
+Event ID 4625 (Failed Logons) appeared most frequently, confirming heavy authentication failure activity.
 
+![Query 1 – Top Accounts with Failed Logons](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-2.png)
 
 ## 📂 Repository Layout
 ```text
