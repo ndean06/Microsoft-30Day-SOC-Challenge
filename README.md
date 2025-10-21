@@ -16,6 +16,90 @@ This repository documents my journey through the **MyDFIR Microsoft 30-Day SOC A
 - [Day 8 – Bookmark & Manual Incident](Day8-Bookmark-and-Manual-Incident/README.md)
 - [Resources](Resources/tools-list.md)
 
+## Day 1 — Lab Setup and Planning
+
+**Objective:**  
+Create an Azure account, set up billing alerts, and define a resource naming convention.  
+Plan out the lab structure and goals for the 30-Day Challenge.
+
+**Tasks Completed:**  
+- Created Microsoft Azure account and configured billing alert thresholds.  
+- Defined resource naming convention (e.g., MyDFIR-Dean-Sentinel).  
+- Outlined lab plan and estimated completion schedule.  
+
+**Reflection (Placeholder):**  
+Setting up the environment helped me understand Azure cost management and resource organization.  
+_(Will add screenshots and lab diagram later.)_
+
+**Screenshots:**  
+_(Add screenshots of Azure portal, billing alert setup, and resource group here.)_
+
+
+## Day 2 — Virtual Machine Setup
+
+**Objective:**  
+Create a virtual machine in Azure or on-premises for use in the SOC lab.
+
+**Tasks Completed:**  
+- Deployed Windows 10 VM for endpoint simulation.  
+- Configured network settings and baseline security policies.  
+- Verified connectivity to Microsoft Sentinel workspace.  
+
+**Reflection (Placeholder):**  
+Learned how to spin up and secure virtual machines for monitoring and testing.  
+_(Will add VM specs and screenshots later.)_
+
+**Screenshots:**  
+_(Add screenshots of VM creation wizard and system overview here.)_
+
+
+## Day 3 — Sentinel Workspace Overview
+
+**Objective:**  
+Explore the Sentinel interface and familiarize with its tabs, features, and capabilities.
+
+**Tasks Completed:**  
+- Reviewed **Overview**, **Incidents**, **Logs**, **Hunting**, and **Workbooks** tabs.  
+- Captured initial dashboard screenshot for future portfolio use.  
+
+**Reflection (Placeholder):**  
+Understanding Sentinel’s UI made it easier to navigate during later assignments.  
+_(Will update with Sentinel workspace screenshot.)_
+
+**Screenshots:**  
+_(Add Sentinel overview image here.)_
+
+# Day 4 — KQL Queries
+
+## 🎯 Objective
+Run at least three different KQL queries in Microsoft Sentinel, take a screenshot of each query and its results, and explain what the query looks for and why it’s important.
+
+---
+
+## 🧰 Tools & Concepts
+- Microsoft Sentinel  
+- Log Analytics Workspace  
+- KQL (Kusto Query Language)  
+- EventID 4625 (Failed Logon Events)  
+- SOC Analysis & Detection
+
+---
+
+## 🧪 Query 1 — Top Accounts with Failed Logons
+```kql
+SecurityEvent_CL
+| where EventID_s == "4625"
+| summarize FailedAttempts = count() by Account_s, AccountType_s
+| top 10 by FailedAttempts desc
+```
+Purpose:
+Identify which accounts have the highest number of failed login attempts.
+Why It’s Important:
+This helps detect brute-force or password-spraying attacks targeting user or admin accounts.
+Observation:
+Administrator accounts had an unusually high number of failed attempts, indicating potential credential-stuffing activity.
+
+
 
 ## 📂 Repository Layout
 ```text
