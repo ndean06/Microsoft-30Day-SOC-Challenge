@@ -72,7 +72,7 @@ _(Add Sentinel overview image here.)_
 # Day 4 — KQL Queries
 
 ## 🎯 Objective
-Run at least three different KQL queries in Microsoft Sentinel, take a screenshot of each query and its results, and explain what the query looks for and why it’s important.
+Use KQL to query Microsoft Sentinel logs and identify authentication failures, event trends, and host activity patterns to strengthen detection and analysis capabilities.
 
 ---
 
@@ -85,7 +85,7 @@ Run at least three different KQL queries in Microsoft Sentinel, take a screensho
 
 ---
 
-## 🧪 Query 1 — Top Accounts with Failed Logons
+## Query 1 — Top Accounts with Failed Logons
 ```kql
 SecurityEvent_CL
 | where EventID_s == "4625"
@@ -96,12 +96,13 @@ SecurityEvent_CL
 Identify which accounts have the highest number of failed login attempts.
 ### Why It’s Important:
 This helps detect brute-force or password-spraying attacks targeting user or admin accounts.
+
+![Query 1 – Top Accounts with Failed Logons](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-1.png)
 ### Observation:
 Administrator accounts had an unusually high number of failed attempts, indicating potential credential-stuffing activity.
 
-![Query 1 – Top Accounts with Failed Logons](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-1.png)
 
-## 🧪 Query 2 — Most Common Event IDs (Frequency Analysis)
+## Query 2 — Most Common Event IDs (Frequency Analysis)
 ```
 SecurityEvent_CL
 | summarize RandomCount = count() by EventID_s
@@ -111,12 +112,13 @@ SecurityEvent_CL
 Show which Event IDs are most common in the dataset.
 ### Why It’s Important:
 Helps analysts understand which event types dominate the log flow, giving context to noise vs. signal.
+
+![Query 2 — Most Common Event IDs](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-2.png)
 ### Observation:
 Event ID 4625 (Failed Logons) appeared most frequently, confirming heavy authentication failure activity.
 
-![Query 2 — Most Common Event IDs](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-2.png)
 
-## 🧪 Query 3 — Failed Logons by Computer and Account
+## Query 3 — Failed Logons by Computer and Account
 ```
 SecurityEvent_CL
 | where EventID_s == "4625"
@@ -127,10 +129,12 @@ SecurityEvent_CL
 Correlate failed logon attempts with the computers where they occurred.
 ### Why It’s Important:
 Reveals which systems are being targeted, supporting scoping and prioritization in investigations.
+
+![Query 3 — Failed Logons by Computer and Account](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-3.png)
 ### Observation:
 The SOC-FW-RDP host had the highest failed logons, suggesting external RDP brute-force attempts.
 
-![Query 3 — Failed Logons by Computer and Account](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-3.png)
+
 
 # Day 5 — Dashboard Creation
 
@@ -146,9 +150,36 @@ Add three panels to Microsoft Sentinel dashboard using different visualization t
 
 ---
 
-## 🧪 Panels Added
+## 🔹 Panel 1 – Failed Logons by Account (Pie Chart)
 
-## 🔹 Panel 3 – Event ID Count (Column Chart)
+**Objective:**  
+Identify which user accounts are experiencing the most failed login attempts by visualizing their proportion of total failures.
+
+**KQL Query:**
+```kql
+SecurityEvent_CL
+| where EventID_s == "4625"
+| summarize Count = count() by Account_s
+| sort by Count
+| take 5
+```
+![Panel 1 — Top 5 Failed Logons by Account ](Day5-Dashboard-Creation/screenshots/top-failed-login-pie.png)
+
+### Purpose:
+Breaks down the top 5 accounts with the highest number of failed logon events (Event ID 4625).
+Visualizing the data as proportions highlighting accounts that contribute most to the failed login volume.
+### Why It’s Important:
+- Quickly identifies high-risk or frequently attacked accounts.
+- Useful for validating whether brute-force activity targets specific privileged users.
+- Provides an at-a-glance metric for SOC dashboards or executive summaries.
+### Observation:
+Administrator-level accounts dominated the failed login attempts (`\ADMINISTRATOR, \admin, \administrator`), suggesting targeted password-guessing activity on privileged users.
+This insight guides better alert tuning and reinforces defenses for privileged account credentials.
+
+## 🔹 Panel 2 – Event ID Count (Column Chart)
+
+**Objective:**  
+Visualize the frequency of different Windows Event IDs in the dataset to identify which event types occur most often.
 
 **KQL Query:**
 ```kql
@@ -158,7 +189,6 @@ SecurityEvent_CL
 | take 15
 | render columnchart
 ```
-![Panel 3 — Event ID Count](Day5-Dashboard-Creation/screenshots/event-id-count-bar.png)
 
 ### Purpose:
 This column chart displays the top 15 Event IDs and their frequency counts from security logs.
@@ -167,9 +197,39 @@ By visualizing event frequency, analysts can quickly determine which activities 
 - Reveals the most frequent system events (normal baseline behavior).
 - Highlights rare or infrequent Event IDs that might indicate suspicious activity.
 - Helps prioritize which logs to focus on for deeper analysis.
+
+![Panel 2 — Event ID Count](Day5-Dashboard-Creation/screenshots/event-id-count-bar.png)
+
 ### Observation:
 Event ID 5058 occurred the most, significantly higher than others like 4624 and 4625.
 Can be used to help establish a baseline for normal system activity.
+
+## 🔹 Panel 3 – Failed Logons Over Time (Line Chart)
+
+**Objective:**  
+Visualize the trend of failed logon attempts across accounts over a specific time window.
+
+**KQL Query:**
+```kql
+SecurityEvent_CL
+| extend EventTime = todatetime(replace_string(TimeCollected_UTC__s, ",", ""))
+| where EventTime between (datetime(2021-04-16 00:00:00) .. datetime(2021-04-17 00:00:00))
+| summarize FailedLogons = count() by bin(EventTime, 5m), Account_s
+| order by EventTime asc
+| render timechart
+```
+### Purpose:
+This line chart tracks failed logon activity for each account in 5-minute intervals, helping analysts identify login bursts or anomalies across time.
+### Why It’s Important:
+- Reveals temporal patterns in brute-force or password-spray attempts.
+- Helps correlate spikes in failed logons with specific attack windows.
+- Enables proactive tuning of analytic rules and rate-based detections.
+  
+![Panel 3 — Failed Logons Over Time)](Day5-Dashboard-Creation/screenshots/failed-login-by-min-line.png)
+
+### Observation:
+The `\ADMINISTRATOR` account maintained consistently high failure counts, peaking around 03:35 AM, indicating repeated login attempts within a short period.
+Other accounts like `\admin` and `\administrator` show similar spikes, supporting a likely password-spray pattern across multiple privileged users.
 
 ## 🪞 Reflection
 This exercise improved my ability to filter and interpret authentication data using KQL.
