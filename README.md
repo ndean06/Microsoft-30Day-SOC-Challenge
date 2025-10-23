@@ -132,6 +132,32 @@ The SOC-FW-RDP host had the highest failed logons, suggesting external RDP brute
 
 ![Query 3 — Failed Logons by Computer and Account](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-3.png)
 
+# Day 5 — Dashboard Creation
+
+## 🎯 Objective
+Add three panels to Microsoft Sentinel dashboard using different visualization types: bar, line, and pie.
+
+---
+
+## 🧰 Tools & Concepts
+- Microsoft Sentinel Workbooks  
+- KQL Queries for visual data  
+- Visualization Types: Bar • Line • Pie  
+
+---
+
+## 🧪 Panels Added
+
+### 🔹 Panel 1 – Top Accounts by Failed Logons
+```kql
+SecurityEvent_CL
+| where EventID_s == "4625"
+| summarize FailedAttempts = count() by Account_s
+| top 10 by FailedAttempts
+```
+![Panel 1 — Top Accounts by Failed Logons](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-3.png)
+
+
 ## 🪞 Reflection
 This exercise improved my ability to filter and interpret authentication data using KQL.
 I learned how to pivot between account-level and host-level data to identify potential attack patterns and brute-force activity.
