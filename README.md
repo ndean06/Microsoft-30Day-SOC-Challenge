@@ -148,14 +148,17 @@ Add three panels to Microsoft Sentinel dashboard using different visualization t
 
 ## 🧪 Panels Added
 
-### 🔹 Panel 1 – Top Accounts by Failed Logons
+## 🔹 Panel 3 – Event ID Count (Column Chart)
+
+**KQL Query:**
 ```kql
 SecurityEvent_CL
-| where EventID_s == "4625"
-| summarize FailedAttempts = count() by Account_s
-| top 10 by FailedAttempts
+| summarize Total = count() by EventID_s
+| sort by Total asc
+| take 15
+| render columnchart
 ```
-![Panel 1 — Top Accounts by Failed Logons](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-3.png)
+![Panel 3 — Event ID Count](Day5-Dashboard-Creation/screenshot/event-id-count-bar.png)
 
 
 ## 🪞 Reflection
