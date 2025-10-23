@@ -158,8 +158,18 @@ SecurityEvent_CL
 | take 15
 | render columnchart
 ```
-![Panel 3 — Event ID Count](Day5-Dashboard-Creation/screenshot/event-id-count-bar.png)
+![Panel 3 — Event ID Count](Day5-Dashboard-Creation/screenshots/event-id-count-bar.png)
 
+### Purpose:
+This column chart displays the top 15 Event IDs and their frequency counts from security logs.
+By visualizing event frequency, analysts can quickly determine which activities dominate the environment, which helps separate common background noise from potential anomalies.
+### Why It’s Important:
+- Reveals the most frequent system events (normal baseline behavior).
+- Highlights rare or infrequent Event IDs that might indicate suspicious activity.
+- Helps prioritize which logs to focus on for deeper analysis.
+### Observation:
+Event ID 5058 occurred the most, significantly higher than others like 4624 and 4625.
+Can be used to help establish a baseline for normal system activity.
 
 ## 🪞 Reflection
 This exercise improved my ability to filter and interpret authentication data using KQL.
