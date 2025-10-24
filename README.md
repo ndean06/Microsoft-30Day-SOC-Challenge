@@ -231,6 +231,32 @@ This line chart tracks failed logon activity for each account in 5-minute interv
 The `\ADMINISTRATOR` account maintained consistently high failure counts, peaking around 03:35 AM, indicating repeated login attempts within a short period.
 Other accounts like `\admin` and `\administrator` show similar spikes, supporting a likely password-spray pattern across multiple privileged users.
 
+# Day 6 — Alert and Incident Creation
+
+## 🎯 Objective
+Create a custom analytic rule in Microsoft Sentinel using KQL to detect multiple failed logon attempts and generate an alert when thresholds are exceeded.
+
+---
+
+## 🧰 Tools & Concepts
+- Microsoft Sentinel  
+- Microsoft Defender XDR  
+- KQL (Kusto Query Language)  
+- Analytic Rules & Incidents  
+- Detection Engineering  
+
+---
+
+## 🧪 Detection Query
+```kql
+SecurityEvent_CL 
+| where EventID_s == "4625" 
+| summarize FailedLogons = count() by Account_s
+| where FailedLogons >= 1000
+```
+## Purpose:
+Detect accounts exceeding 1,000 failed logon attempts. A common indicator of brute-force or password-spray activity. 
+
 ## 🪞 Reflection
 This exercise improved my ability to filter and interpret authentication data using KQL.
 I learned how to pivot between account-level and host-level data to identify potential attack patterns and brute-force activity.
