@@ -247,7 +247,7 @@ Create a custom analytic rule in Microsoft Sentinel using KQL to detect multiple
 
 ---
 
-## 🧪 Detection Query
+## Detection Query
 ```kql
 SecurityEvent_CL 
 | where EventID_s == "4625" 
@@ -256,6 +256,9 @@ SecurityEvent_CL
 ```
 ## Purpose:
 Detect accounts exceeding 1,000 failed logon attempts. A common indicator of brute-force or password-spray activity. 
+
+![Alert 1000 — Failed Logons Over Time)](Day6-Alert-Incidents/screenshots/incident-alert.png)
+
 
 ## 🪞 Reflection
 This exercise improved my ability to filter and interpret authentication data using KQL.
