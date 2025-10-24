@@ -260,6 +260,74 @@ Detect accounts exceeding 1,000 failed logon attempts. A common indicator of bru
 ![Alert 1000 — Failed Logons Over Time)](Day6-Alert-Incidents/screenshots/incident-alert.png)
 
 
+# Day 7 — Incident Investigation Report
+
+## Objective
+Investigate a simulated security incident based on an alert from Microsoft Sentinel to determine what happened, who was affected, and how to mitigate future risk.
+
+---
+
+## Tools & Concepts
+- Microsoft Sentinel  
+- KQL (Kusto Query Language)  
+- MITRE ATT&CK Framework  
+- SecurityEvent_CL table  
+- Incident Handling Lifecycle (Detection → Analysis → Containment → Recovery)  
+
+---
+
+
+
+## Findings
+**Alert Name:** Multiple Failed Logons Detected  
+**Source:** Microsoft Sentinel (Analytic Rule from Day 6)  
+**Severity:** High  
+**Time of Activity:** 2024-03-11 14:21:18 UTC – 14:22:58 UTC  
+**Affected Host:** `192.168.10.34`  
+**Suspected File:** `Pikachu.exe`  
+**Associated Domain:** `evil[.]com`  
+**Possible Malware Family:** Pikabot  
+
+---
+
+## Investigation Summary
+Using KQL in Sentinel, I analyzed failed authentication logs and correlated suspicious activity from multiple accounts and hosts.  
+One endpoint (`192.168.10.34`) accessed a known malicious domain and downloaded a file later flagged as **Pikabot**, a downloader-type malware.  
+
+The Event ID 4625 activity correlated with repetitive failed logons before the file download.  Suggesting either brute-force or credential misuse.  
+The investigation determined the infection vector was likely a user visiting a phishing domain and executing the downloaded payload.
+
+---
+
+## Detailed Investigation (WHO / WHAT / WHEN / WHERE / WHY / HOW)
+
+| Category | Details |
+|-----------|----------|
+| **Who** | Host: `192.168.10.34`, User: `Tamarindo@tamacc\Administrator` |
+| **What** | User downloaded malicious file `Pikachu.exe` linked to Pikabot |
+| **When** | 2024-03-11 14:21:18 UTC – 14:22:58 UTC |
+| **Where** | Network segment: 192.168.10.0/24, Detected in Sentinel |
+| **Why** | Possible phishing attempt or malicious link exposure |
+| **How** | Browser-initiated download from domain `evil[.]com`, file executed, initiated outbound connections |
+
+---
+
+## 🧮 Supporting KQL Queries
+```kql
+// 1. Identify failed logon attempts
+SecurityEvent_CL
+| where EventID_s == "4625"
+| summarize FailedAttempts = count() by Account_s, Computer
+| top 10 by FailedAttempts desc
+
+// 2. Search for suspicious domains or file names
+SecurityEvent_CL
+| where CommandLine_s contains "Pikachu.exe" or CommandLine_s contains "evil.com"
+| project TimeGenerated, Computer, Account_s, CommandLine_s
+```
+
+
+
 ## 🪞 Reflection
 This exercise improved my ability to filter and interpret authentication data using KQL.
 I learned how to pivot between account-level and host-level data to identify potential attack patterns and brute-force activity.
