@@ -296,17 +296,18 @@ The activity likely used automated credential guessing via RDP or network authen
 **Hosts:** `SHIR-Hive`, `SHIR-SAP`, `SOC-FW-RDP`  
 **Accounts Targeted:** Administrator accounts across multiple hosts  
 
-![Host Activity](screenshots/hosts_failed_attempts.png)
-![Accounts Targeted](screenshots/accounts_failed_attempts.png)
+![Host Activity](Day7-Incident-Investigation-Report/screenshots/ms-30Day_Challenge-7-1.png)
+
+![Accounts Targeted](Day7-Incident-Investigation-Report/screenshots/ms-30Day_Challenge-7-2.png)
 
 ---
 
-## 🧩 WHAT
+## WHAT
 Failed attempts totaling **18,163** across the three hosts.
 
 ---
 
-## 🧩 WHEN
+## WHEN
 | Host | Time Range (UTC) |
 |------|-------------------|
 | SHIR-Hive | 2021-04-16 08:34 – 09:33 |
@@ -319,19 +320,19 @@ Limited data to confirm if activity continued beyond this window.
 
 ---
 
-## 🧩 WHERE
+## WHERE
 Activity originated from internal hosts `SHIR-Hive`, `SHIR-SAP`, and `SOC-FW-RDP`,  
 suggesting an attack via RDP or Windows authentication services.
 
 ---
 
-## 🧩 WHY
+## WHY
 Likely an automated attacker attempting to gain access to privileged accounts via brute-force or password spray.  
 If these hosts are internet-facing or relay services, external actors may be involved.
 
 ---
 
-## 🧩 HOW
+## HOW
 Automated tool or script iterating credentials against accounts over RDP / domain authentication.  
 The hostname `SOC-FW-RDP` indicates a remote desktop front end likely used for testing or management.
 
@@ -344,16 +345,16 @@ SecurityEvent_CL
 | where EventID_s == "4625"
 | summarize FailedAttempts = count() by Computer, Account_s
 | top 10 by FailedAttempts desc
-
+```
 
 # Day 8 — Bookmark & Manual Incident
 
-## 🎯 Objective
+## Objective
 Use Microsoft Sentinel to identify a notable pattern in Office 365 activity logs, bookmark the finding, and create a manual incident for further investigation.
 
 ---
 
-## 🧰 Tools & Concepts
+## Tools & Concepts
 - Microsoft Sentinel  
 - OfficeActivity_CL table  
 - KQL (Kusto Query Language)  
@@ -362,7 +363,7 @@ Use Microsoft Sentinel to identify a notable pattern in Office 365 activity logs
 
 ---
 
-## 🧪 KQL Query
+## KQL Query
 ```kql
 OfficeActivity_CL
 | where Operation_s == "FileAccessed"
@@ -377,7 +378,24 @@ They demonstrate the ability to:
 - Maintain clear documentation for peer validation
 ![Bookmark Abnormal IP)](Day8-Bookmark-and-Manual-Incident/screenshots/ms_30-day_challenge-bookmark.png)
 
+## MITRE ATT&CK Mapping
+| Tactic            | Technique      | ID    |
+| ----------------- | -------------- | ----- |
+| Credential Access | Brute Force    | T1110 |
+| Execution         | User Execution | T1204 |
+| Defense Evasion   | Valid Accounts | T1078 |
 
+Recommendations
+
+Implement and enforce account lockout policy for failed login thresholds.
+
+Require Multi-Factor Authentication (MFA) for all privileged and remote accounts.
+
+Audit RDP and administrative access to validate legitimate use.
+
+Monitor for continued failed logon spikes and create dynamic alerts for Event ID 4625.
+
+Restrict RDP exposure to internal networks only.
 
 ## 🪞 Reflection
 This exercise improved my ability to filter and interpret authentication data using KQL.
