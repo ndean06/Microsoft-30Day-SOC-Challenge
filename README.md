@@ -163,8 +163,6 @@ SecurityEvent_CL
 | sort by Count
 | take 5
 ```
-![Panel 1 — Top 5 Failed Logons by Account ](Day5-Dashboard-Creation/screenshots/top-failed-login-pie.png)
-
 ### Purpose:
 Breaks down the top 5 accounts with the highest number of failed logon events (Event ID 4625).
 Visualizing the data as proportions highlighting accounts that contribute most to the failed login volume.
@@ -172,6 +170,8 @@ Visualizing the data as proportions highlighting accounts that contribute most t
 - Quickly identifies high-risk or frequently attacked accounts.
 - Useful for validating whether brute-force activity targets specific privileged users.
 - Provides an at-a-glance metric for SOC dashboards or executive summaries.
+
+![Panel 1 — Top 5 Failed Logons by Account ](Day5-Dashboard-Creation/screenshots/top-failed-login-pie.png)
 ### Observation:
 Administrator-level accounts dominated the failed login attempts (`\ADMINISTRATOR, \admin, \administrator`), suggesting targeted password-guessing activity on privileged users.
 This insight guides better alert tuning and reinforces defenses for privileged account credentials.
@@ -226,7 +226,6 @@ This line chart tracks failed logon activity for each account in 5-minute interv
 - Enables proactive tuning of analytic rules and rate-based detections.
   
 ![Panel 3 — Failed Logons Over Time)](Day5-Dashboard-Creation/screenshots/failed-login-by-min-line.png)
-
 ### Observation:
 The `\ADMINISTRATOR` account maintained consistently high failure counts, peaking around 03:35 AM, indicating repeated login attempts within a short period.
 Other accounts like `\admin` and `\administrator` show similar spikes, supporting a likely password-spray pattern across multiple privileged users.
@@ -254,77 +253,129 @@ SecurityEvent_CL
 | summarize FailedLogons = count() by Account_s
 | where FailedLogons >= 1000
 ```
-## Purpose:
+### Purpose:
 Detect accounts exceeding 1,000 failed logon attempts. A common indicator of brute-force or password-spray activity. 
-
+### Why It’s Important: 
 ![Alert 1000 — Failed Logons Over Time)](Day6-Alert-Incidents/screenshots/incident-alert.png)
-
+### Observation:
 
 # Day 7 — Incident Investigation Report
 
 ## Objective
-Investigate a simulated security incident based on an alert from Microsoft Sentinel to determine what happened, who was affected, and how to mitigate future risk.
+Investigate an alert generated from the “Multiple Failed Logons Detection” rule in Microsoft Sentinel to determine scope, impact, and recommended actions.
 
 ---
 
 ## Tools & Concepts
 - Microsoft Sentinel  
-- KQL (Kusto Query Language)  
-- MITRE ATT&CK Framework  
-- SecurityEvent_CL table  
-- Incident Handling Lifecycle (Detection → Analysis → Containment → Recovery)  
+- KQL (Query Language)  
+- MITRE ATT&CK T1110 (Brute Force)  
+- Incident Handling Lifecycle  
 
 ---
 
-
-
 ## Findings
 **Alert Name:** Multiple Failed Logons Detected  
-**Source:** Microsoft Sentinel (Analytic Rule from Day 6)  
 **Severity:** High  
-**Time of Activity:** 2024-03-11 14:21:18 UTC – 14:22:58 UTC  
-**Affected Host:** `192.168.10.34`  
-**Suspected File:** `Pikachu.exe`  
-**Associated Domain:** `evil[.]com`  
-**Possible Malware Family:** Pikabot  
+**Event ID:** 4625 (Failed Logon)  
+**Time Range:** 2024-04-16 08:34 UTC – 09:33 UTC  
+**Affected Hosts:** `SHIR-Hive`, `SHIR-SAP`, `SOC-FW-RDP`  
+**Targeted Accounts:** `\ADMINISTRATOR`, `\admin`, `\administrator`  
 
 ---
 
 ## Investigation Summary
-Using KQL in Sentinel, I analyzed failed authentication logs and correlated suspicious activity from multiple accounts and hosts.  
-One endpoint (`192.168.10.34`) accessed a known malicious domain and downloaded a file later flagged as **Pikabot**, a downloader-type malware.  
-
-The Event ID 4625 activity correlated with repetitive failed logons before the file download.  Suggesting either brute-force or credential misuse.  
-The investigation determined the infection vector was likely a user visiting a phishing domain and executing the downloaded payload.
+On 2024-04-16 08:34 UTC, multiple failed logon attempts were detected from several hosts targeting privileged accounts.  
+The activity pattern suggested a **brute-force or password-spray attack**.  
+No successful logons (Event ID 4624) were observed, indicating the attempts were unsuccessful.  
+The activity likely used automated credential guessing via RDP or network authentication.
 
 ---
 
-## Detailed Investigation (WHO / WHAT / WHEN / WHERE / WHY / HOW)
+##  WHO
+**Hosts:** `SHIR-Hive`, `SHIR-SAP`, `SOC-FW-RDP`  
+**Accounts Targeted:** Administrator accounts across multiple hosts  
 
-| Category | Details |
-|-----------|----------|
-| **Who** | Host: `192.168.10.34`, User: `Tamarindo@tamacc\Administrator` |
-| **What** | User downloaded malicious file `Pikachu.exe` linked to Pikabot |
-| **When** | 2024-03-11 14:21:18 UTC – 14:22:58 UTC |
-| **Where** | Network segment: 192.168.10.0/24, Detected in Sentinel |
-| **Why** | Possible phishing attempt or malicious link exposure |
-| **How** | Browser-initiated download from domain `evil[.]com`, file executed, initiated outbound connections |
+![Host Activity](screenshots/hosts_failed_attempts.png)
+![Accounts Targeted](screenshots/accounts_failed_attempts.png)
+
+---
+
+## 🧩 WHAT
+Failed attempts totaling **18,163** across the three hosts.
+
+---
+
+## 🧩 WHEN
+| Host | Time Range (UTC) |
+|------|-------------------|
+| SHIR-Hive | 2021-04-16 08:34 – 09:33 |
+| SHIR-SAP | 2021-04-16 08:34 – 09:33 |
+| SOC-FW-RDP | 2021-04-16 08:34 – 09:00 |
+
+![Timeline Evidence](screenshots/when_activity.png)
+
+Limited data to confirm if activity continued beyond this window.
+
+---
+
+## 🧩 WHERE
+Activity originated from internal hosts `SHIR-Hive`, `SHIR-SAP`, and `SOC-FW-RDP`,  
+suggesting an attack via RDP or Windows authentication services.
+
+---
+
+## 🧩 WHY
+Likely an automated attacker attempting to gain access to privileged accounts via brute-force or password spray.  
+If these hosts are internet-facing or relay services, external actors may be involved.
+
+---
+
+## 🧩 HOW
+Automated tool or script iterating credentials against accounts over RDP / domain authentication.  
+The hostname `SOC-FW-RDP` indicates a remote desktop front end likely used for testing or management.
 
 ---
 
 ## 🧮 Supporting KQL Queries
 ```kql
-// 1. Identify failed logon attempts
+// Failed logons by host
 SecurityEvent_CL
 | where EventID_s == "4625"
-| summarize FailedAttempts = count() by Account_s, Computer
+| summarize FailedAttempts = count() by Computer, Account_s
 | top 10 by FailedAttempts desc
 
-// 2. Search for suspicious domains or file names
-SecurityEvent_CL
-| where CommandLine_s contains "Pikachu.exe" or CommandLine_s contains "evil.com"
-| project TimeGenerated, Computer, Account_s, CommandLine_s
+
+# Day 8 — Bookmark & Manual Incident
+
+## 🎯 Objective
+Use Microsoft Sentinel to identify a notable pattern in Office 365 activity logs, bookmark the finding, and create a manual incident for further investigation.
+
+---
+
+## 🧰 Tools & Concepts
+- Microsoft Sentinel  
+- OfficeActivity_CL table  
+- KQL (Kusto Query Language)  
+- Bookmarks & Manual Incidents  
+- SOC Investigation Workflow  
+
+---
+
+## 🧪 KQL Query
+```kql
+OfficeActivity_CL
+| where Operation_s == "FileAccessed"
 ```
+### Purpose:
+Retrieve Office 365 file-access events to review for unusual activity such as access from new or unexpected IP addresses.
+### Why It's Important:
+Manual incidents help analysts capture context that automated detections may miss.
+They demonstrate the ability to:
+- Recognize suspicious behavior during proactive log review
+- Escalate findings with supporting evidence
+- Maintain clear documentation for peer validation
+![Bookmark Abnormal IP)](Day8-Bookmark-and-Manual-Incident/screenshots/ms_30-day_challenge-bookmark.png)
 
 
 
