@@ -16,7 +16,7 @@ This repository documents my journey through the **MyDFIR Microsoft 30-Day SOC A
 - [Day 8 – Bookmark & Manual Incident](Day8-Bookmark-and-Manual-Incident/README.md)
 - [Resources](Resources/tools-list.md)
 
-## Day 1 — Lab Setup and Planning
+## Day 1 - Lab Setup and Planning
 
 **Objective:**  
 Create an Azure account, set up billing alerts, and define a resource naming convention.  
@@ -27,10 +27,10 @@ Plan out the lab structure and goals for the 30-Day Challenge.
 - Defined resource naming convention (e.g., MyDFIR-Dean-Sentinel).  
 - Outlined lab plan and estimated completion schedule.  
 
-**Reflection (Placeholder):**  
+**Reflection:**  
 Setting up the environment helped me understand Azure cost management and resource organization.  
 
-## Day 2 — Virtual Machine Setup
+## Day 2 - Virtual Machine Setup
 
 **Objective:**  
 Create a virtual machine in Azure or on-premises for use in the SOC lab.
@@ -40,12 +40,10 @@ Create a virtual machine in Azure or on-premises for use in the SOC lab.
 - Configured network settings and baseline security policies.  
 - Verified connectivity to Microsoft Sentinel workspace.  
 
-**Reflection (Placeholder):**  
+**Reflection:**  
 Learned how to spin up and secure virtual machines for monitoring and testing.  
-
-**Screenshots:**  
-
-## Day 3 — Sentinel Workspace Overview
+  
+## Day 3 - Sentinel Workspace Overview
 
 **Objective:**  
 Explore the Sentinel interface and familiarize with its tabs, features, and capabilities.
@@ -56,10 +54,8 @@ Explore the Sentinel interface and familiarize with its tabs, features, and capa
 
 **Reflection (Placeholder):**  
 Understanding Sentinel’s UI made it easier to navigate during later assignments.  
-
-**Screenshots:**  
-
-# Day 4 — KQL Queries
+ 
+# Day 4 - KQL Queries
 
 ## Objective
 Use KQL to query Microsoft Sentinel logs and identify authentication failures, event trends, and host activity patterns to strengthen detection and analysis capabilities.
@@ -75,7 +71,7 @@ Use KQL to query Microsoft Sentinel logs and identify authentication failures, e
 
 ---
 
-## Query 1 — Top Accounts with Failed Logons
+## Query 1 - Top Accounts with Failed Logons
 ```kql
 SecurityEvent_CL
 | where EventID_s == "4625"
@@ -91,7 +87,7 @@ This helps detect brute-force or password-spraying attacks targeting user or adm
 ### Observation:
 Administrator accounts had an unusually high number of failed attempts, indicating potential credential-stuffing activity.
 
-## Query 2 — Most Common Event IDs (Frequency Analysis)
+## Query 2 - Most Common Event IDs (Frequency Analysis)
 ```
 SecurityEvent_CL
 | summarize RandomCount = count() by EventID_s
@@ -107,7 +103,7 @@ Helps analysts understand which event types dominate the log flow, giving contex
 Event ID 4625 (Failed Logons) appeared most frequently, confirming heavy authentication failure activity.
 
 
-## Query 3 — Failed Logons by Computer and Account
+## Query 3 - Failed Logons by Computer and Account
 ```
 SecurityEvent_CL
 | where EventID_s == "4625"
@@ -123,7 +119,7 @@ Reveals which systems are being targeted, supporting scoping and prioritization 
 ### Observation:
 The SOC-FW-RDP host had the highest failed logons, suggesting external RDP brute-force attempts.
 
-# Day 5 — Dashboard Creation
+# Day 5 - Dashboard Creation
 
 ## Objective
 Add three panels to Microsoft Sentinel dashboard using different visualization types: bar, line, and pie.
@@ -163,7 +159,7 @@ Visualizing the data as proportions highlighting accounts that contribute most t
 Administrator-level accounts dominated the failed login attempts (`\ADMINISTRATOR, \admin, \administrator`), suggesting targeted password-guessing activity on privileged users.
 This insight guides better alert tuning and reinforces defenses for privileged account credentials.
 
-## Panel 2 – Event ID Count (Column Chart)
+## Panel 2 - Event ID Count (Column Chart)
 
 **Objective:**  
 Visualize the frequency of different Windows Event IDs in the dataset to identify which event types occur most often.
@@ -190,7 +186,7 @@ By visualizing event frequency, analysts can quickly determine which activities 
 Event ID 5058 occurred the most, significantly higher than others like 4624 and 4625.
 Can be used to help establish a baseline for normal system activity.
 
-## Panel 3 – Failed Logons Over Time (Line Chart)
+## Panel 3 - Failed Logons Over Time (Line Chart)
 
 **Objective:**  
 Visualize the trend of failed logon attempts across accounts over a specific time window.
@@ -216,7 +212,7 @@ This line chart tracks failed logon activity for each account in 5-minute interv
 The `\ADMINISTRATOR` account maintained consistently high failure counts, peaking around 03:35 AM, indicating repeated login attempts within a short period.
 Other accounts like `\admin` and `\administrator` show similar spikes, supporting a likely password-spray pattern across multiple privileged users.
 
-# Day 6 — Alert and Incident Creation
+# Day 6 - Alert and Incident Creation
 
 ## Objective
 Create a custom analytic rule in Microsoft Sentinel using KQL to detect multiple failed logon attempts and generate an alert when thresholds are exceeded.
@@ -251,7 +247,7 @@ Detect accounts exceeding 1,000 failed logon attempts. A common indicator of bru
 The rule triggered several MyDFIR-ndean-FailedLogonAlert incidents (9–15 attempts), confirming the query worked.
 In a real SOC, this would prompt a check for repeated failures or password-spray activity.
 
-# Day 7 — Incident Investigation Report
+# Day 7 - Incident Investigation Report
 
 ## Objective
 Investigate an alert generated from the “Multiple Failed Logons Detection” rule in Microsoft Sentinel to determine scope, impact, and recommended actions.
@@ -339,7 +335,7 @@ SecurityEvent_CL
 | top 10 by FailedAttempts desc
 ```
 
-# Day 8 — Bookmark & Manual Incident
+# Day 8 - Bookmark & Manual Incident
 
 ## Objective
 Use Microsoft Sentinel to identify a notable pattern in Office 365 activity logs, bookmark the finding, and create a manual incident for further investigation.
