@@ -6,15 +6,15 @@ This repository documents my journey through the **MyDFIR Microsoft 30-Day SOC A
 
 
 ## Table of Contents
-- [Day 1 – Lab Setup & Planning](Day1-Lab-Setup-and-Planning/README.md)
-- [Day 2 – Virtual Machine Setup](Day2-Virtual-Machine-Setup/README.md)
-- [Day 3 – Sentinel Workspace Overview](Day3-Sentinel-Workspace-Overview/README.md)
-- [Day 4 – KQL Queries](Day4-KQL-Queries/README.md)
-- [Day 5 – Dashboard Creation](Day5-Dashboard-Creation/README.md)
-- [Day 6 – Alert & Incident Creation](Day6-Alert-and-Incident-Creation/README.md)
-- [Day 7 – Incident Investigation Report](Day7-Incident-Investigation-Report/README.md)
-- [Day 8 – Bookmark & Manual Incident](Day8-Bookmark-and-Manual-Incident/README.md)
-- [Resources](Resources/tools-list.md)
+- Day 1 – Lab Setup & Planning
+- Day 2 – Virtual Machine Setup
+- Day 3 – Sentinel Workspace Overview
+- Day 4 – KQL Queries
+- Day 5 – Dashboard Creation
+- Day 6 – Alert & Incident Creation
+- Day 7 – Incident Investigation Report
+- Day 8 – Bookmark & Manual Incident
+- Resources
 
 ## Day 1 - Lab Setup and Planning
 
