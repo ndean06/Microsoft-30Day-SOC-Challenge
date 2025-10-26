@@ -370,7 +370,9 @@ They demonstrate the ability to:
 - Maintain clear documentation for peer validation
 ![Bookmark Abnormal IP)](Day8-Bookmark-and-Manual-Incident/screenshots/ms_30-day_challenge-bookmark.png)
 ### Observation:
-
+- The FileAccessed query showed activity from an unusual IP address.
+- A bookmark was created for further review.
+- May indicate suspicious or unauthorized access requiring investigation.
 
 ## MITRE ATT&CK Mapping
 | Tactic            | Technique      | ID    |
@@ -379,21 +381,17 @@ They demonstrate the ability to:
 | Execution         | User Execution | T1204 |
 | Defense Evasion   | Valid Accounts | T1078 |
 
-Recommendations
-
-Implement and enforce account lockout policy for failed login thresholds.
-
-Require Multi-Factor Authentication (MFA) for all privileged and remote accounts.
-
-Audit RDP and administrative access to validate legitimate use.
-
-Monitor for continued failed logon spikes and create dynamic alerts for Event ID 4625.
-
-Restrict RDP exposure to internal networks only.
+## Recommendations
+1. Implement and enforce account lockout policy for failed login thresholds.
+2. Require Multi-Factor Authentication (MFA) for all privileged and remote accounts.
+3. Audit RDP and administrative access to validate legitimate use.
+4. Monitor for continued failed logon spikes and create dynamic alerts for Event ID 4625.
+5. Restrict RDP exposure to internal networks only.
 
 ## 🪞 Reflection
-This exercise improved my ability to filter and interpret authentication data using KQL.
-I learned how to pivot between account-level and host-level data to identify potential attack patterns and brute-force activity.
+This incident reinforced my understanding of how failed logon patterns can signal early-stage brute-force attacks.
+Correlating Event IDs 4625 and 4624 helped confirm that no compromise occurred, while visualizing the data clarified attack timing and scope.
+Going forward, I plan to develop automated Sentinel rules and playbooks to detect similar behavior proactively.
 
 ## 📂 Repository Layout
 ```text
