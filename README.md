@@ -1,11 +1,11 @@
 # Microsoft-30Day-SOC-Challenge
 A 30-day journey through real-world SOC operations using Microsoft security tools. Includes KQL queries, incident response workflows, and reflections on building modern cloud detections.
 
-## 📘 Overview
+## Overview
 This repository documents my journey through the **MyDFIR Microsoft 30-Day SOC Analyst Challenge**, where I built, configured, and analyzed a Microsoft SOC environment using **Sentinel**, **Defender XDR**, and **Entra ID**.
 
 
-## 📚 Table of Contents
+## Table of Contents
 - [Day 1 – Lab Setup & Planning](Day1-Lab-Setup-and-Planning/README.md)
 - [Day 2 – Virtual Machine Setup](Day2-Virtual-Machine-Setup/README.md)
 - [Day 3 – Sentinel Workspace Overview](Day3-Sentinel-Workspace-Overview/README.md)
@@ -29,11 +29,6 @@ Plan out the lab structure and goals for the 30-Day Challenge.
 
 **Reflection (Placeholder):**  
 Setting up the environment helped me understand Azure cost management and resource organization.  
-_(Will add screenshots and lab diagram later.)_
-
-**Screenshots:**  
-_(Add screenshots of Azure portal, billing alert setup, and resource group here.)_
-
 
 ## Day 2 — Virtual Machine Setup
 
@@ -47,11 +42,8 @@ Create a virtual machine in Azure or on-premises for use in the SOC lab.
 
 **Reflection (Placeholder):**  
 Learned how to spin up and secure virtual machines for monitoring and testing.  
-_(Will add VM specs and screenshots later.)_
 
 **Screenshots:**  
-_(Add screenshots of VM creation wizard and system overview here.)_
-
 
 ## Day 3 — Sentinel Workspace Overview
 
@@ -64,19 +56,17 @@ Explore the Sentinel interface and familiarize with its tabs, features, and capa
 
 **Reflection (Placeholder):**  
 Understanding Sentinel’s UI made it easier to navigate during later assignments.  
-_(Will update with Sentinel workspace screenshot.)_
 
 **Screenshots:**  
-_(Add Sentinel overview image here.)_
 
 # Day 4 — KQL Queries
 
-## 🎯 Objective
+## Objective
 Use KQL to query Microsoft Sentinel logs and identify authentication failures, event trends, and host activity patterns to strengthen detection and analysis capabilities.
 
 ---
 
-## 🧰 Tools & Concepts
+## Tools & Concepts
 - Microsoft Sentinel  
 - Log Analytics Workspace  
 - KQL (Kusto Query Language)  
@@ -100,7 +90,6 @@ This helps detect brute-force or password-spraying attacks targeting user or adm
 ![Query 1 – Top Accounts with Failed Logons](Day4-KQL-Queries/screenshot/ms_30-day_challenge_ss-1.png)
 ### Observation:
 Administrator accounts had an unusually high number of failed attempts, indicating potential credential-stuffing activity.
-
 
 ## Query 2 — Most Common Event IDs (Frequency Analysis)
 ```
@@ -134,23 +123,21 @@ Reveals which systems are being targeted, supporting scoping and prioritization 
 ### Observation:
 The SOC-FW-RDP host had the highest failed logons, suggesting external RDP brute-force attempts.
 
-
-
 # Day 5 — Dashboard Creation
 
-## 🎯 Objective
+## Objective
 Add three panels to Microsoft Sentinel dashboard using different visualization types: bar, line, and pie.
 
 ---
 
-## 🧰 Tools & Concepts
+## Tools & Concepts
 - Microsoft Sentinel Workbooks  
 - KQL Queries for visual data  
 - Visualization Types: Bar • Line • Pie  
 
 ---
 
-## 🔹 Panel 1 – Failed Logons by Account (Pie Chart)
+## Panel 1 – Failed Logons by Account (Pie Chart)
 
 **Objective:**  
 Identify which user accounts are experiencing the most failed login attempts by visualizing their proportion of total failures.
@@ -176,7 +163,7 @@ Visualizing the data as proportions highlighting accounts that contribute most t
 Administrator-level accounts dominated the failed login attempts (`\ADMINISTRATOR, \admin, \administrator`), suggesting targeted password-guessing activity on privileged users.
 This insight guides better alert tuning and reinforces defenses for privileged account credentials.
 
-## 🔹 Panel 2 – Event ID Count (Column Chart)
+## Panel 2 – Event ID Count (Column Chart)
 
 **Objective:**  
 Visualize the frequency of different Windows Event IDs in the dataset to identify which event types occur most often.
@@ -199,12 +186,11 @@ By visualizing event frequency, analysts can quickly determine which activities 
 - Helps prioritize which logs to focus on for deeper analysis.
 
 ![Panel 2 — Event ID Count](Day5-Dashboard-Creation/screenshots/event-id-count-bar.png)
-
 ### Observation:
 Event ID 5058 occurred the most, significantly higher than others like 4624 and 4625.
 Can be used to help establish a baseline for normal system activity.
 
-## 🔹 Panel 3 – Failed Logons Over Time (Line Chart)
+## Panel 3 – Failed Logons Over Time (Line Chart)
 
 **Objective:**  
 Visualize the trend of failed logon attempts across accounts over a specific time window.
@@ -232,12 +218,12 @@ Other accounts like `\admin` and `\administrator` show similar spikes, supportin
 
 # Day 6 — Alert and Incident Creation
 
-## 🎯 Objective
+## Objective
 Create a custom analytic rule in Microsoft Sentinel using KQL to detect multiple failed logon attempts and generate an alert when thresholds are exceeded.
 
 ---
 
-## 🧰 Tools & Concepts
+## Tools & Concepts
 - Microsoft Sentinel  
 - Microsoft Defender XDR  
 - KQL (Kusto Query Language)  
@@ -255,9 +241,15 @@ SecurityEvent_CL
 ```
 ### Purpose:
 Detect accounts exceeding 1,000 failed logon attempts. A common indicator of brute-force or password-spray activity. 
-### Why It’s Important: 
+### Why It’s Important:
+- Failed logons are early indicators of brute-force or password-spray attacks.
+- Detecting abnormal volumes helps identify unauthorized access attempts.
+- Custom analytic rules in Sentinel enable proactive detection and alerting.
+- Supports MITRE ATT&CK technique TA0006 – Credential Access.
 ![Alert 1000 — Failed Logons Over Time)](Day6-Alert-Incidents/screenshots/incident-alert.png)
 ### Observation:
+The rule triggered several MyDFIR-ndean-FailedLogonAlert incidents (9–15 attempts), confirming the query worked.
+In a real SOC, this would prompt a check for repeated failures or password-spray activity.
 
 # Day 7 — Incident Investigation Report
 
@@ -338,7 +330,7 @@ The hostname `SOC-FW-RDP` indicates a remote desktop front end likely used for t
 
 ---
 
-## 🧮 Supporting KQL Queries
+## Supporting KQL Queries
 ```kql
 // Failed logons by host
 SecurityEvent_CL
@@ -377,6 +369,8 @@ They demonstrate the ability to:
 - Escalate findings with supporting evidence
 - Maintain clear documentation for peer validation
 ![Bookmark Abnormal IP)](Day8-Bookmark-and-Manual-Incident/screenshots/ms_30-day_challenge-bookmark.png)
+### Observation:
+
 
 ## MITRE ATT&CK Mapping
 | Tactic            | Technique      | ID    |
