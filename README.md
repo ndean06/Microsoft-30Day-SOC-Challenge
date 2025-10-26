@@ -51,7 +51,7 @@ Explore the Sentinel interface and familiarize with its tabs, features, and capa
 - Reviewed **Overview**, **Incidents**, **Logs**, **Hunting**, and **Workbooks** tabs.  
 - Captured initial dashboard screenshot for future portfolio use.  
 
-**Reflection (Placeholder):**  
+**Reflection:**  
 Understanding Sentinel’s UI made it easier to navigate during later assignments.  
  
 # Day 4 - KQL Queries
