@@ -482,7 +482,7 @@ AdFind
 BadCastle
 
 📸 Insert Screenshot:
-![Initial Mimikatz Detection](Day-29/xdr-incident.png)
+![Initial Mimikatz Detection](Day-29/Intial-mimikatz-detection.png) 
 
 📝 2. Investigation Summary
 
