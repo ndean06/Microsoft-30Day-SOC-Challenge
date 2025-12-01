@@ -416,9 +416,9 @@ Going forward, I plan to develop automated Sentinel rules and playbooks to detec
 
 ## Microsoft Defender XDR Incident Report
 
-**Alert:** Hands-on Keyboard Activity via Possible Credential Misuse
+**Alert:** Hands-on Keyboard Attack via Possible Credential Misuse
 
-**Investigation Window:** November 22–24, 2025
+**Serverity:** High
 
 ![XDR-Incident](Day-29/xdr-incident.png)
 
