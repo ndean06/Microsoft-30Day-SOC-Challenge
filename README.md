@@ -415,17 +415,12 @@ Going forward, I plan to develop automated Sentinel rules and playbooks to detec
 # Day 29 - Microsoft Defender XDR Incident Report
 
 ## Microsoft Defender XDR Incident Report
-### Findings
-**Title:** Hands-on Keyboard Activity via Possible Credential Misuse
 
-**Time (Investigation Window):** November 22–24, 2025
+**Alert:** Hands-on Keyboard Activity via Possible Credential Misuse
 
-**Host:** mydfir-ndean-vm
-
-**Account:** AzureAD\JennySmith (jsmith)
+**Investigation Window:** November 22–24, 2025
 
 ![XDR-Incident](Day-29/xdr-incident.png)
-
 
 
 You’ll insert images where noted below:
@@ -442,9 +437,13 @@ Timeline screenshot
 
 KQL query result(s)
 
-📘 1. Findings
+### Findings
 
-Time
+Title:
+
+Hands-on Keyboard Activity via Possible Credential Misuse
+
+Time:
 
 First Malicious Activity: 2025-11-22 05:55 UTC
 
