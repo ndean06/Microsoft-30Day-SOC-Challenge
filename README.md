@@ -14,7 +14,7 @@ This repository documents my journey through the **MyDFIR Microsoft 30-Day SOC A
 - [Day 5 – Dashboard Creation](#day-5---dashboard-creation)
 - [Day 6 – Alert and Incident Creation](#day-6---alert-and-incident-creation)
 - [Day 7 – Incident Investigation Report](#day-7---incident-investigation-report)
-- [Day 8 – Bookmark and Manual Incident Creation](#day-8---bookmark-and-manual-incident-creation)
+- [Day 8 – Bookmark and Manual Incident Creation](#day-8---bookmark--manual-incident) 
 - [Day 9 – Microsoft Defender for Endpoint Overview](#day-9---microsoft-defender-for-endpoint-overview)
 - [Day 10 – Device Inventory and Exposure Management](#day-10---device-inventory-and-exposure-management)
 - [Day 11 – Defender Alerts and Notifications](#day-11---defender-alerts-and-notifications)
