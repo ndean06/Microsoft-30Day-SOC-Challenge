@@ -411,3 +411,233 @@ This incident reinforced my understanding of how failed logon patterns can signa
 Correlating Event IDs 4625 and 4624 helped confirm that no compromise occurred, while visualizing the data clarified attack timing and scope.
 Going forward, I plan to develop automated Sentinel rules and playbooks to detect similar behavior proactively.
 
+
+# Day 29 - Microsoft Defender XDR Incident Report
+
+🛡️ Microsoft Defender XDR Incident Report
+Hands-on Keyboard Activity via Possible Credential Misuse
+
+Investigation Window: November 22–24, 2025
+Host: mydfir-ndean-vm
+Account: AzureAD\JennySmith (jsmith)
+
+📸 Screenshot Placement Guide
+
+Create a folder:
+/screenshots/xdr-incident/
+
+You’ll insert images where noted below:
+
+First malicious alert
+
+Impossible travel sign-in
+
+Suspicious remote session
+
+RDP lateral movement blocked
+
+Timeline screenshot
+
+KQL query result(s)
+
+📘 1. Findings
+
+Time
+
+First Malicious Activity: 2025-11-22 05:55 UTC
+
+Second Activity Wave: 2025-11-24 05:12–05:29 UTC
+
+Host
+
+mydfir-ndean-vm
+
+IOC Domain
+
+None observed before compromise
+
+IOC IPs
+
+45.76.129.144 (foreign IP, London UK — impossible travel indicator)
+
+76.31.117.80 (expected region, initial login source)
+
+Possible Malware / Tooling
+
+HackTool:Win32/Mimikatz
+
+HackTool:Win32/Mimikatz!pz
+
+HackTool:Win32/Mimikatz!MSR
+
+Trojan:PowerShell/Mimikatz.A
+
+Meterpreter
+
+PowerSploit
+
+AdFind
+
+BadCastle
+
+📸 Insert Screenshot:
+![Initial Mimikatz Detection](screenshots/xdr-incident/mimikatz-detection.png)
+
+📝 2. Investigation Summary
+
+Between November 22 and November 24, 2025, Microsoft Defender XDR recorded a sequence of suspicious and malicious activities on host mydfir-ndean-vm associated with the user account AzureAD\JennySmith (jsmith). Activity appears to have begun following remote logons originating from two geographically incompatible locations, potentially indicating credential misuse.
+
+During the first activity wave, multiple Mimikatz variants and post-exploitation commands were executed or attempted. Discovery actions followed, including AD enumeration and PowerShell-based exploration. A second wave on November 24 included additional credential-theft attempts and suspicious tooling activity.
+
+Defender appears to have successfully blocked or remediated all malicious actions. No evidence was identified showing successful lateral movement, credential theft, data access, or data exfiltration. Activity remained contained to mydfir-ndean-vm.
+
+📸 Insert Screenshot:
+![Impossible Travel Sign-In](screenshots/xdr-incident/impossible-travel.png)
+
+🔎 3. WHO / WHAT / WHEN / WHERE / WHY / HOW
+WHO
+
+Activity associated with AzureAD\JennySmith (jsmith)
+
+Logons from:
+
+76.31.117.80 (expected region)
+
+45.76.129.144 (foreign, suspicious)
+
+WHAT
+
+Remote authentication using potentially compromised credentials
+
+Execution of Mimikatz variants and post-exploitation frameworks
+
+Use of discovery tools including AdFind and BadCastle
+
+Attempted RDP lateral movement that was blocked
+
+All malicious activity detected and remediated
+
+📸 Screenshot Recommended:
+![Suspicious Remote Session](screenshots/xdr-incident/suspicious-session.png)
+
+WHEN
+
+Suspicious login: Nov 22, 05:12 UTC
+
+Foreign login (impossible travel): 05:48 UTC
+
+First Mimikatz detection: 05:55 UTC
+
+Hands-on-keyboard activity: ~06:41 UTC
+
+Blocked RDP lateral movement: 07:10 UTC
+
+Second activity wave: Nov 24, 05:12–05:29 UTC
+
+No malicious activity after 05:48 UTC, Nov 24
+
+WHERE
+
+All activity occurred on mydfir-ndean-vm
+
+No evidence of spread to other devices
+
+Remote access originated from external IPs
+
+WHY (Theory-based)
+
+Activity may indicate the use of compromised credentials
+
+Pattern aligns with reconnaissance, credential-theft attempts, and early-stage intrusion behavior
+
+HOW (Theory-based)
+
+Remote authentication using the AzureAD\JennySmith account
+
+Subsequent execution of PowerShell commands, Mimikatz, and post-exploitation frameworks
+
+Discovery and reconnaissance activity followed
+
+Defender remediated or blocked malicious actions, preventing expansion
+
+📸 Insert Screenshot:
+![RDP Blocked](screenshots/xdr-incident/rdp-blocked.png)
+
+⚠️ 4. Impact Assessment
+
+Telemetry indicates that the activity was contained to one endpoint. Several credential-theft and post-exploitation tools executed briefly before remediation, creating a possible, although unconfirmed, risk of limited in-memory credential exposure. No evidence was found indicating lateral movement, persistence, privilege escalation, data access, or exfiltration. All malicious actions appear to have been blocked, terminated, or remediated.
+
+🛠️ 5. Recommendations
+Identity Actions
+
+Reset passwords for involved accounts
+
+Require MFA re-registration
+
+Review conditional access to restrict foreign sign-in attempts
+
+Endpoint Actions
+
+Consider isolating or re-imaging mydfir-ndean-vm
+
+Review RDP exposure and harden remote access
+
+Validate firewall and remote access policies
+
+Detection and Hardening
+
+Enable ASR rules (especially LSASS protection)
+
+Confirm ScriptBlock Logging and audit policies
+
+Validate Defender Cloud-Delivered Protection
+
+📸 Insert Screenshot:
+![ASR Rules](screenshots/xdr-incident/asr-rules.png)
+
+⏱️ 6. Investigation Timeline
+November 22, 2025
+05:12 UTC   Remote logon from 76.31.117.80
+05:48 UTC   Foreign logon from 45.76.129.144 (impossible travel)
+05:55 UTC   First Mimikatz detection
+06:03–06:04 Additional Mimikatz execution attempts
+06:41 UTC   Hands-on-keyboard activity
+07:10 UTC   RDP lateral movement attempt blocked
+
+November 24, 2025
+05:12 UTC   Suspicious PowerShell activity begins
+05:16–05:18 Post-exploitation frameworks observed
+05:17–05:28 Discovery tools executed: AdFind, BadCastle
+05:18–05:28 Multiple Mimikatz variants detected
+05:27 UTC   Ransomware-linked behavior alert
+05:28–05:29 Final PowerShell activity
+05:48 UTC   No further malicious activity recorded
+
+
+📸 Insert Screenshot:
+![Timeline View](screenshots/xdr-incident/timeline.png)
+
+📊 7. Key KQL Queries Used
+List all alerts on the host
+AlertInfo
+| where DeviceName == "mydfir-ndean-vm"
+| order by TimeGenerated asc
+
+Confirm Mimikatz was the first high-severity alert
+AlertInfo
+| where DeviceName == "mydfir-ndean-vm"
+| where Severity in ("High", "Medium")
+| where TimeGenerated < datetime(2025-11-22 05:55:18)
+
+Impossible-travel logon verification
+DeviceLogonEvents
+| where DeviceName == "mydfir-ndean-vm"
+| project Timestamp, AccountName, RemoteIP, LogonType
+
+
+📸 Insert Screenshot:
+![KQL Output](screenshots/xdr-incident/kql-output.png)
+
+🎯 8. Conclusion
+
+Based on the available data, the activity observed on mydfir-ndean-vm appears confined to early-stage intrusion behaviors involving credential misuse, reconnaissance, and attempted execution of credential-theft tools. All malicious tooling appears to have been blocked or remediated by Microsoft Defender, and no evidence was identified showing further spread, persistence, or data compromise.
