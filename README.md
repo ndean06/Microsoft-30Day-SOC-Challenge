@@ -9,7 +9,7 @@ This repository documents my journey through the **MyDFIR Microsoft 30-Day SOC A
 - Day 1 – Lab Setup & Planning
 - Day 2 – Virtual Machine Setup
 - Day 3 – Sentinel Workspace Overview
-- [Day 4 – KQL Query Fundamentals](#day-4--kql-query-fundamentals)
+- [Day 4 – KQL Queries](#day-4---kql-queries)
 - [Day 5 – Dashboard Creation in Sentinel](#day-5--dashboard-creation-in-sentinel)
 - [Day 6 – Alert Generation and Incident Creation](#day-6--alert-generation-and-incident-creation)
 - [Day 7 – Incident Investigation Report](#day-7--incident-investigation-report)
