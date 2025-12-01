@@ -14,6 +14,27 @@ This repository documents my journey through the **MyDFIR Microsoft 30-Day SOC A
 - Day 6 – Alert & Incident Creation
 - Day 7 – Incident Investigation Report
 - Day 8 – Bookmark & Manual Incident
+- Day 9 – Microsoft Defender for Endpoint Overview
+- Day 10 – Device Inventory and Exposure Management
+- Day 11 – Defender Alerts and Notifications
+- Day 12 – Automated Investigations
+- Day 13 – Live Response and Evidence Collection
+- Day 14 – Attack Surface Reduction Rules (ASR)
+- Day 15 – Endpoint Detection Deep Dive
+- Day 16 – Threat Hunting with KQL
+- Day 17 – Custom Detection Rules
+- Day 18 – Advanced Hunting Queries
+- Day 19 – Defender Antivirus and Remediation
+- Day 20 – Network Protection and EDR Block Mode
+- Day 21 – Entra ID and Identity Protection Overview
+- Day 22 – Sign-In Logs and Risky User Detection
+- Day 23 – Conditional Access and MFA Enforcement
+- Day 24 – Identity Alerts and Incident Correlation
+- Day 25 – Conditional Access Policy Testing
+- Day 26 – Defender for Cloud Apps (MCAS) Overview
+- Day 27 – Endpoint + Identity Visibility Reflection
+- Day 28 – SOC Process and Triage Workflow
+- Day 29 – Final Mini-Project Submission (Incident Report)
 
 ## Day 1 - Lab Setup and Planning
 
