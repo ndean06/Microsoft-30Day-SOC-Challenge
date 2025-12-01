@@ -417,8 +417,11 @@ Going forward, I plan to develop automated Sentinel rules and playbooks to detec
 ## Microsoft Defender XDR Incident Report
 ### Findings
 **Title:** Hands-on Keyboard Activity via Possible Credential Misuse
+
 **Time (Investigation Window):** November 22–24, 2025
+
 **Host:** mydfir-ndean-vm
+
 **Account:** AzureAD\JennySmith (jsmith)
 
 ![XDR-Incident](screenshots/when_activity.png)
