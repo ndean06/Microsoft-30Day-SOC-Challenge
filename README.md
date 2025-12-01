@@ -424,7 +424,7 @@ Going forward, I plan to develop automated Sentinel rules and playbooks to detec
 
 **Account:** AzureAD\JennySmith (jsmith)
 
-![XDR-Incident](screenshots/when_activity.png)
+![XDR-Incident](Day-29/xdr-incident.png)
 
 
 
