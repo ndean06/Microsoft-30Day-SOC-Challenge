@@ -35,7 +35,7 @@ This repository documents my journey through the **MyDFIR Microsoft 30-Day SOC A
 - [Day 26 – Defender for Cloud Apps Overview](#day-26---defender-for-cloud-apps-overview)
 - [Day 27 – Endpoint and Identity Visibility Reflection](#day-27---endpoint-and-identity-visibility-reflection)
 - [Day 28 – SOC Process and Triage Workflow](#day-28---soc-process-and-triage-workflow)
-- [Day 29 – Final Mini Project](day-29---microsoft-defender-xdr-incident-report)
+- [Day 29 – Final Mini Project](#day-29---microsoft-defender-xdr-incident-report)
 
 
 ## Day 1 - Lab Setup and Planning
