@@ -5,36 +5,38 @@ A 30-day journey through real-world SOC operations using Microsoft security tool
 This repository documents my journey through the **MyDFIR Microsoft 30-Day SOC Analyst Challenge**, where I built, configured, and analyzed a Microsoft SOC environment using **Sentinel**, **Defender XDR**, and **Entra ID**.
 
 
-## Table of Contents
-- Day 1 – Lab Setup & Planning
-- Day 2 – Virtual Machine Setup
-- Day 3 – Sentinel Workspace Overview
+# Table of Contents
+
+- [Day 1 – Lab Setup and Planning](#day-1---lab-setup-and-planning)
+- [Day 2 – Virtual Machine Setup](#day-2---virtual-machine-setup)
+- [Day 3 – Microsoft Sentinel Workspace Overview](#day-3---microsoft-sentinel-workspace-overview)
 - [Day 4 – KQL Queries](#day-4---kql-queries)
-- [Day 5 – Dashboard Creation in Sentinel](#day-5---dashboard-creation)
-- [Day 6 – Alert Generation and Incident Creation](#day-6--alert-generation-and-incident-creation)
-- [Day 7 – Incident Investigation Report](#day-7--incident-investigation-report)
-- [Day 8 – Bookmarks and Manual Incident Creation](#day-8--bookmarks-and-manual-incident-creation)
-- Day 9 – Microsoft Defender for Endpoint Overview
-- Day 10 – Device Inventory and Exposure Management
-- Day 11 – Defender Alerts and Notifications
-- Day 12 – Automated Investigations
-- Day 13 – Live Response and Evidence Collection
-- Day 14 – Attack Surface Reduction Rules (ASR)
-- Day 15 – Endpoint Detection Deep Dive
-- Day 16 – Threat Hunting with KQL
-- Day 17 – Custom Detection Rules
-- Day 18 – Advanced Hunting Queries
-- Day 19 – Defender Antivirus and Remediation
-- Day 20 – Network Protection and EDR Block Mode
-- Day 21 – Entra ID and Identity Protection Overview
-- Day 22 – Sign-In Logs and Risky User Detection
-- Day 23 – Conditional Access and MFA Enforcement
-- Day 24 – Identity Alerts and Incident Correlation
-- Day 25 – Conditional Access Policy Testing
-- Day 26 – Defender for Cloud Apps (MCAS) Overview
-- Day 27 – Endpoint + Identity Visibility Reflection
-- Day 28 – SOC Process and Triage Workflow
-- Day 29 – Final Mini-Project Submission (Incident Report)
+- [Day 5 – Dashboard Creation](#day-5---dashboard-creation)
+- [Day 6 – Alert and Incident Creation](#day-6---alert-and-incident-creation)
+- [Day 7 – Incident Investigation Report](#day-7---incident-investigation-report)
+- [Day 8 – Bookmark and Manual Incident Creation](#day-8---bookmark-and-manual-incident-creation)
+- [Day 9 – Microsoft Defender for Endpoint Overview](#day-9---microsoft-defender-for-endpoint-overview)
+- [Day 10 – Device Inventory and Exposure Management](#day-10---device-inventory-and-exposure-management)
+- [Day 11 – Defender Alerts and Notifications](#day-11---defender-alerts-and-notifications)
+- [Day 12 – Automated Investigations](#day-12---automated-investigations)
+- [Day 13 – Live Response and Evidence Collection](#day-13---live-response-and-evidence-collection)
+- [Day 14 – Attack Surface Reduction Rules](#day-14---attack-surface-reduction-rules)
+- [Day 15 – Endpoint Detection Deep Dive](#day-15---endpoint-detection-deep-dive)
+- [Day 16 – Threat Hunting with KQL](#day-16---threat-hunting-with-kql)
+- [Day 17 – Custom Detection Rules](#day-17---custom-detection-rules)
+- [Day 18 – Advanced Hunting Queries](#day-18---advanced-hunting-queries)
+- [Day 19 – Defender Antivirus and Remediation](#day-19---defender-antivirus-and-remediation)
+- [Day 20 – Network Protection and EDR Block Mode](#day-20---network-protection-and-edr-block-mode)
+- [Day 21 – Entra ID and Identity Protection Overview](#day-21---entra-id-and-identity-protection-overview)
+- [Day 22 – Sign-In Logs and Risky User Detection](#day-22---sign-in-logs-and-risky-user-detection)
+- [Day 23 – Conditional Access and MFA Enforcement](#day-23---conditional-access-and-mfa-enforcement)
+- [Day 24 – Identity Alerts and Incident Correlation](#day-24---identity-alerts-and-incident-correlation)
+- [Day 25 – Conditional Access Policy Testing](#day-25---conditional-access-policy-testing)
+- [Day 26 – Defender for Cloud Apps Overview](#day-26---defender-for-cloud-apps-overview)
+- [Day 27 – Endpoint and Identity Visibility Reflection](#day-27---endpoint-and-identity-visibility-reflection)
+- [Day 28 – SOC Process and Triage Workflow](#day-28---soc-process-and-triage-workflow)
+- [Day 29 – Final Mini Project Submission](#day-29---final-mini-project-submission)
+
 
 ## Day 1 - Lab Setup and Planning
 
