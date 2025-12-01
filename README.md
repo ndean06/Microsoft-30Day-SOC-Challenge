@@ -9,11 +9,11 @@ This repository documents my journey through the **MyDFIR Microsoft 30-Day SOC A
 - Day 1 – Lab Setup & Planning
 - Day 2 – Virtual Machine Setup
 - Day 3 – Sentinel Workspace Overview
-- Day 4 – KQL Queries
-- Day 5 – Dashboard Creation
-- Day 6 – Alert & Incident Creation
-- Day 7 – Incident Investigation Report
-- Day 8 – Bookmark & Manual Incident
+- [Day 4 – KQL Query Fundamentals](#day-4--kql-query-fundamentals)
+- [Day 5 – Dashboard Creation in Sentinel](#day-5--dashboard-creation-in-sentinel)
+- [Day 6 – Alert Generation and Incident Creation](#day-6--alert-generation-and-incident-creation)
+- [Day 7 – Incident Investigation Report](#day-7--incident-investigation-report)
+- [Day 8 – Bookmarks and Manual Incident Creation](#day-8--bookmarks-and-manual-incident-creation)
 - Day 9 – Microsoft Defender for Endpoint Overview
 - Day 10 – Device Inventory and Exposure Management
 - Day 11 – Defender Alerts and Notifications
