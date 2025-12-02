@@ -505,9 +505,16 @@ This query:
   
 ![Suspicious Remote Authentication](Day29-Final-Mini-Project/Impossible-Travel.png)
 
-
+![Suspicious Remote Authentication](Day29-Final-Mini-Project/associated-processes.png)
+This query:
+- Looks at all processes executed on mydfir-ndean-vm
+- Filters only the ones run by the specific compromised account (using Account SID)
+- Filters further to show only processes run during a session from the malicious foreign IP 45.76.129.144
+- Shows what commands were executed and which parent processes launched them
+- Orders all events in a timeline, showing the attacker’s hands-on-keyboard activity
 
 ### WHEN
+
 - Suspicious login: Nov 22, 05:12 UTC
 - Foreign login (impossible travel): 05:48 UTC
 - First Mimikatz detection: 05:55 UTC
