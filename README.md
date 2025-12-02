@@ -501,8 +501,7 @@ This query:
 - Attempted RDP lateral movement that was blocked
 - All malicious activity detected and remediated
 
-📸 Screenshot Recommended:
-![Suspicious Remote Session](screenshots/xdr-incident/suspicious-session.png)
+![Suspicious Remote Session](Day29-Final-Mini-Project/Sus-remote-sesh2.png)
 
 ### WHEN
 - Suspicious login: Nov 22, 05:12 UTC
