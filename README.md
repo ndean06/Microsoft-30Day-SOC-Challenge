@@ -420,7 +420,7 @@ Going forward, I plan to develop automated Sentinel rules and playbooks to detec
 
 **Serverity:** High
 
-![XDR-Incident](Day-29/xdr-incident.png)
+![XDR-Incident](Day29-Final-Mini-Project/xdr-incident.png)
 
 
 You’ll insert images where noted below:
@@ -482,7 +482,7 @@ AdFind
 BadCastle
 
 📸 Insert Screenshot:
-![Initial Mimikatz Detection](Day-29/Intial-mimikatz-detection.png) 
+![Initial Mimikatz Detection](Day29-Final-Mini-Project/Intial-mimikatz-detection.png) 
 
 📝 2. Investigation Summary
 
