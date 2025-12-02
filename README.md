@@ -513,6 +513,8 @@ This query:
 - Shows what commands were executed and which parent processes launched them
 - Orders all events in a timeline, showing the attacker’s hands-on-keyboard activity
 
+![Suspicious Remote Authentication](Day29-Final-Mini-Project/mimikatz-query.png)
+
 ### WHEN
 
 - Suspicious login: Nov 22, 05:12 UTC
