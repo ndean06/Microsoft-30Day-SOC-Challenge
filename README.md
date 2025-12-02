@@ -515,7 +515,7 @@ This query:
 
 ![Suspicious Remote Authentication](Day29-Final-Mini-Project/mimikatz-query.png)
 ![Suspicious Remote Authentication](Day29-Final-Mini-Project/post-exploitation-tool.png)
-
+![Suspicious Remote Authentication](Day29-Final-Mini-Project/adfind-badcastle.png)
 ### WHEN
 
 - Suspicious login: Nov 22, 05:12 UTC
