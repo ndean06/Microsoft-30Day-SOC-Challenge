@@ -477,35 +477,14 @@ During the first activity wave, multiple Mimikatz variants and post-exploitation
 
 Defender appears to have successfully blocked or remediated all malicious actions. No evidence was identified showing successful lateral movement, credential theft, data access, or data exfiltration. Activity remained contained to mydfir-ndean-vm.
 
-`//Impossible Travel
-DeviceLogonEvents
-| where DeviceName == "mydfir-ndean-vm"
-| where AccountName == "jsmith"
-| where Timestamp between (datetime(2025-11-22) .. datetime(2025-11-23))
-| project Timestamp, DeviceName, AccountName, LogonType, RemoteIP, ActionType
-| order by Timestamp asc
-// Compare each logon to the next logon
-| extend NextTime = next(Timestamp),
-         NextIP   = next(RemoteIP),
-         NextLogon = next(LogonType)
-| extend TimeDiffMinutes = datetime_diff("minute", NextTime, Timestamp)
-// Flag fast jumps between different IP addresses
-| where RemoteIP != NextIP
-  and TimeDiffMinutes >= 0
-  and TimeDiffMinutes <= 60
-| project 
-    Timestamp,
-    AccountName,
-    DeviceName,
-    LogonType,
-    RemoteIP,
-    NextTime,
-    NextLogon,
-    NextIP,
-    TimeDiffMinutes`
 
-📸 Insert Screenshot:
-![Impossible Travel Sign-In](screenshots/xdr-incident/impossible-travel.png)
+![Impossible Travel Sign-In](Day29-Final-Mini-Project/Impossible-Travel.png)
+This query:
+- Finds all logons for `jsmith`
+- Orders them by time
+- Compares each login to the next one
+- Checks if the user logs in from two different IPs within 60 minutes
+- Flags that as impossible travel
 
 🔎 3. WHO / WHAT / WHEN / WHERE / WHY / HOW
 WHO
