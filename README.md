@@ -466,7 +466,7 @@ Hands-on Keyboard Activity via Possible Credential Misuse
 - AdFind
 - BadCastle
 
-📸 Insert Screenshot:
+
 ![Initial Mimikatz Detection](Day29-Final-Mini-Project/Intial-mimikatz-detection.png) 
 
 ## 2. Investigation Summary
@@ -486,71 +486,47 @@ This query:
 - Checks if the user logs in from two different IPs within 60 minutes
 - Flags that as impossible travel
 
-🔎 3. WHO / WHAT / WHEN / WHERE / WHY / HOW
-WHO
+## 3. WHO / WHAT / WHEN / WHERE / WHY / HOW
 
-Activity associated with AzureAD\JennySmith (jsmith)
+### WHO
+- Activity associated with `AzureAD\JennySmith (jsmith)`
+- Logons from:
+  - `76.31.117.80` (expected region)
+  - `45.76.129.144` (foreign, suspicious)
 
-Logons from:
-
-76.31.117.80 (expected region)
-
-45.76.129.144 (foreign, suspicious)
-
-WHAT
-
-Remote authentication using potentially compromised credentials
-
-Execution of Mimikatz variants and post-exploitation frameworks
-
-Use of discovery tools including AdFind and BadCastle
-
-Attempted RDP lateral movement that was blocked
-
-All malicious activity detected and remediated
+### WHAT
+- Remote authentication using potentially compromised credentials
+- Execution of Mimikatz variants and post-exploitation frameworks
+- Use of discovery tools including `AdFind` and `BadCastle`
+- Attempted RDP lateral movement that was blocked
+- All malicious activity detected and remediated
 
 📸 Screenshot Recommended:
 ![Suspicious Remote Session](screenshots/xdr-incident/suspicious-session.png)
 
-WHEN
+### WHEN
+- Suspicious login: Nov 22, 05:12 UTC
+- Foreign login (impossible travel): 05:48 UTC
+- First Mimikatz detection: 05:55 UTC
+- Hands-on-keyboard activity: ~06:41 UTC
+- Blocked RDP lateral movement: 07:10 UTC
+- Second activity wave: Nov 24, 05:12–05:29 UTC
+- No malicious activity after 05:48 UTC, Nov 24
 
-Suspicious login: Nov 22, 05:12 UTC
+### WHERE
+- All activity occurred on mydfir-ndean-vm
+- No evidence of spread to other devices
+- Remote access originated from external IPs
 
-Foreign login (impossible travel): 05:48 UTC
+### WHY (Theory-based)
+- Activity may indicate the use of compromised credentials
+- Pattern aligns with reconnaissance, credential-theft attempts, and early-stage intrusion behavior
 
-First Mimikatz detection: 05:55 UTC
-
-Hands-on-keyboard activity: ~06:41 UTC
-
-Blocked RDP lateral movement: 07:10 UTC
-
-Second activity wave: Nov 24, 05:12–05:29 UTC
-
-No malicious activity after 05:48 UTC, Nov 24
-
-WHERE
-
-All activity occurred on mydfir-ndean-vm
-
-No evidence of spread to other devices
-
-Remote access originated from external IPs
-
-WHY (Theory-based)
-
-Activity may indicate the use of compromised credentials
-
-Pattern aligns with reconnaissance, credential-theft attempts, and early-stage intrusion behavior
-
-HOW (Theory-based)
-
-Remote authentication using the AzureAD\JennySmith account
-
-Subsequent execution of PowerShell commands, Mimikatz, and post-exploitation frameworks
-
-Discovery and reconnaissance activity followed
-
-Defender remediated or blocked malicious actions, preventing expansion
+### HOW (Theory-based)
+- Remote authentication using the AzureAD\JennySmith account
+- Subsequent execution of PowerShell commands, Mimikatz, and post-exploitation frameworks
+- Discovery and reconnaissance activity followed
+- Defender remediated or blocked malicious actions, preventing expansion
 
 📸 Insert Screenshot:
 ![RDP Blocked](screenshots/xdr-incident/rdp-blocked.png)
