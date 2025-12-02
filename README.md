@@ -514,6 +514,7 @@ This query:
 - Orders all events in a timeline, showing the attacker’s hands-on-keyboard activity
 
 ![Suspicious Remote Authentication](Day29-Final-Mini-Project/mimikatz-query.png)
+![Suspicious Remote Authentication](Day29-Final-Mini-Project/post-exploitation-tool.png)
 
 ### WHEN
 
