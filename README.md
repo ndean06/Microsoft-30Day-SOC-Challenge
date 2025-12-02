@@ -477,15 +477,6 @@ During the first activity wave, multiple Mimikatz variants and post-exploitation
 
 Defender appears to have successfully blocked or remediated all malicious actions. No evidence was identified showing successful lateral movement, credential theft, data access, or data exfiltration. Activity remained contained to mydfir-ndean-vm.
 
-
-![Impossible Travel Sign-In](Day29-Final-Mini-Project/Impossible-Travel.png)
-This query:
-- Finds all logons for `jsmith`
-- Orders them by time
-- Compares each login to the next one
-- Checks if the user logs in from two different IPs within 60 minutes
-- Flags that as impossible travel
-
 ## 3. WHO / WHAT / WHEN / WHERE / WHY / HOW
 
 ### WHO
@@ -493,6 +484,7 @@ This query:
 - Logons from:
   - `76.31.117.80` (expected region)
   - `45.76.129.144` (foreign, suspicious)
+
 
 ### WHAT
 - Remote authentication using potentially compromised credentials
@@ -502,6 +494,18 @@ This query:
 - All malicious activity detected and remediated
 
 ![Suspicious Remote Session](Day29-Final-Mini-Project/Sus-remote-sesh2.png)
+
+![Suspicious Remote Authentication](Day29-Final-Mini-Project/remote-auth.png)
+This query:
+- Finds all logons for `jsmith`
+- Orders them by time
+- Compares each login to the next one
+- Checks if the user logs in from two different IPs within 60 minutes
+- Flags that as impossible travel
+  
+![Suspicious Remote Authentication](Day29-Final-Mini-Project/Impossible-Travel.png)
+
+
 
 ### WHEN
 - Suspicious login: Nov 22, 05:12 UTC
