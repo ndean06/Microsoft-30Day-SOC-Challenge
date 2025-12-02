@@ -437,60 +437,72 @@ Timeline screenshot
 
 KQL query result(s)
 
-### Findings
+## 1. Findings
 
-Title:
-
+### Title:  
 Hands-on Keyboard Activity via Possible Credential Misuse
 
-Time:
+### Time:
+- First Malicious Activity: 2025-11-22 05:55 UTC
+- Second Activity Wave: 2025-11-24 05:12–05:29 UTC
 
-First Malicious Activity: 2025-11-22 05:55 UTC
+### Host
+- mydfir-ndean-vm
 
-Second Activity Wave: 2025-11-24 05:12–05:29 UTC
+### IOC Domain
+- None observed before compromise
 
-Host
+### IOC IPs
+- 45.76.129.144 (foreign IP, London UK — impossible travel indicator)
+- 76.31.117.80 (expected region, initial login source)
 
-mydfir-ndean-vm
-
-IOC Domain
-
-None observed before compromise
-
-IOC IPs
-
-45.76.129.144 (foreign IP, London UK — impossible travel indicator)
-
-76.31.117.80 (expected region, initial login source)
-
-Possible Malware / Tooling
-
-HackTool:Win32/Mimikatz
-
-HackTool:Win32/Mimikatz!pz
-
-HackTool:Win32/Mimikatz!MSR
-
-Trojan:PowerShell/Mimikatz.A
-
-Meterpreter
-
-PowerSploit
-
-AdFind
-
-BadCastle
+### Possible Malware / Tooling
+- HackTool:Win32/Mimikatz
+- HackTool:Win32/Mimikatz!pz
+- HackTool:Win32/Mimikatz!MSR
+- Trojan:PowerShell/Mimikatz.A
+- Meterpreter
+- PowerSploit
+- AdFind
+- BadCastle
 
 📸 Insert Screenshot:
 ![Initial Mimikatz Detection](Day29-Final-Mini-Project/Intial-mimikatz-detection.png) 
 
-📝 2. Investigation Summary
+## 2. Investigation Summary
 
-Between November 22 and November 24, 2025, Microsoft Defender XDR recorded a sequence of suspicious and malicious activities on host mydfir-ndean-vm associated with the user account AzureAD\JennySmith (jsmith). Activity appears to have begun following remote logons originating from two geographically incompatible locations, potentially indicating credential misuse.
+Between November 22 and November 24, 2025, Microsoft Defender XDR recorded a sequence of suspicious and malicious activities on host `mydfir-ndean-vm` associated with the user account `AzureAD\JennySmith (jsmith)`. Activity appears to have begun following remote logons originating from two geographically incompatible locations, potentially indicating credential misuse.
 
 During the first activity wave, multiple Mimikatz variants and post-exploitation commands were executed or attempted. Discovery actions followed, including AD enumeration and PowerShell-based exploration. A second wave on November 24 included additional credential-theft attempts and suspicious tooling activity.
 
 Defender appears to have successfully blocked or remediated all malicious actions. No evidence was identified showing successful lateral movement, credential theft, data access, or data exfiltration. Activity remained contained to mydfir-ndean-vm.
+
+`//Impossible Travel
+DeviceLogonEvents
+| where DeviceName == "mydfir-ndean-vm"
+| where AccountName == "jsmith"
+| where Timestamp between (datetime(2025-11-22) .. datetime(2025-11-23))
+| project Timestamp, DeviceName, AccountName, LogonType, RemoteIP, ActionType
+| order by Timestamp asc
+// Compare each logon to the next logon
+| extend NextTime = next(Timestamp),
+         NextIP   = next(RemoteIP),
+         NextLogon = next(LogonType)
+| extend TimeDiffMinutes = datetime_diff("minute", NextTime, Timestamp)
+// Flag fast jumps between different IP addresses
+| where RemoteIP != NextIP
+  and TimeDiffMinutes >= 0
+  and TimeDiffMinutes <= 60
+| project 
+    Timestamp,
+    AccountName,
+    DeviceName,
+    LogonType,
+    RemoteIP,
+    NextTime,
+    NextLogon,
+    NextIP,
+    TimeDiffMinutes`
 
 📸 Insert Screenshot:
 ![Impossible Travel Sign-In](screenshots/xdr-incident/impossible-travel.png)
