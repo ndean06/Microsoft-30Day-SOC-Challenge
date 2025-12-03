@@ -574,7 +574,7 @@ Confirm ScriptBlock Logging and audit policies
 Validate Defender Cloud-Delivered Protection
 
 📸 Insert Screenshot:
-![ASR Rules](screenshots/xdr-incident/asr-rules.png)
+![ASR Rules](screenshots/xdr-incident/alert-timeline.png)
 
 ⏱️ 6. Investigation Timeline
 November 22, 2025
@@ -596,7 +596,7 @@ November 24, 2025
 
 
 📸 Insert Screenshot:
-![Timeline View](screenshots/xdr-incident/timeline.png)
+![Timeline View](Day29-Final-Mini-Project/alert-timeline.png)
 
 📊 7. Key KQL Queries Used
 List all alerts on the host
