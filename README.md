@@ -596,7 +596,7 @@ November 24, 2025
 
 
 📸 Insert Screenshot:
-![Timeline View](Day29-Final-Mini-Project/alert-timeline.png)
+![Timeline View](Day29-Final-Mini-Project/alert-timeline2.png)
 
 📊 7. Key KQL Queries Used
 List all alerts on the host
