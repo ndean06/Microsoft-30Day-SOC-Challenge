@@ -485,14 +485,13 @@ Defender appears to have successfully blocked or remediated all malicious action
   - `76.31.117.80` (expected region)
   - `45.76.129.144` (foreign, suspicious)
 
-![Suspicious Remote Authentication](Day29-Final-Mini-Project/remote-auth.png)
+![Suspicious Remote Authentication](Day29-Final-Mini-Project/who.png)
 
 Log activity tied to the compromised account `jennysmith`.  
 Key points shown:
-
-- Logons from both expected region (76.31.117.80) and foreign IP (45.76.129.144)
-- Successful RemoteInteractive logons from the foreign IP
-- Identity activity confirming account misuse
+- Remote logons (RemoteInteractive)
+- From any IP other than the excepted region
+- Used to highlight a potental foreign attacker IP
   
 ### WHAT
 The evidence below shows a sequence of remote authentication, process execution, and post-exploitation behavior tied to the compromised accounts (jsmith / jennysmith) on the host mydfir-ndean-vm.
