@@ -480,29 +480,25 @@ Defender appears to have successfully blocked or remediated all malicious action
 ## 3. WHO / WHAT / WHEN / WHERE / WHY / HOW
 
 ### WHO
-- Activity associated with `AzureAD\JennySmith (jsmith)`
-- Logons from:
-  - `76.31.117.80` (expected region)
-  - `45.76.129.144` (foreign, suspicious)
+Activity tied to the compromised account AzureAD\JennySmith (jsmith / jennysmith).
 
-![Suspicious Remote Authentication](Day29-Final-Mini-Project/who.png)
+![Suspicious Remote Authentication](Day29-Final-Mini-Project/who2.png)
 
-Log activity tied to the compromised account `jennysmith`.  
-Key points shown:
-- Remote logons (RemoteInteractive)
-- From any IP other than the excepted region
-- Used to highlight a potental foreign attacker IP
+- Shows RemoteInteractive logons using jsmith and jennysmith
+- Includes both expected region logons from 76.31.117.80 and foreign logons from 45.76.129.144
+- Confirms the suspicious foreign IP successfully authenticated
+- Indicates the account was used by an attacker to remotely access the host
   
 ### WHAT
-The evidence below shows a sequence of remote authentication, process execution, and post-exploitation behavior tied to the compromised accounts (jsmith / jennysmith) on the host mydfir-ndean-vm.
+Evidence shows a sequence of remote authentication, process execution, and post-exploitation activity on mydfir-ndean-vm.
 
 ![Suspicious Remote Session](Day29-Final-Mini-Project/what.png)
-- Shows successful logons for jsmith followed by process activity under jennysmith
-- Connects the remote login to the processes created on mydfir-ndean-vm
-- Highlights an attacker-controlled session where multiple processes were launched
-- Demonstrates what the attacker did after gaining access (post-exploitation activity)
 
-  
+- Shows successful logons for jsmith followed by process activity under jennysmith
+- Connects the remote login to the processes created immediately after authentication
+- Highlights an attacker-controlled session where multiple processes were spawned in sequence
+- Demonstrates what actions the attacker performed after gaining access (post-exploitation behavior)
+
 ![Suspicious Remote Authentication](Day29-Final-Mini-Project/Impossible-Travel.png)
 
 ![Suspicious Remote Authentication](Day29-Final-Mini-Project/associated-processes.png)
@@ -513,18 +509,22 @@ This query:
 - Shows what commands were executed and which parent processes launched them
 - Orders all events in a timeline, showing the attacker’s hands-on-keyboard activity
 
-![Suspicious Remote Authentication](Day29-Final-Mini-Project/mimikatz-query.png)
-![Suspicious Remote Authentication](Day29-Final-Mini-Project/post-exploitation-tool.png)
-![Suspicious Remote Authentication](Day29-Final-Mini-Project/adfind-badcastle.png)
 ### WHEN
+Identifies when the attacker activity occurred and how events progressed over time.
+- Foreign login (impossible travel): 11:48 UTC
+- First Mimikatz detection: 12:55 UTC
+- Blocked RDP lateral movement: 13:10 UTC
+- Second activity wave: Nov 24, 11:12–11:29 UTC
+- No malicious activity after 11:48 UTC, Nov 24
 
-- Suspicious login: Nov 22, 05:12 UTC
-- Foreign login (impossible travel): 05:48 UTC
-- First Mimikatz detection: 05:55 UTC
-- Hands-on-keyboard activity: ~06:41 UTC
-- Blocked RDP lateral movement: 07:10 UTC
-- Second activity wave: Nov 24, 05:12–05:29 UTC
-- No malicious activity after 05:48 UTC, Nov 24
+Put Screenshot HERE
+
+- Timeline shows activity beginning shortly after the foreign RemoteInteractive logon
+- Attacker actions appear in multiple event sources (DeviceProcessEvents, DeviceEvents, DeviceLogonEvents, DeviceNetworkEvents)
+- Events labeled "Likely attacker" confirm correlation across logons, processes, named pipes, and DPAPI access
+- Process execution under jennysmith occurs minutes after the initial compromise, showing rapid post-logon activity
+
+The sequence reflects a continuous attacker session, with actions increasing in frequency over the identified timefra
 
 ### WHERE
 - All activity occurred on mydfir-ndean-vm
