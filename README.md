@@ -486,6 +486,7 @@ Defender appears to have successfully blocked or remediated all malicious action
   - `45.76.129.144` (foreign, suspicious)
 
 ![Suspicious Remote Authentication](Day29-Final-Mini-Project/remote-auth.png)
+
 Log activity tied to the compromised account `jennysmith`.  
 Key points shown:
 
@@ -496,9 +497,11 @@ Key points shown:
 ### WHAT
 The evidence below shows a sequence of remote authentication, process execution, and post-exploitation behavior tied to the compromised accounts (jsmith / jennysmith) on the host mydfir-ndean-vm.
 
-
-![Suspicious Remote Session](Day29-Final-Mini-Project/Sus-remote-sesh2.png)
-
+![Suspicious Remote Session](Day29-Final-Mini-Project/what.png)
+- Shows successful logons for jsmith followed by process activity under jennysmith
+- Connects the remote login to the processes created on mydfir-ndean-vm
+- Highlights an attacker-controlled session where multiple processes were launched
+- Demonstrates what the attacker did after gaining access (post-exploitation activity)
 
   
 ![Suspicious Remote Authentication](Day29-Final-Mini-Project/Impossible-Travel.png)
