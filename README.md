@@ -485,23 +485,21 @@ Defender appears to have successfully blocked or remediated all malicious action
   - `76.31.117.80` (expected region)
   - `45.76.129.144` (foreign, suspicious)
 
+![Suspicious Remote Authentication](Day29-Final-Mini-Project/remote-auth.png)
+Log activity tied to the compromised account `jennysmith`.  
+Key points shown:
 
+- Logons from both expected region (76.31.117.80) and foreign IP (45.76.129.144)
+- Successful RemoteInteractive logons from the foreign IP
+- Identity activity confirming account misuse
+  
 ### WHAT
-- Remote authentication using potentially compromised credentials
-- Execution of Mimikatz variants and post-exploitation frameworks
-- Use of discovery tools including `AdFind` and `BadCastle`
-- Attempted RDP lateral movement that was blocked
-- All malicious activity detected and remediated
+The evidence below shows a sequence of remote authentication, process execution, and post-exploitation behavior tied to the compromised accounts (jsmith / jennysmith) on the host mydfir-ndean-vm.
+
 
 ![Suspicious Remote Session](Day29-Final-Mini-Project/Sus-remote-sesh2.png)
 
-![Suspicious Remote Authentication](Day29-Final-Mini-Project/remote-auth.png)
-This query:
-- Finds all logons for `jsmith`
-- Orders them by time
-- Compares each login to the next one
-- Checks if the user logs in from two different IPs within 60 minutes
-- Flags that as impossible travel
+
   
 ![Suspicious Remote Authentication](Day29-Final-Mini-Project/Impossible-Travel.png)
 
@@ -596,7 +594,7 @@ November 24, 2025
 
 
 📸 Insert Screenshot:
-![Timeline View](Day29-Final-Mini-Project/alert-timeline2.png)
+![Timeline View](Day29-Final-Mini-Project/alert-timeline3.png)
 
 📊 7. Key KQL Queries Used
 List all alerts on the host
