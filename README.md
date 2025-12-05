@@ -1,41 +1,49 @@
 # Microsoft-30Day-SOC-Challenge
-A 30-day journey through real-world SOC operations using Microsoft security tools. Includes KQL queries, incident response workflows, and reflections on building modern cloud detections.
+A 30-day journey through real-world SOC operations using Microsoft security stack. Includes KQL queries, incident response workflows, and reflections on building modern cloud detections.
 
 ## Overview
-This repository documents my journey through the **MyDFIR Microsoft 30-Day SOC Analyst Challenge**, where I built, configured, and analyzed a Microsoft SOC environment using **Sentinel**, **Defender XDR**, and **Entra ID**.
-
+This repository documents my completion of the MyDFIR Microsoft 30-Day SOC Analyst Challenge, where I built and operated a cloud-based SOC environment using:
+- Microsoft Sentinel
+- Microsoft Defender XDR
+- Microsoft Defender for Endpoint
+- Entra ID Protection
+  
+Over 30 days, I performed real investigations, wrote incident reports, ran hunting queries, tested attack simulations, and created dashboards—mirroring what Tier 1 & Tier 2 SOC analysts do in production environments.
 
 # Table of Contents
 
-- [Day 1 – Lab Setup and Planning](#day-1---lab-setup-and-planning)
-- [Day 2 – Virtual Machine Setup](#day-2---virtual-machine-setup)
-- [Day 3 – Microsoft Sentinel Workspace Overview](#day-3---microsoft-sentinel-workspace-overview)
-- [Day 4 – KQL Queries](#day-4---kql-queries)
-- [Day 5 – Dashboard Creation](#day-5---dashboard-creation)
-- [Day 6 – Alert and Incident Creation](#day-6---alert-and-incident-creation)
-- [Day 7 – Incident Investigation Report](#day-7---incident-investigation-report)
-- [Day 8 – Bookmark and Manual Incident Creation](#day-8---bookmark--manual-incident) 
-- [Day 9 – Microsoft Defender for Endpoint Overview](#day-9---microsoft-defender-for-endpoint-overview)
-- [Day 10 – Device Inventory and Exposure Management](#day-10---device-inventory-and-exposure-management)
-- [Day 11 – Defender Alerts and Notifications](#day-11---defender-alerts-and-notifications)
-- [Day 12 – Automated Investigations](#day-12---automated-investigations)
-- [Day 13 – Live Response and Evidence Collection](#day-13---live-response-and-evidence-collection)
-- [Day 14 – Attack Surface Reduction Rules](#day-14---attack-surface-reduction-rules)
-- [Day 15 – Endpoint Detection Deep Dive](#day-15---endpoint-detection-deep-dive)
-- [Day 16 – Threat Hunting with KQL](#day-16---threat-hunting-with-kql)
-- [Day 17 – Custom Detection Rules](#day-17---custom-detection-rules)
-- [Day 18 – Advanced Hunting Queries](#day-18---advanced-hunting-queries)
-- [Day 19 – Defender Antivirus and Remediation](#day-19---defender-antivirus-and-remediation)
-- [Day 20 – Network Protection and EDR Block Mode](#day-20---network-protection-and-edr-block-mode)
-- [Day 21 – Entra ID and Identity Protection Overview](#day-21---entra-id-and-identity-protection-overview)
-- [Day 22 – Sign-In Logs and Risky User Detection](#day-22---sign-in-logs-and-risky-user-detection)
-- [Day 23 – Conditional Access and MFA Enforcement](#day-23---conditional-access-and-mfa-enforcement)
-- [Day 24 – Identity Alerts and Incident Correlation](#day-24---identity-alerts-and-incident-correlation)
-- [Day 25 – Conditional Access Policy Testing](#day-25---conditional-access-policy-testing)
-- [Day 26 – Defender for Cloud Apps Overview](#day-26---defender-for-cloud-apps-overview)
-- [Day 27 – Endpoint and Identity Visibility Reflection](#day-27---endpoint-and-identity-visibility-reflection)
-- [Day 28 – SOC Process and Triage Workflow](#day-28---soc-process-and-triage-workflow)
-- [Day 29 – Final Mini Project](#day-29---microsoft-defender-xdr-incident-report)
+| Day        | Topic                                      | Description                                            |
+| ---------- | ------------------------------------------ | ------------------------------------------------------ |
+| **Day 1**  | Lab Setup & Planning                       | Built the SOC lab & structured investigation workflow. |
+| **Day 2**  | Virtual Machine Setup                      | Deployed Windows test VM for Defender onboarding.      |
+| **Day 3**  | Sentinel Workspace Overview                | Connected logs & explored workspace features.          |
+| **Day 4**  | KQL Queries                                | Learned core KQL for hunting & analytics.              |
+| **Day 5**  | Dashboard Creation                         | Built custom dashboards for SOC visibility.            |
+| **Day 6**  | Alert & Incident Creation                  | Triggered alerts and analyzed incidents.               |
+| **Day 7**  | Incident Investigation Report              | First structured IR report.                            |
+| **Day 8**  | Bookmarks & Manual Incidents               | Documented evidence for investigations.                |
+| **Day 9**  | Project Documentation & Resource Index     | Created resource library + tools list.                 |
+| **Day 10** | Device Inventory & Exposure Management     | MDE exposure analysis.                                 |
+| **Day 11** | Defender for Office P2 Overview            | Safe Links, Safe Attachments, Anti-Phishing.           |
+| **Day 12** | Safe Links Policy                          | Policy creation & testing.                             |
+| **Day 13** | Anti-Phishing Policy                       | Policy creation & tuning practice.                     |
+| **Day 14** | Explorer & Quarantine                      | Email investigation using Explorer.                    |
+| **Day 15** | Phishing Simulation                        | Ran Office 365 phishing attack test.                   |
+| **Day 16** | Suspicious Email Report — **Mini Project** | Full phishing IR report.                               |
+| **Day 17** | Defender for Endpoint                      | Telemetry exploration.                                 |
+| **Day 18** | MDE Dashboard Analysis                     | Endpoint health & threat visibility.                   |
+| **Day 19** | Intune ASR Rules                           | Hardened Windows endpoint.                             |
+| **Day 20** | Atomic Red Team Attack                     | Simulated endpoint compromise.                         |
+| **Day 21** | Threat Hunting                             | Wrote structured hunting queries.                      |
+| **Day 22** | Hypothesis Testing                         | Query-driven threat hunting.                           |
+| **Day 23** | Endpoint Investigation — **Mini Project**  | Full endpoint compromise analysis.                     |
+| **Day 24** | Entra ID Protection                        | Identity risk monitoring.                              |
+| **Day 25** | Conditional Access (Foreign IP Test)       | Foreign-login simulation & policy validation.          |
+| **Day 26** | Sign-in & Audit Log Review                 | Identity investigation fundamentals.                   |
+| **Day 27** | Entra Logs → Sentinel                      | Data ingestion + log validation.                       |
+| **Day 28** | Multi-Signal Simulation                    | Phishing + risky sign-in + MDE threat.                 |
+| **Day 29** | Incident Investigation — **Mini Project**  | End-to-end cross-domain incident report.               |
+
 
 
 ## Day 1 - Lab Setup and Planning
