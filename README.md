@@ -440,8 +440,6 @@ Going forward, I plan to develop automated Sentinel rules and playbooks to detec
 
 # Day 29 - Microsoft Defender XDR Incident Report
 
-## Microsoft Defender XDR Incident Report
-
 **Alert:** Hands-on Keyboard Attack via Possible Credential Misuse
 
 **Serverity:** High
@@ -449,26 +447,12 @@ Going forward, I plan to develop automated Sentinel rules and playbooks to detec
 ![XDR-Incident](Day29-Final-Mini-Project/xdr-incident.png)
 
 
-You’ll insert images where noted below:
-
-First malicious alert
-
-Impossible travel sign-in
-
-Suspicious remote session
-
-RDP lateral movement blocked
-
-Timeline screenshot
-
-KQL query result(s)
-
 ## 1. Findings
 
 ### Title:  
 Hands-on Keyboard Activity via Possible Credential Misuse
 
-### Time:
+### Timeframes:
 - First Malicious Activity: 2025-11-22 05:55 UTC
 - Second Activity Wave: 2025-11-24 05:12–05:29 UTC
 
@@ -503,7 +487,46 @@ During the first activity wave, multiple Mimikatz variants and post-exploitation
 
 Defender appears to have successfully blocked or remediated all malicious actions. No evidence was identified showing successful lateral movement, credential theft, data access, or data exfiltration. Activity remained contained to mydfir-ndean-vm.
 
-## 3. WHO / WHAT / WHEN / WHERE / WHY / HOW
+## 3. Cross-Domain Correlation (Email → Identity → Endpoint)
+
+### 3.1 Email – Phishing Attempt (Initial Vector)
+- User received a phishing email containing a suspicious link
+- Defender for Office logged the message and performed Safe Links scanning
+- No confirmed click event, but email provides a credible source for credential exposure
+
+### 3.2 Identity – Risky Sign-in / Impossible Travel
+
+Two sign-ins occurred in impossible succession:
+
+Expected region: 76.31.117.80
+
+Foreign region: 45.76.129.144
+
+Entra ID flagged the event as Impossible Travel
+
+Sign-in was successful, confirming credential misuse
+
+Identity → Endpoint Connection:
+Minutes after the foreign login, attacker actions appear on the endpoint.
+
+### 3.3 Endpoint – Hands-on Keyboard Attack
+
+Mimikatz variants executed
+
+PowerShell used interactively
+
+Named pipe + DPAPI access
+
+AdFind / BadCastle enumeration
+
+RDP lateral movement attempt blocked
+
+Attacker transitioned from identity compromise → full endpoint exploitation attempt.
+Email → Identity Connection:
+Phishing email precedes risky sign-in — indicating possible credential compromise.
+
+
+## 4. WHO / WHAT / WHEN / WHERE / WHY / HOW
 
 ### WHO
 Activity tied to the compromised account AzureAD\JennySmith (jsmith / jennysmith).
