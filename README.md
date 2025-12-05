@@ -45,6 +45,24 @@ Over 30 days, I performed real investigations, wrote incident reports, ran hunti
 | **Day 29** | Incident Investigation — **Mini Project**  | End-to-end cross-domain incident report.               |
 
 
+# Mini-Projects Completed
+Highlights of the 30 Day Challenge:
+
+## Mini Project 1 — Suspicious Email Investigation
+- Analyzed headers, URLs, attachments, and authentication patterns.
+- Used Defender for Office, Explorer, and Threat Intelligence sources.
+
+## Mini Project 2 — Endpoint Compromise Analysis
+- Reviewed execution, persistence, and network signals.
+- Wrote an end-to-end investigation report with MITRE mapping.
+
+## Mini Project 3 — Conditional Access + Identity Attack
+- Simulated foreign login attempt and validated policy enforcement.
+
+## Mini Project 4 — Cross-Domain Incident Report
+- Combined identity logs, endpoint telemetry, process events, and KQL queries.
+- Built a WHO/WHAT/WHEN/WHERE/HOW report detailing attacker actions.
+
 
 ## Day 1 - Lab Setup and Planning
 
