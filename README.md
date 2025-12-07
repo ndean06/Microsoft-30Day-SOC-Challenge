@@ -493,7 +493,7 @@ Defender appears to have successfully blocked or remediated all malicious action
 
 ### 3.1 Email – Phishing Attempt (Initial Vector)
 
-![Phishing Email](Day29-MiniProject-IncidentInvestigation/screenshots/phishing-email-sent.png)
+![Phishing Email](Day29-MiniProject-IncidentInvestigation/screenshots/phishing-email-sent1.png)
 *Figure 3 — Phishing email providing the likely initial credential exposure point.*
 
 - User received a phishing email containing a suspicious link
