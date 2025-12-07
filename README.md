@@ -445,6 +445,7 @@ Going forward, I plan to develop automated Sentinel rules and playbooks to detec
 **Serverity:** High
 
 ![XDR-Incident](Day29-Final-Mini-Project/xdr-incident.png)
+*Figure 1 — Microsoft Defender XDR incident overview showing high-severity alerts.*
 
 
 ## 1. Findings
@@ -478,6 +479,7 @@ Hands-on Keyboard Activity via Possible Credential Misuse
 
 
 ![Initial Mimikatz Detection](Day29-Final-Mini-Project/Intial-mimikatz-detection.png) 
+*Figure 2 — Initial Mimikatz credential-theft detection on the compromised host.*
 
 ## 2. Investigation Summary
 
@@ -490,40 +492,46 @@ Defender appears to have successfully blocked or remediated all malicious action
 ## 3. Cross-Domain Correlation (Email → Identity → Endpoint)
 
 ### 3.1 Email – Phishing Attempt (Initial Vector)
+
+![Phishing Email](Day29-Final-Mini-Project/phishing-email.png)
+*Figure 3 — Phishing email providing the likely initial credential exposure point.*
+
 - User received a phishing email containing a suspicious link
 - Defender for Office logged the message and performed Safe Links scanning
 - No confirmed click event, but email provides a credible source for credential exposure
 
+Email → Identity Connection:
+Phishing email precedes risky sign-in — indicating possible credential compromise.
+
 ### 3.2 Identity – Risky Sign-in / Impossible Travel
 
-Two sign-ins occurred in impossible succession:
+![Impossible Travel](Day29-Final-Mini-Project/Impossible-Travel.png)
+*Figure 4 — Impossible Travel alert confirming successful foreign authentication.*
 
-Expected region: 76.31.117.80
+- Two sign-ins occurred in impossible succession:
 
-Foreign region: 45.76.129.144
+	- Expected region: 76.31.117.80
+	- Foreign region: 45.76.129.144
 
-Entra ID flagged the event as Impossible Travel
-
-Sign-in was successful, confirming credential misuse
+- Entra ID flagged the event as Impossible Travel
+- Sign-in was successful, confirms potential credential misuse following the phishing attempt
 
 Identity → Endpoint Connection:
 Minutes after the foreign login, attacker actions appear on the endpoint.
 
-### 3.3 Endpoint – Hands-on Keyboard Attack
+### 3.3 Endpoint – Hands-on Keyboard Attack Activity
 
-Mimikatz variants executed
+![Suspicious Remote Session](Day29-Final-Mini-Project/what.png)
+*Figure 5 — Suspicious remote session showing hands-on-keyboard activity moments after the foreign login.*
 
-PowerShell used interactively
+Minutes after risky sign-in, endpoint logs show post-authentication activity executions 
 
-Named pipe + DPAPI access
+- Mimikatz variants
+- PowerShell used interactively 
+- Discovery Tools (AdFind / BadCastle enumeration)
+- RDP lateral movement attempt blocked
 
-AdFind / BadCastle enumeration
-
-RDP lateral movement attempt blocked
-
-Attacker transitioned from identity compromise → full endpoint exploitation attempt.
-Email → Identity Connection:
-Phishing email precedes risky sign-in — indicating possible credential compromise.
+Attacker transitioned from identity compromise to full endpoint exploitation attempt.
 
 
 ## 4. WHO / WHAT / WHEN / WHERE / WHY / HOW
@@ -532,6 +540,7 @@ Phishing email precedes risky sign-in — indicating possible credential comprom
 Activity tied to the compromised account AzureAD\JennySmith (jsmith / jennysmith).
 
 ![Suspicious Remote Authentication](Day29-Final-Mini-Project/who2.png)
+*Figure 6 — RemoteInteractive logons tied to AzureAD\JennySmith showing credential misuse.*
 
 - Shows RemoteInteractive logons using jsmith and jennysmith
 - Includes both expected region logons from 76.31.117.80 and foreign logons from 45.76.129.144
@@ -539,9 +548,12 @@ Activity tied to the compromised account AzureAD\JennySmith (jsmith / jennysmith
 - Indicates the account was used by an attacker to remotely access the host
   
 ### WHAT
+
 Evidence shows a sequence of remote authentication, process execution, and post-exploitation activity on mydfir-ndean-vm.
 
 ![Suspicious Remote Session](Day29-Final-Mini-Project/what.png)
+*Figure 5 — Suspicious remote session showing hands-on-keyboard activity moments after the foreign login.*
+
 
 - Shows successful logons for jsmith followed by process activity under jennysmith
 - Connects the remote login to the processes created immediately after authentication
@@ -549,8 +561,11 @@ Evidence shows a sequence of remote authentication, process execution, and post-
 - Demonstrates what actions the attacker performed after gaining access (post-exploitation behavior)
 
 ![Suspicious Remote Authentication](Day29-Final-Mini-Project/Impossible-Travel.png)
+*Figure 4 — Impossible Travel alert confirming successful foreign authentication.*
 
 ![Suspicious Remote Authentication](Day29-Final-Mini-Project/associated-processes.png)
+*Figure 7 — Correlated processes executed under the compromised account during the attacker session.*
+
 This query:
 - Looks at all processes executed on mydfir-ndean-vm
 - Filters only the ones run by the specific compromised account (using Account SID)
@@ -559,23 +574,28 @@ This query:
 - Orders all events in a timeline, showing the attacker’s hands-on-keyboard activity
 
 ### WHEN
+
 Identifies when the attacker activity occurred and how events progressed over time.
+Key Timestamps:
 - Foreign login (impossible travel): 11:48 UTC
 - First Mimikatz detection: 12:55 UTC
 - Blocked RDP lateral movement: 13:10 UTC
 - Second activity wave: Nov 24, 11:12–11:29 UTC
 - No malicious activity after 11:48 UTC, Nov 24
 
-Put Screenshot HERE
+Put Screenshot HERE: 
+![Associated Processes](Day29-Final-Mini-Project/associated-processes.png)
+*Figure 7 — Correlated processes executed under the compromised account during the attacker session.*
 
 - Timeline shows activity beginning shortly after the foreign RemoteInteractive logon
 - Attacker actions appear in multiple event sources (DeviceProcessEvents, DeviceEvents, DeviceLogonEvents, DeviceNetworkEvents)
 - Events labeled "Likely attacker" confirm correlation across logons, processes, named pipes, and DPAPI access
 - Process execution under jennysmith occurs minutes after the initial compromise, showing rapid post-logon activity
 
-The sequence reflects a continuous attacker session, with actions increasing in frequency over the identified timefra
+The sequence reflects a continuous attacker session, with actions increasing in frequency over the identified timeframe
 
 ### WHERE
+
 - All activity occurred on mydfir-ndean-vm
 - No evidence of spread to other devices
 - Remote access originated from external IPs
@@ -585,47 +605,41 @@ The sequence reflects a continuous attacker session, with actions increasing in 
 - Pattern aligns with reconnaissance, credential-theft attempts, and early-stage intrusion behavior
 
 ### HOW (Theory-based)
+
+![RDP Blocked](Day29-Final-Mini-Project/rdp-blocked.png)
+*Figure 8 — Defender blocking attempted RDP lateral movement from the compromised host.*
+
 - Remote authentication using the AzureAD\JennySmith account
 - Subsequent execution of PowerShell commands, Mimikatz, and post-exploitation frameworks
 - Discovery and reconnaissance activity followed
 - Defender remediated or blocked malicious actions, preventing expansion
 
-📸 Insert Screenshot:
-![RDP Blocked](screenshots/xdr-incident/rdp-blocked.png)
-
-⚠️ 4. Impact Assessment
+##5. Impact Assessment
 
 Telemetry indicates that the activity was contained to one endpoint. Several credential-theft and post-exploitation tools executed briefly before remediation, creating a possible, although unconfirmed, risk of limited in-memory credential exposure. No evidence was found indicating lateral movement, persistence, privilege escalation, data access, or exfiltration. All malicious actions appear to have been blocked, terminated, or remediated.
 
-🛠️ 5. Recommendations
-Identity Actions
+## 6. Recommendations
 
-Reset passwords for involved accounts
+### Identity Actions
+- Reset passwords for involved accounts
+- Require MFA re-registration
+- Review conditional access to restrict foreign sign-in attempts
 
-Require MFA re-registration
+### Endpoint Actions
+- Consider isolating or re-imaging mydfir-ndean-vm
+- Review RDP exposure and harden remote access
+- Validate firewall and remote access policies
 
-Review conditional access to restrict foreign sign-in attempts
-
-Endpoint Actions
-
-Consider isolating or re-imaging mydfir-ndean-vm
-
-Review RDP exposure and harden remote access
-
-Validate firewall and remote access policies
-
-Detection and Hardening
-
-Enable ASR rules (especially LSASS protection)
-
-Confirm ScriptBlock Logging and audit policies
-
-Validate Defender Cloud-Delivered Protection
+### Detection and Hardening
+- Enable ASR rules (especially LSASS protection)
+- Confirm ScriptBlock Logging and audit policies
+- Validate Defender Cloud-Delivered Protection
 
 📸 Insert Screenshot:
 ![ASR Rules](screenshots/xdr-incident/alert-timeline.png)
+*Figure 9 — ASR and behavioral detections contributing to automatic remediation.*
 
-⏱️ 6. Investigation Timeline
+##7. Investigation Timeline
 November 22, 2025
 05:12 UTC   Remote logon from 76.31.117.80
 05:48 UTC   Foreign logon from 45.76.129.144 (impossible travel)
@@ -643,15 +657,21 @@ November 24, 2025
 05:28–05:29 Final PowerShell activity
 05:48 UTC   No further malicious activity recorded
 
-
 📸 Insert Screenshot:
 ![Timeline View](Day29-Final-Mini-Project/alert-timeline3.png)
+*Figure 10 — Full alert timeline reconstructing attacker behavior across two days.*
 
-📊 7. Key KQL Queries Used
+
+##8. Key KQL Queries Used
+
 List all alerts on the host
+
 AlertInfo
 | where DeviceName == "mydfir-ndean-vm"
 | order by TimeGenerated asc
+
+
+*Figure 11 — KQL query output validating alert chronology and process execution trail.*
 
 Confirm Mimikatz was the first high-severity alert
 AlertInfo
@@ -659,15 +679,15 @@ AlertInfo
 | where Severity in ("High", "Medium")
 | where TimeGenerated < datetime(2025-11-22 05:55:18)
 
+*Figure 11 — KQL query output validating alert chronology and process execution trail.*
+
 Impossible-travel logon verification
 DeviceLogonEvents
 | where DeviceName == "mydfir-ndean-vm"
 | project Timestamp, AccountName, RemoteIP, LogonType
 
+*Figure 11 — KQL query output validating alert chronology and process execution trail.*
 
-📸 Insert Screenshot:
-![KQL Output](screenshots/xdr-incident/kql-output.png)
-
-🎯 8. Conclusion
+##9. Conclusion
 
 Based on the available data, the activity observed on mydfir-ndean-vm appears confined to early-stage intrusion behaviors involving credential misuse, reconnaissance, and attempted execution of credential-theft tools. All malicious tooling appears to have been blocked or remediated by Microsoft Defender, and no evidence was identified showing further spread, persistence, or data compromise.
