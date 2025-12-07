@@ -505,9 +505,19 @@ Phishing email precedes risky sign-in — indicating possible credential comprom
 
 ### 3.2 Identity – Risky Sign-in / Impossible Travel
 
-![Impossible Travel](Day29-Final-Mini-Project/Impossible-Travel.png) 
-*Figure 4 — Impossible Travel alert confirming successful foreign authentication.*
+`// Risky Sign-In (Foreign Location / Impossible Travel)
+DeviceLogonEvents
+| where DeviceName == "mydfir-ndean-vm"
+| where LogonType contains "RemoteInteractive" or LogonType contains "Network"
+| where RemoteIP != "76.31.117.80"   // expected region IP
+| project Timestamp, AccountName, LogonType, RemoteIP, ActionType
+| order by Timestamp asc
+`
 
+![Risky Signin](Day29-MiniProject-IncidentInvestigation/screenshots/risky-signin.png)
+*Figure 4 — Successful foreign RemoteInteractive logons from 45.76.129.144 indicating credential misuse and impossible travel.*
+
+*Figure 4 — Impossible Travel alert confirming successful foreign authentication.*
 - Two sign-ins occurred in impossible succession:
 
 	- Expected region: 76.31.117.80
