@@ -515,6 +515,7 @@ DeviceLogonEvents
 `
 
 ![Risky Signin](Day29-MiniProject-IncidentInvestigation/screenshots/risky-signin.png)
+
 *Figure 4 — Successful foreign RemoteInteractive logons from 45.76.129.144 indicating credential misuse and impossible travel.*
 
 *Figure 4 — Impossible Travel alert confirming successful foreign authentication.*
