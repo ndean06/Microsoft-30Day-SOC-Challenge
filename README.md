@@ -614,6 +614,7 @@ Activity tied to the compromised account AzureAD\JennySmith (jsmith / jennysmith
 
 
 ![Suspicious Remote Authentication](Day29-Final-Mini-Project/who2.png)
+
 *Figure 6 — RemoteInteractive logons tied to AzureAD\JennySmith showing credential misuse.*
 
 - Shows RemoteInteractive logons using jsmith and jennysmith
