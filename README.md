@@ -445,7 +445,7 @@ Going forward, I plan to develop automated Sentinel rules and playbooks to detec
 **Serverity:** High
 
 ![XDR-Incident](Day29-Final-Mini-Project/xdr-incident.png)
-*Figure 1 — Microsoft Defender XDR incident overview showing high-severity alerts.*
+*Figure 1 - Microsoft Defender XDR incident overview showing high-severity alerts.*
 
 
 ## 1. Findings
@@ -479,7 +479,7 @@ Hands-on Keyboard Activity via Possible Credential Misuse
 
 
 ![Initial Mimikatz Detection](Day29-Final-Mini-Project/Intial-mimikatz-detection.png) 
-*Figure 2 — Initial Mimikatz credential-theft detection on the compromised host.*
+*Figure 2 - Initial Mimikatz credential-theft detection on the compromised host.*
 
 ## 2. Investigation Summary
 
@@ -494,7 +494,7 @@ Defender appears to have successfully blocked or remediated all malicious action
 ### 3.1 Email – Phishing Attempt (Initial Vector)
 
 ![Phishing Email](Day29-MiniProject-IncidentInvestigation/screenshots/phishing-email-sent.png)
-*Figure 3 — Phishing email providing the likely initial credential exposure point.*
+*Figure 3 - Phishing email providing the likely initial credential exposure point.*
 
 - User received a phishing email containing a suspicious link
 - Defender for Office logged the message and performed Safe Links scanning
@@ -505,30 +505,63 @@ Phishing email precedes risky sign-in — indicating possible credential comprom
 
 ### 3.2 Identity – Risky Sign-in / Impossible Travel
 
-`// Risky Sign-In (Foreign Location / Impossible Travel)
+Risky Sign-In Query - Identify Risky Sign-in From a Foreign IP
+
+```kql
+// Risky Sign-In (Foreign Location / Impossible Travel)
 DeviceLogonEvents
 | where DeviceName == "mydfir-ndean-vm"
 | where LogonType contains "RemoteInteractive" or LogonType contains "Network"
 | where RemoteIP != "76.31.117.80"   // expected region IP
 | project Timestamp, AccountName, LogonType, RemoteIP, ActionType
 | order by Timestamp asc
-`
+
+What this query does:
+- Filters to interactive or network logons on the victim VM
+- Excludes your known “home region” IP to surface foreign activity
+- Shows only successful RemoteInteractive logons from unexpected IPs
+- Helps confirm credential misuse from 45.76.129.144
 
 ![Risky Signin](Day29-MiniProject-IncidentInvestigation/screenshots/risky-signin.png)
 
-*Figure 4 — Successful foreign RemoteInteractive logons from 45.76.129.144 indicating credential misuse and impossible travel.*
+*Figure 4.1 - Successful foreign RemoteInteractive logons from 45.76.129.144 indicating credential misuse and potential impossible travel.*
 
-*Figure 4 — Impossible Travel alert confirming successful foreign authentication.*
-- Two sign-ins occurred in impossible succession:
 
-	- Expected region: 76.31.117.80
-	- Foreign region: 45.76.129.144
+Impossible Travel Query - Detect “Impossible Travel” Between Logons
 
-- Entra ID flagged the event as Impossible Travel
-- Sign-in was successful, confirms potential credential misuse following the phishing attempt
+```
+kql
+//Impossible Travel
+DeviceLogonEvents
+| where DeviceName == "mydfir-ndean-vm"
+| where AccountName == "jsmith"
+| order by Timestamp asc
+| extend NextTime = next(Timestamp), NextIP = next(RemoteIP)
+| extend DiffMinutes = datetime_diff("minute", NextTime, Timestamp)
+| where RemoteIP != NextIP and DiffMinutes <= 60
+| project Timestamp, AccountName, DeviceName, RemoteIP, NextIP, DiffMinutes
+
+What this query does:
+- Sorts all sign-ins for the compromised account
+- Compares each login with the next login (timestamp + IP)
+- Calculates time between the two logons
+- Flags cases where:
+	- IP changes location, AND
+	- The time between logons is too short to travel physically
+- This helps strengthen the case of impossible travel and strongly supports credential compromise
+
+![Impossible Travel](Day29-MiniProject-IncidentInvestigation/screenshots/Impossible-Travel1.png)
+
+*Figure 4.2 — Impossible Travel event showing rapid IP change from expected region (76.31.117.80) to foreign IP (45.76.129.144).
+
+Why this matters
+- Two sign-ins happen back-to-back from geographically incompatible IPs
+- Entra ID flags the event as Impossible Travel
+- The login succeeds, which means credentials were valid
+- This ties directly back to the phishing email earlier in the chain
 
 Identity → Endpoint Connection:
-Minutes after the foreign login, attacker actions appear on the endpoint.
+Minutes after the foreign login, hands-on-keyboard activity attacker appear on the endpoint, signaling a progression from identity compromise to endpoint compromise.
 
 ### 3.3 Endpoint – Hands-on Keyboard Attack Activity
 
