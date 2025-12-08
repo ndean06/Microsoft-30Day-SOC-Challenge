@@ -493,6 +493,7 @@ Defender appears to have successfully blocked or remediated all malicious action
 
 ### 3.1 Email – Phishing Attempt (Initial Vector)
 
+
 ![Phishing Email](Day29-MiniProject-IncidentInvestigation/screenshots/phishing-email-sent.png)
 *Figure 3 - Phishing email providing the likely initial credential exposure point.*
 
@@ -518,14 +519,12 @@ DeviceLogonEvents
 ```
 
 ##### What this query does:
-<blockquote>
 
 - Filters to interactive or network logons on the victim VM
 - Excludes your known “home region” IP to surface foreign activity
 - Shows only successful RemoteInteractive logons from unexpected IPs
 - Helps confirm credential misuse from 45.76.129.144
 
-<blockquote>
 
 ![Risky Signin](Day29-MiniProject-IncidentInvestigation/screenshots/risky-signin.png)
 *Figure 4.1 - Successful foreign RemoteInteractive logons from 45.76.129.144 indicating credential misuse and potential impossible travel.*
@@ -545,7 +544,6 @@ DeviceLogonEvents
 ```
 
 ##### What this query does:
-<blockquote>
 
 - Sorts all sign-ins for the compromised account
 - Compares each login with the next login (timestamp + IP)
@@ -555,7 +553,6 @@ DeviceLogonEvents
 	- The time between logons is too short to travel physically
 - This helps strengthen the case of impossible travel and strongly supports credential compromise
 
-<blockquote>
 
 ![Impossible Travel](Day29-MiniProject-IncidentInvestigation/screenshots/Impossible-Travel1.png)
 *Figure 4.2 — Impossible Travel event showing rapid IP change from expected region (76.31.117.80) to foreign IP (45.76.129.144).*
@@ -589,7 +586,6 @@ union isfuzzy=true
 ```
 
 ##### Explanation of Attacker Timeline Query
-<blockquote>
 
 - Merges **DeviceProcessEvents**, **DeviceEvents**, and **DeviceLogonEvents** into a single timeline using `union isfuzzy=true`.
 - Filters activity to **mydfir-ndean-vm** and the compromised accounts **jsmith / jennysmith**.
@@ -597,7 +593,6 @@ union isfuzzy=true
 - Captures high-signal behaviors including **NamedPipeEvent**, **DpapiAccessed**, **InboundConnectionAccept**, **ProcessCreated**, and **RemoteInteractive** logons.
 - Produces a **unified, chronological view** of the attacker’s hands-on-keyboard activity following the foreign sign-in.
 
-</blockquote>
 
 ![Suspicious Remote Session](Day29-Final-Mini-Project/what.png)
 *Figure 5 — Suspicious remote session showing hands-on-keyboard activity moments after the foreign login.*
@@ -616,6 +611,7 @@ Attacker transitioned from identity compromise to full endpoint exploitation att
 
 ### WHO
 Activity tied to the compromised account AzureAD\JennySmith (jsmith / jennysmith).
+
 
 ![Suspicious Remote Authentication](Day29-Final-Mini-Project/who2.png)
 *Figure 6 — RemoteInteractive logons tied to AzureAD\JennySmith showing credential misuse.*
