@@ -581,7 +581,7 @@ union isfuzzy=true
 | order by Timestamp asc
 ```
 
-##### Explanation of Attacker Timeline Query (click to expand)
+##### Explanation of Attacker Timeline Query
 <blockquote>
 
 - Merges **DeviceProcessEvents**, **DeviceEvents**, and **DeviceLogonEvents** into a single timeline using `union isfuzzy=true`.
