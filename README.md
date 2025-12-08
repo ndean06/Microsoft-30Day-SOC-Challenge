@@ -515,6 +515,7 @@ DeviceLogonEvents
 | where RemoteIP != "76.31.117.80"   // expected region IP
 | project Timestamp, AccountName, LogonType, RemoteIP, ActionType
 | order by Timestamp asc
+```
 
 What this query does:
 - Filters to interactive or network logons on the victim VM
@@ -525,7 +526,6 @@ What this query does:
 ![Risky Signin](Day29-MiniProject-IncidentInvestigation/screenshots/risky-signin.png)
 
 *Figure 4.1 - Successful foreign RemoteInteractive logons from 45.76.129.144 indicating credential misuse and potential impossible travel.*
-
 
 Impossible Travel Query - Detect “Impossible Travel” Between Logons
 
@@ -540,6 +540,7 @@ DeviceLogonEvents
 | extend DiffMinutes = datetime_diff("minute", NextTime, Timestamp)
 | where RemoteIP != NextIP and DiffMinutes <= 60
 | project Timestamp, AccountName, DeviceName, RemoteIP, NextIP, DiffMinutes
+```
 
 What this query does:
 - Sorts all sign-ins for the compromised account
@@ -579,6 +580,7 @@ union isfuzzy=true
        or LogonType contains "RemoteInteractive"
 | project Timestamp, AccountName, ActionType, FileName, ProcessCommandLine, RemoteIP
 | order by Timestamp asc
+```
 
 ### Explanation of Attacker Timeline Query (click to expand)
 <blockquote>
