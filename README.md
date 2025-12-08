@@ -529,8 +529,7 @@ What this query does:
 
 Impossible Travel Query - Detect “Impossible Travel” Between Logons
 
-```
-kql
+```kql
 //Impossible Travel
 DeviceLogonEvents
 | where DeviceName == "mydfir-ndean-vm"
@@ -566,8 +565,7 @@ Minutes after the foreign login, hands-on-keyboard activity attacker appear on t
 
 ### 3.3 Endpoint – Hands-on Keyboard Attack Activity
 
-```
-kql
+```kql
 //Attacker Timeline
 union isfuzzy=true
     DeviceProcessEvents,
