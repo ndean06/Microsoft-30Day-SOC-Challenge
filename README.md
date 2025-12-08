@@ -500,12 +500,12 @@ Defender appears to have successfully blocked or remediated all malicious action
 - Defender for Office logged the message and performed Safe Links scanning
 - No confirmed click event, but email provides a credible source for credential exposure
 
-Email → Identity Connection:
+#### Email → Identity Connection:
 Phishing email precedes risky sign-in — indicating possible credential compromise.
 
 ### 3.2 Identity – Risky Sign-in / Impossible Travel
 
-Risky Sign-In Query - Identify Risky Sign-in From a Foreign IP
+#### Risky Sign-In Query - Identify Risky Sign-in From a Foreign IP
 
 ```kql
 // Risky Sign-In (Foreign Location / Impossible Travel)
@@ -517,17 +517,17 @@ DeviceLogonEvents
 | order by Timestamp asc
 ```
 
-What this query does:
+##### What this query does:
 - Filters to interactive or network logons on the victim VM
 - Excludes your known “home region” IP to surface foreign activity
 - Shows only successful RemoteInteractive logons from unexpected IPs
 - Helps confirm credential misuse from 45.76.129.144
 
-![Risky Signin](Day29-MiniProject-IncidentInvestigation/screenshots/risky-signin.png)
 
+![Risky Signin](Day29-MiniProject-IncidentInvestigation/screenshots/risky-signin.png)
 *Figure 4.1 - Successful foreign RemoteInteractive logons from 45.76.129.144 indicating credential misuse and potential impossible travel.*
 
-Impossible Travel Query - Detect “Impossible Travel” Between Logons
+#### Impossible Travel Query - Detect “Impossible Travel” Between Logons
 
 ```kql
 //Impossible Travel
@@ -541,7 +541,7 @@ DeviceLogonEvents
 | project Timestamp, AccountName, DeviceName, RemoteIP, NextIP, DiffMinutes
 ```
 
-What this query does:
+##### What this query does:
 - Sorts all sign-ins for the compromised account
 - Compares each login with the next login (timestamp + IP)
 - Calculates time between the two logons
@@ -551,19 +551,20 @@ What this query does:
 - This helps strengthen the case of impossible travel and strongly supports credential compromise
 
 ![Impossible Travel](Day29-MiniProject-IncidentInvestigation/screenshots/Impossible-Travel1.png)
+*Figure 4.2 — Impossible Travel event showing rapid IP change from expected region (76.31.117.80) to foreign IP (45.76.129.144).*
 
-*Figure 4.2 — Impossible Travel event showing rapid IP change from expected region (76.31.117.80) to foreign IP (45.76.129.144).
-
-Why this matters
+##### Why this matters
 - Two sign-ins happen back-to-back from geographically incompatible IPs
 - Entra ID flags the event as Impossible Travel
 - The login succeeds, which means credentials were valid
 - This ties directly back to the phishing email earlier in the chain
 
-Identity → Endpoint Connection:
+##### Identity → Endpoint Connection:
 Minutes after the foreign login, hands-on-keyboard activity attacker appear on the endpoint, signaling a progression from identity compromise to endpoint compromise.
 
 ### 3.3 Endpoint – Hands-on Keyboard Attack Activity
+
+#### Attacker Timeline Query
 
 ```kql
 //Attacker Timeline
@@ -580,7 +581,7 @@ union isfuzzy=true
 | order by Timestamp asc
 ```
 
-### Explanation of Attacker Timeline Query (click to expand)
+##### Explanation of Attacker Timeline Query (click to expand)
 <blockquote>
 
 - Merges **DeviceProcessEvents**, **DeviceEvents**, and **DeviceLogonEvents** into a single timeline using `union isfuzzy=true`.
