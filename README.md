@@ -565,6 +565,32 @@ Minutes after the foreign login, hands-on-keyboard activity attacker appear on t
 
 ### 3.3 Endpoint – Hands-on Keyboard Attack Activity
 
+```
+kql
+//Attacker Timeline
+union isfuzzy=true
+    DeviceProcessEvents,
+    DeviceEvents,
+    DeviceLogonEvents
+| where DeviceName == "mydfir-ndean-vm"
+| where AccountName in ("jsmith", "jennysmith")
+| where ProcessCommandLine has_any ("mimikatz", "sekurlsa", "lsass", "adfind", "badcastle", "powershell", "cmd")
+       or ActionType in ("NamedPipeEvent", "DpapiAccessed", "InboundConnectionAccept", "ProcessCreated")
+       or LogonType contains "RemoteInteractive"
+| project Timestamp, AccountName, ActionType, FileName, ProcessCommandLine, RemoteIP
+| order by Timestamp asc
+
+### Explanation of Attacker Timeline Query (click to expand)
+<blockquote>
+
+- Merges **DeviceProcessEvents**, **DeviceEvents**, and **DeviceLogonEvents** into a single timeline using `union isfuzzy=true`.
+- Filters activity to **mydfir-ndean-vm** and the compromised accounts **jsmith / jennysmith**.
+- Detects known attacker tooling such as **Mimikatz, AdFind, BadCastle, and PowerShell**.
+- Captures high-signal behaviors including **NamedPipeEvent**, **DpapiAccessed**, **InboundConnectionAccept**, **ProcessCreated**, and **RemoteInteractive** logons.
+- Produces a **unified, chronological view** of the attacker’s hands-on-keyboard activity following the foreign sign-in.
+
+</blockquote>
+
 ![Suspicious Remote Session](Day29-Final-Mini-Project/what.png)
 *Figure 5 — Suspicious remote session showing hands-on-keyboard activity moments after the foreign login.*
 
