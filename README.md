@@ -527,6 +527,7 @@ DeviceLogonEvents
 
 
 ![Risky Signin](Day29-MiniProject-IncidentInvestigation/screenshots/risky-signin.png)
+
 *Figure 4.1 - Successful foreign RemoteInteractive logons from 45.76.129.144 indicating credential misuse and potential impossible travel.*
 
 #### Impossible Travel Query - Detect “Impossible Travel” Between Logons
@@ -555,6 +556,7 @@ DeviceLogonEvents
 
 
 ![Impossible Travel](Day29-MiniProject-IncidentInvestigation/screenshots/Impossible-Travel1.png)
+
 *Figure 4.2 — Impossible Travel event showing rapid IP change from expected region (76.31.117.80) to foreign IP (45.76.129.144).*
 
 ##### Why this matters
@@ -572,30 +574,52 @@ Minutes after the foreign login, hands-on-keyboard activity attacker appear on t
 
 ```kql
 //Attacker Timeline
-union isfuzzy=true
+union isfuzzy=true withsource=EventTable
+    DeviceLogonEvents,
     DeviceProcessEvents,
+    DeviceImageLoadEvents,
     DeviceEvents,
-    DeviceLogonEvents
+    DeviceFileEvents
 | where DeviceName == "mydfir-ndean-vm"
-| where AccountName in ("jsmith", "jennysmith")
-| where ProcessCommandLine has_any ("mimikatz", "sekurlsa", "lsass", "adfind", "badcastle", "powershell", "cmd")
-       or ActionType in ("NamedPipeEvent", "DpapiAccessed", "InboundConnectionAccept", "ProcessCreated")
-       or LogonType contains "RemoteInteractive"
-| project Timestamp, AccountName, ActionType, FileName, ProcessCommandLine, RemoteIP
+| where Timestamp > datetime(2025-11-22T11:48:53.8720476Z)
+| where    
+    ProcessRemoteSessionIP == "45.76.129.144"
+    or InitiatingProcessRemoteSessionIP == "45.76.129.144"
+    or AccountSid == "S-1-12-1-1130201530-1243223228-2140479906-3749068551"
+    or InitiatingProcessAccountSid == "S-1-12-1-1130201530-1243223228-2140479906-3749068551"
+| extend EffectiveFolderPath = coalesce(FolderPath, InitiatingProcessFolderPath)
 | order by Timestamp asc
+| project
+    Timestamp,
+    EventTable,
+    ActionType,
+    AccountName,
+    AccountSid,
+    InitiatingProcessAccountName,
+    InitiatingProcessAccountSid,
+    FileName,
+    ProcessCommandLine,
+    InitiatingProcessFileName,
+    InitiatingProcessCommandLine,
+    EffectiveFolderPath,
+    ProcessRemoteSessionIP,
+    InitiatingProcessRemoteSessionIP
 ```
 
-##### Explanation of Attacker Timeline Query
 
-- Merges **DeviceProcessEvents**, **DeviceEvents**, and **DeviceLogonEvents** into a single timeline using `union isfuzzy=true`.
-- Filters activity to **mydfir-ndean-vm** and the compromised accounts **jsmith / jennysmith**.
-- Detects known attacker tooling such as **Mimikatz, AdFind, BadCastle, and PowerShell**.
-- Captures high-signal behaviors including **NamedPipeEvent**, **DpapiAccessed**, **InboundConnectionAccept**, **ProcessCreated**, and **RemoteInteractive** logons.
-- Produces a **unified, chronological view** of the attacker’s hands-on-keyboard activity following the foreign sign-in.
+##### What this query does:
+
+- Builds a unified attacker timeline by unioning multiple Microsoft Defender tables
+- Filters activity to **mydfir-ndean-vm** to look at activity from the system the attacker actually touched.
+- Anchor the timeline to the known time of compromise **Timestamp > datetime(2025-11-22T11:48:53.8720476Z)**
+- Tracks hands-on-keyboard activity from the attacker by isolating actions tied to that session 
+- Normalize file/process paths with **EffectiveFolderPath = coalesce(FolderPath, InitiatingProcessFolderPath)**, giving me a single folder path even though different tables store it in different columns.
 
 
-![Suspicious Remote Session](Day29-Final-Mini-Project/what.png)
-*Figure 5 — Suspicious remote session showing hands-on-keyboard activity moments after the foreign login.*
+![Attacker Timeline](Day29-MiniProject-IncidentInvestigation/screenshots/Attacker-Timeline.png)
+
+*Figure 5 — Attacker session timeline showing interactive commands and processes executed directly after initial access.*
+
 
 Minutes after risky sign-in, endpoint logs show post-authentication activity executions 
 
