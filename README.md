@@ -623,12 +623,144 @@ union isfuzzy=true withsource=EventTable
 
 Minutes after risky sign-in, endpoint logs show post-authentication activity executions 
 
-- Mimikatz variants
-- PowerShell used interactively 
-- Discovery Tools (AdFind / BadCastle enumeration)
-- RDP lateral movement attempt blocked
+- Ran Mimikatz for credential harvesting
+- Conducted interactive PowerShell sessions
+- Performed Active Directory discovery using AdFind
+- Attempted privilege escalation via BadPotato.exe
+- No evidence of BadCastle enumeration
+- Attempted RDP lateral movement, which was blocked
+- Attacker transitioned from identity compromise to full endpoint exploitation attempt.
 
-Attacker transitioned from identity compromise to full endpoint exploitation attempt.
+```kql
+// Mimikatz variants
+union isfuzzy=true withsource=EventTable
+    DeviceLogonEvents,
+    DeviceProcessEvents,
+    DeviceImageLoadEvents,
+    DeviceEvents,
+    DeviceFileEvents
+| where DeviceName == "mydfir-ndean-vm"
+| where Timestamp > datetime(2025-11-22T11:48:53.8720476Z)
+| where    
+    ProcessRemoteSessionIP == "45.76.129.144"
+    or InitiatingProcessRemoteSessionIP == "45.76.129.144"
+    or AccountSid == "S-1-12-1-1130201530-1243223228-2140479906-3749068551"
+    or InitiatingProcessAccountSid == "S-1-12-1-1130201530-1243223228-2140479906-3749068551"
+| extend EffectiveFolderPath = coalesce(FolderPath, InitiatingProcessFolderPath)
+| where EffectiveFolderPath contains "mimi"
+| order by Timestamp asc
+| project
+    Timestamp,
+    ActionType,
+    AccountName,
+    InitiatingProcessAccountName,
+    FileName,
+    ProcessCommandLine,
+    InitiatingProcessFileName,
+    EffectiveFolderPath
+```
+
+![Mimikatz Variants](Day29-MiniProject-IncidentInvestigation/screenshots/mimikatz-variants.png)
+
+```kql
+//Interactive PowerShell
+union isfuzzy=true withsource=EventTable
+    DeviceLogonEvents,
+    DeviceProcessEvents,
+    DeviceImageLoadEvents,
+    DeviceEvents,
+    DeviceFileEvents
+| where DeviceName == "mydfir-ndean-vm"
+| where Timestamp > datetime(2025-11-22T11:48:53.8720476Z)
+| where    
+    ProcessRemoteSessionIP == "45.76.129.144"
+    or InitiatingProcessRemoteSessionIP == "45.76.129.144"
+    or AccountSid == "S-1-12-1-1130201530-1243223228-2140479906-3749068551"
+    or InitiatingProcessAccountSid == "S-1-12-1-1130201530-1243223228-2140479906-3749068551"
+| extend EffectiveFolderPath = coalesce(FolderPath, InitiatingProcessFolderPath)
+| where EffectiveFolderPath contains "powershell"
+or EffectiveFolderPath contains "pwsh"
+and ProcessCommandLine !has "-File"
+| order by Timestamp asc
+| project
+    Timestamp,
+    ActionType,
+    AccountName,
+    InitiatingProcessAccountName,
+    FileName,
+    ProcessCommandLine,
+    InitiatingProcessFileName,
+    InitiatingProcessCommandLine,
+    EffectiveFolderPat
+```
+
+![Interactive PowerShell](Day29-MiniProject-IncidentInvestigation/screenshots/Interactive-Powershell.png)
+
+```kql
+// Discovery tools - AdFind 
+union isfuzzy=true withsource=EventTable
+    DeviceLogonEvents,
+    DeviceProcessEvents,
+    DeviceImageLoadEvents,
+    DeviceEvents,
+    DeviceFileEvents
+| where DeviceName == "mydfir-ndean-vm"
+| where Timestamp > datetime(2025-11-22T11:48:53.8720476Z)
+| where    
+    ProcessRemoteSessionIP == "45.76.129.144"
+    or InitiatingProcessRemoteSessionIP == "45.76.129.144"
+    or AccountSid == "S-1-12-1-1130201530-1243223228-2140479906-3749068551"
+    or InitiatingProcessAccountSid == "S-1-12-1-1130201530-1243223228-2140479906-3749068551"
+| extend EffectiveFolderPath = coalesce(FolderPath, InitiatingProcessFolderPath)
+| where EffectiveFolderPath contains "adf"
+or EffectiveFolderPath contains "adfind"
+or ProcessCommandLine contains "adf"
+or AdditionalFields contains "adf"
+| order by Timestamp asc
+| project
+    Timestamp,
+    ActionType,
+    AccountName,
+    InitiatingProcessAccountName,
+    FileName,
+    ProcessCommandLine,
+    InitiatingProcessFileName,
+    EffectiveFolderPath
+```
+
+![Interactive PowerShell](Day29-MiniProject-IncidentInvestigation/screenshots/adfind.png)
+
+```kql
+//privilege escalation - Bad Potato
+union isfuzzy=true withsource=EventTable
+    DeviceLogonEvents,
+    DeviceProcessEvents,
+    DeviceImageLoadEvents,
+    DeviceEvents,
+    DeviceFileEvents
+| where DeviceName == "mydfir-ndean-vm"
+| where Timestamp > datetime(2025-11-22T11:48:53.8720476Z)
+| where    
+    ProcessRemoteSessionIP == "45.76.129.144"
+    or InitiatingProcessRemoteSessionIP == "45.76.129.144"
+    or AccountSid == "S-1-12-1-1130201530-1243223228-2140479906-3749068551"
+    or InitiatingProcessAccountSid == "S-1-12-1-1130201530-1243223228-2140479906-3749068551"
+| extend EffectiveFolderPath = coalesce(FolderPath, InitiatingProcessFolderPath)
+| where EffectiveFolderPath contains "bad"
+or ProcessCommandLine contains "bad"
+or AdditionalFields contains "bad"
+| order by Timestamp asc
+| project
+    Timestamp,
+    ActionType,
+    AccountName,
+    InitiatingProcessAccountName,
+    FileName,
+    ProcessCommandLine,
+    InitiatingProcessFileName,
+    EffectiveFolderPath
+```
+![Interactive PowerShell](Day29-MiniProject-IncidentInvestigation/screenshots/badpotato.png)
 
 
 ## 4. WHO / WHAT / WHEN / WHERE / WHY / HOW
