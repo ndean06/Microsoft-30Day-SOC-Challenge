@@ -844,7 +844,7 @@ The sequence reflects a continuous attacker session, with actions increasing in 
 - Defender blocked these efforts before lateral movement or domain compromise occurred.
 
 
-##5. Investigation Timeline Highlight
+## 5. Investigation Timeline Highlight
 
 | Date              | Time (UTC)        | Event Description                                                                 |
 |-------------------|-------------------|-----------------------------------------------------------------------------------|
@@ -887,7 +887,7 @@ The sequence reflects a continuous attacker session, with actions increasing in 
 	- Run simulated phishing campaigns to reinforce behavior
 
 
-##9. Conclusion
+## 7. Conclusion
 
 Based on the available data, the activity observed on mydfir-ndean-vm appears confined to early-stage intrusion behaviors involving credential misuse, reconnaissance, and attempted execution of credential-theft tools. All malicious tooling appears to have been blocked or remediated by Microsoft Defender, and no evidence was identified showing further spread, persistence, or data compromise.
 
