@@ -844,85 +844,53 @@ The sequence reflects a continuous attacker session, with actions increasing in 
 - Defender blocked these efforts before lateral movement or domain compromise occurred.
 
 
+##5. Investigation Timeline Highlight
+
+| Date              | Time (UTC)        | Event Description                                                                 |
+|-------------------|-------------------|-----------------------------------------------------------------------------------|
+| **Nov 22, 2025**  | 11:12             | Remote logon from **76.31.117.80** (expected region)                              |
+|                   | 11:48             | Foreign logon from **45.76.129.144** → *Impossible travel detected*               |
+|                   | 11:54             | First **Mimikatz** detection                                                      |
+|                   | 11:55             | Hands-on-keyboard activity begins (interactive PowerShell)                        |
+|                   | 11:57–12:02       | **Credential theft attempts** — Mimikatz components created/executed              |
+| **Nov 24, 2025**  | 11:11             | Suspicious PowerShell activity begins                                             |
+|                   | 11:18–11:28       | Multiple **Mimikatz** variants detected                                           |
+|                   | 11:25–11:28       | **Discovery & Recon tools executed**: AdFind, whoami, SOAPHound                   |
+|                   | 11:25             | **Privilege escalation attempt** using `BadPotato.exe` (blocked)                  |
+|                   | 11:27             | Ransomware-linked behavior alert triggered                                        |
+|                   | 11:48             | No further malicious activity recorded                                            |
+
+
+
 ## 6. Recommendations
 
-- Enforce MFA and Strengthen Identity Protections
+
+### Enforce MFA and Strengthen Identity Protections
 	- Require MFA for all users
 	- Enable Entra ID “Risky Sign-ins” and “Risky Users”
 
-- Harden Endpoint Configurations and Limit Post-Exploitation Tooling
+### Harden Endpoint Configurations and Limit Post-Exploitation Tooling
 	- Deploy endpoint EDR prevention policies that stop known tools
 	- Ensure PowerShell logging is enabled for traceability
 
-- Apply Least Privilege and Review User Access
+### Apply Least Privilege and Review User Access
 	- Audit privileged groups regularly	
 	- Restrict ability to run PowerShell for non-administrative users where feasible
 
-- Conduct User Security Awareness and Phishing Training
-	- link hygiene and credential theft indicators
+### Endpoint Actions
+	- Consider isolating or re-imaging mydfir-ndean-vm
+	- Review RDP exposure and harden remote access
+	- Validate firewall and remote access policies
+
+### Conduct User Security Awareness and Phishing Training
+	- Link hygiene and credential theft indicators
 	- Run simulated phishing campaigns to reinforce behavior
 
-### Endpoint Actions
-- Consider isolating or re-imaging mydfir-ndean-vm
-- Review RDP exposure and harden remote access
-- Validate firewall and remote access policies
-
-### Detection and Hardening
-- Enable ASR rules (especially LSASS protection)
-- Confirm ScriptBlock Logging and audit policies
-- Validate Defender Cloud-Delivered Protection
-
-
-
-##7. Investigation Timeline
-November 22, 2025
-05:12 UTC   Remote logon from 76.31.117.80
-05:48 UTC   Foreign logon from 45.76.129.144 (impossible travel)
-05:55 UTC   First Mimikatz detection
-06:03–06:04 Additional Mimikatz execution attempts
-06:41 UTC   Hands-on-keyboard activity
-07:10 UTC   RDP lateral movement attempt blocked
-
-November 24, 2025
-05:12 UTC   Suspicious PowerShell activity begins
-05:16–05:18 Post-exploitation frameworks observed
-05:17–05:28 Discovery tools executed: AdFind, BadCastle
-05:18–05:28 Multiple Mimikatz variants detected
-05:27 UTC   Ransomware-linked behavior alert
-05:28–05:29 Final PowerShell activity
-05:48 UTC   No further malicious activity recorded
-
-📸 Insert Screenshot:
-![Timeline View](Day29-Final-Mini-Project/alert-timeline3.png)
-*Figure 10 — Full alert timeline reconstructing attacker behavior across two days.*
-
-
-##8. Key KQL Queries Used
-
-List all alerts on the host
-
-AlertInfo
-| where DeviceName == "mydfir-ndean-vm"
-| order by TimeGenerated asc
-
-
-*Figure 11 — KQL query output validating alert chronology and process execution trail.*
-
-Confirm Mimikatz was the first high-severity alert
-AlertInfo
-| where DeviceName == "mydfir-ndean-vm"
-| where Severity in ("High", "Medium")
-| where TimeGenerated < datetime(2025-11-22 05:55:18)
-
-*Figure 11 — KQL query output validating alert chronology and process execution trail.*
-
-Impossible-travel logon verification
-DeviceLogonEvents
-| where DeviceName == "mydfir-ndean-vm"
-| project Timestamp, AccountName, RemoteIP, LogonType
-
-*Figure 11 — KQL query output validating alert chronology and process execution trail.*
 
 ##9. Conclusion
 
 Based on the available data, the activity observed on mydfir-ndean-vm appears confined to early-stage intrusion behaviors involving credential misuse, reconnaissance, and attempted execution of credential-theft tools. All malicious tooling appears to have been blocked or remediated by Microsoft Defender, and no evidence was identified showing further spread, persistence, or data compromise.
+
+This incident began with a compromised user account `jsmith/jennysmith` on `mydfir-ndean-vm`, leading to unauthorized remote access from a foreign IP. Once connected, the attacker attempted credential theft using multiple Mimikatz variants, conducted discovery with AdFind and SOAPHound, and attempted privilege escalation through BadPotato. Defender intercepted each phase of the attack chain, preventing the attacker from gaining elevated privileges or moving laterally within the environment.
+
+No sensitive data was accessed, no persistence mechanisms were established, and no signs of ransomware deployment or exfiltration were observed. The activity was fully contained on mydfir-ndean-vm, and the attack was effectively neutralized before achieving its objectives.
