@@ -832,7 +832,7 @@ The sequence reflects a continuous attacker session, with actions increasing in 
 	- Attempt local privilege escalation via BadPotato
 - These activities align with early-stage intrusion behavior following credential compromise.
 
-### HOW (Theory-based)
+### HOW
 
 - The compromise likely began with credential phishing, evidenced by a suspicious email received prior to the foreign login.
 - The attacker authenticated with valid credentials from an unexpected location (“impossible travel”).
