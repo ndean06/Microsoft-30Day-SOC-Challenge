@@ -472,10 +472,9 @@ Hands-on Keyboard Activity via Possible Credential Misuse
 - HackTool:Win32/Mimikatz!pz
 - HackTool:Win32/Mimikatz!MSR
 - Trojan:PowerShell/Mimikatz.A
-- Meterpreter
-- PowerSploit
+- SOAPHound
 - AdFind
-- BadCastle
+- BadPotato
 
 
 ![Initial Mimikatz Detection](Day29-Final-Mini-Project/Intial-mimikatz-detection.png) 
@@ -483,11 +482,11 @@ Hands-on Keyboard Activity via Possible Credential Misuse
 
 ## 2. Investigation Summary
 
-Between November 22 and November 24, 2025, Microsoft Defender XDR recorded a sequence of suspicious and malicious activities on host `mydfir-ndean-vm` associated with the user account `AzureAD\JennySmith (jsmith)`. Activity appears to have begun following remote logons originating from two geographically incompatible locations, potentially indicating credential misuse.
+Between November 22, 2025 at 11:55 UTC and November 24, 2025 at 11:29 UTC, Microsoft Defender XDR observed malicious activity on mydfir-ndean-vm tied to the account AzureAD\JennySmith (jsmith). The incident began immediately after successful RemoteInteractive logins from two geographically inconsistent IP addresses, indicating likely credential misuse.
 
-During the first activity wave, multiple Mimikatz variants and post-exploitation commands were executed or attempted. Discovery actions followed, including AD enumeration and PowerShell-based exploration. A second wave on November 24 included additional credential-theft attempts and suspicious tooling activity.
+The first wave (starting Nov 22, 11:55 UTC) involved Mimikatz execution, interactive PowerShell activity, and initial domain discovery. The second wave (from Nov 24, 11:12–11:29 UTC) included continued credential-theft attempts, expanded AD reconnaissance using AdFind and SOAPHound, and a blocked privilege-escalation attempt with BadPotato.
 
-Defender appears to have successfully blocked or remediated all malicious actions. No evidence was identified showing successful lateral movement, credential theft, data access, or data exfiltration. Activity remained contained to mydfir-ndean-vm.
+Defender blocked or remediated all malicious activity. No successful privilege escalation, lateral movement, or data exfiltration occurred, and activity remained contained to mydfir-ndean-vm.
 
 ## 3. Cross-Domain Correlation (Email → Identity → Endpoint)
 
@@ -782,52 +781,26 @@ or AdditionalFields contains "bad"
 ## 4. WHO / WHAT / WHEN / WHERE / WHY / HOW
 
 ### WHO
-Activity tied to the compromised account AzureAD\JennySmith (jsmith / jennysmith).
 
+- Activity tied to the compromised account AzureAD\JennySmith (jsmith / jennysmith).
+- The activity is tied to the compromised user account AzureAD\JennySmith (jsmith).
+- The attacker authenticated using valid credentials from a foreign IP (45.76.129.144) not associated with the legitimate user.
+- All hands-on-keyboard actions were executed under this identity after the unauthorized login.
 
-![Suspicious Remote Authentication](Day29-Final-Mini-Project/who2.png)
-
-*Figure 6 — RemoteInteractive logons tied to AzureAD\JennySmith showing credential misuse.*
-
-- Shows RemoteInteractive logons using jsmith and jennysmith
-- Includes both expected region logons from 76.31.117.80 and foreign logons from 45.76.129.144
-- Confirms the suspicious foreign IP successfully authenticated
-- Indicates the account was used by an attacker to remotely access the host
-  
 ### WHAT
 
-Evidence shows a sequence of remote authentication, process execution, and post-exploitation activity on mydfir-ndean-vm.
-
-![Suspicious Remote Session](Day29-Final-Mini-Project/what.png)
-*Figure 5 — Suspicious remote session showing hands-on-keyboard activity moments after the foreign login.*
-
-
-- Shows successful logons for jsmith followed by process activity under jennysmith
-- Connects the remote login to the processes created immediately after authentication
-- Highlights an attacker-controlled session where multiple processes were spawned in sequence
-- Demonstrates what actions the attacker performed after gaining access (post-exploitation behavior)
-
-![Suspicious Remote Authentication](Day29-Final-Mini-Project/Impossible-Travel.png)
-*Figure 4 — Impossible Travel alert confirming successful foreign authentication.*
-
-![Suspicious Remote Authentication](Day29-Final-Mini-Project/associated-processes.png)
-*Figure 7 — Correlated processes executed under the compromised account during the attacker session.*
-
-This query:
-- Looks at all processes executed on mydfir-ndean-vm
-- Filters only the ones run by the specific compromised account (using Account SID)
-- Filters further to show only processes run during a session from the malicious foreign IP 45.76.129.144
-- Shows what commands were executed and which parent processes launched them
-- Orders all events in a timeline, showing the attacker’s hands-on-keyboard activity
+- The attacker performed credential theft (Mimikatz variants), AD discovery (AdFind, SOAPHound), and privilege-escalation attempts (BadPotato).
+- Multiple malicious files were created and executed, all originating from PowerShell sessions.
+- Defender detected and blocked these actions, preventing further escalation or lateral movement.
 
 ### WHEN
 
 Identifies when the attacker activity occurred and how events progressed over time.
 Key Timestamps:
-- Foreign login (impossible travel): 11:48 UTC
-- First Mimikatz detection: 12:55 UTC
+- Foreign login: November 22, 11:48 UTC
+- First Activity Wave: November 22, 12:55 UTC
 - Blocked RDP lateral movement: 13:10 UTC
-- Second activity wave: Nov 24, 11:12–11:29 UTC
+- Second Activity Wave: Nov 24, 11:12–11:29 UTC
 - No malicious activity after 11:48 UTC, Nov 24
 
 Put Screenshot HERE: 
@@ -843,34 +816,51 @@ The sequence reflects a continuous attacker session, with actions increasing in 
 
 ### WHERE
 
-- All activity occurred on mydfir-ndean-vm
-- No evidence of spread to other devices
-- Remote access originated from external IPs
+- All malicious activity occurred on host mydfir-ndean-vm.
+- Actions originated through RemoteInteractive logons, followed by execution under powershell.exe.
+- EffectiveFolderPath values show payloads placed and executed from:
 
-### WHY (Theory-based)
-- Activity may indicate the use of compromised credentials
-- Pattern aligns with reconnaissance, credential-theft attempts, and early-stage intrusion behavior
+	- `C:\Users\JennySmith\AppData\...`
+	- `C:\AtomicRedTeam\tmp\...`
+	- `C:\Windows\System32\WindowsPowerShell\...`
+
+### WHY
+
+- The attacker’s likely objectives were:
+	- Steal credentials for privilege escalation or lateral movement
+	- Enumerate the environment to identify valuable targets
+	- Attempt local privilege escalation via BadPotato
+- These activities align with early-stage intrusion behavior following credential compromise.
 
 ### HOW (Theory-based)
 
-![RDP Blocked](Day29-Final-Mini-Project/rdp-blocked.png)
-*Figure 8 — Defender blocking attempted RDP lateral movement from the compromised host.*
+- The compromise likely began with credential phishing, evidenced by a suspicious email received prior to the foreign login.
+- The attacker authenticated with valid credentials from an unexpected location (“impossible travel”).
+- After logging in, the attacker:
+	- Launched PowerShell interactively
+	- Loaded Mimikatz components to harvest credentials
+	- Used discovery tools (AdFind, SOAPHound)
+	- Attempted privilege escalation with BadPotato
+- Defender blocked these efforts before lateral movement or domain compromise occurred.
 
-- Remote authentication using the AzureAD\JennySmith account
-- Subsequent execution of PowerShell commands, Mimikatz, and post-exploitation frameworks
-- Discovery and reconnaissance activity followed
-- Defender remediated or blocked malicious actions, preventing expansion
-
-##5. Impact Assessment
-
-Telemetry indicates that the activity was contained to one endpoint. Several credential-theft and post-exploitation tools executed briefly before remediation, creating a possible, although unconfirmed, risk of limited in-memory credential exposure. No evidence was found indicating lateral movement, persistence, privilege escalation, data access, or exfiltration. All malicious actions appear to have been blocked, terminated, or remediated.
 
 ## 6. Recommendations
 
-### Identity Actions
-- Reset passwords for involved accounts
-- Require MFA re-registration
-- Review conditional access to restrict foreign sign-in attempts
+- Enforce MFA and Strengthen Identity Protections
+	- Require MFA for all users
+	- Enable Entra ID “Risky Sign-ins” and “Risky Users”
+
+- Harden Endpoint Configurations and Limit Post-Exploitation Tooling
+	- Deploy endpoint EDR prevention policies that stop known tools
+	- Ensure PowerShell logging is enabled for traceability
+
+- Apply Least Privilege and Review User Access
+	- Audit privileged groups regularly	
+	- Restrict ability to run PowerShell for non-administrative users where feasible
+
+- Conduct User Security Awareness and Phishing Training
+	- link hygiene and credential theft indicators
+	- Run simulated phishing campaigns to reinforce behavior
 
 ### Endpoint Actions
 - Consider isolating or re-imaging mydfir-ndean-vm
@@ -882,9 +872,7 @@ Telemetry indicates that the activity was contained to one endpoint. Several cre
 - Confirm ScriptBlock Logging and audit policies
 - Validate Defender Cloud-Delivered Protection
 
-📸 Insert Screenshot:
-![ASR Rules](screenshots/xdr-incident/alert-timeline.png)
-*Figure 9 — ASR and behavioral detections contributing to automatic remediation.*
+
 
 ##7. Investigation Timeline
 November 22, 2025
