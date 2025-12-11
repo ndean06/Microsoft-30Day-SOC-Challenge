@@ -22,7 +22,7 @@ This challenge helped me practice:
    (To be added)
 
 4. **Cross-Domain Incident Report – Hands-on Keyboard Attack**  
-   → [`mini-projects/MP4-HandsOnKeyboard-Incident-IR.md`](mini-projects/MP4-HandsOnKeyboard-Incident-IR.md)
+   → [`mini-projects/MP4-HandsOnKeyboard-Incident-Investigation.md`](mini-projects/MP4-HandsOnKeyboard-Incident-IR.md)
 
 ---
 
