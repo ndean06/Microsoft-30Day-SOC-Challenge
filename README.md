@@ -631,6 +631,8 @@ Minutes after risky sign-in, endpoint logs show post-authentication activity exe
 - Attempted RDP lateral movement, which was blocked
 - Attacker transitioned from identity compromise to full endpoint exploitation attempt.
 
+#### Mimikatz Variants
+
 ```kql
 // Mimikatz variants
 union isfuzzy=true withsource=EventTable
@@ -661,6 +663,10 @@ union isfuzzy=true withsource=EventTable
 ```
 
 ![Mimikatz Variants](Day29-MiniProject-IncidentInvestigation/screenshots/mimikatz-variants.png)
+
+*Figure 6 — Mimikatz components created and executed in rapid succession, showing hands-on-keyboard credential-theft activity immediately following the attacker’s remote logon.*
+
+#### Interactive PowerShell
 
 ```kql
 //Interactive PowerShell
@@ -696,6 +702,10 @@ and ProcessCommandLine !has "-File"
 
 ![Interactive PowerShell](Day29-MiniProject-IncidentInvestigation/screenshots/Interactive-Powershell.png)
 
+*Figure 7 — Early attacker activity showing PowerShell execution, browser launch, named pipe usage, and repeated memory manipulation events (NtProtectVirtualMemory) occurring immediately after the foreign interactive logon, indicating hands-on-keyboard post-compromise actions.*
+
+#### Discovery tools
+
 ```kql
 // Discovery tools - AdFind 
 union isfuzzy=true withsource=EventTable
@@ -728,7 +738,11 @@ or AdditionalFields contains "adf"
     EffectiveFolderPath
 ```
 
-![Interactive PowerShell](Day29-MiniProject-IncidentInvestigation/screenshots/adfind.png)
+![Discovery Tools](Day29-MiniProject-IncidentInvestigation/screenshots/adfind.png)
+
+*Figure 8 — Second activity wave showing AdFind and SOAPHound execution via PowerShell, followed by AV detections and file changes indicating renewed discovery attempts.*
+
+#### Privilege Escalation 
 
 ```kql
 //privilege escalation - Bad Potato
@@ -760,8 +774,10 @@ or AdditionalFields contains "bad"
     InitiatingProcessFileName,
     EffectiveFolderPath
 ```
-![Interactive PowerShell](Day29-MiniProject-IncidentInvestigation/screenshots/badpotato.png)
 
+![Privilege Escalation](Day29-MiniProject-IncidentInvestigation/screenshots/badpotato.png)
+
+*Figure 9 — BadPotato privilege-escalation attempts detected and blocked, followed by related file modifications during the second activity wave.*
 
 ## 4. WHO / WHAT / WHEN / WHERE / WHY / HOW
 
