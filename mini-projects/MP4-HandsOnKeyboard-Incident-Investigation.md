@@ -12,7 +12,8 @@
 
 **Serverity:** High
 
-![XDR-Incident](Day29-Final-Mini-Project/xdr-incident.png)
+![XDR Incident](screenshots/xdr-incident.png)
+
 *Figure 1 - Microsoft Defender XDR incident overview showing high-severity alerts.*
 
 
@@ -363,28 +364,14 @@ or AdditionalFields contains "bad"
 
 ### WHEN
 
-Identifies when the attacker activity occurred and how events progressed over time.
-Key Timestamps:
-- Foreign login: November 22, 11:48 UTC
-- First Activity Wave: November 22, 12:55 UTC
-- Blocked RDP lateral movement: 13:10 UTC
-- Second Activity Wave: Nov 24, 11:12–11:29 UTC
-- No malicious activity after 11:48 UTC, Nov 24
-
-Put Screenshot HERE: 
-![Associated Processes](Day29-Final-Mini-Project/associated-processes.png)
-*Figure 7 — Correlated processes executed under the compromised account during the attacker session.*
-
-- Timeline shows activity beginning shortly after the foreign RemoteInteractive logon
-- Attacker actions appear in multiple event sources (DeviceProcessEvents, DeviceEvents, DeviceLogonEvents, DeviceNetworkEvents)
-- Events labeled "Likely attacker" confirm correlation across logons, processes, named pipes, and DPAPI access
-- Process execution under jennysmith occurs minutes after the initial compromise, showing rapid post-logon activity
-
-The sequence reflects a continuous attacker session, with actions increasing in frequency over the identified timeframe
+- Attacker activity occurred in two waves: **Nov 22** and **Nov 24** (UTC).
+- The first wave followed a foreign RemoteInteractive logon and included hands-on-keyboard activity and Mimikatz execution.
+- The second wave included renewed PowerShell activity, AD discovery (AdFind/SOAPHound), and a blocked privilege escalation attempt (BadPotato).
+- No malicious activity was observed after **11:48 UTC on Nov 24**, indicating containment.
 
 ### WHERE
 
-- All malicious activity occurred on host mydfir-ndean-vm.
+- All malicious activity occurred on host `mydfir-ndean-vm`.
 - Actions originated through RemoteInteractive logons, followed by execution under powershell.exe.
 - EffectiveFolderPath values show payloads placed and executed from:
 
@@ -407,12 +394,12 @@ The sequence reflects a continuous attacker session, with actions increasing in 
 - After logging in, the attacker:
 	- Launched PowerShell interactively
 	- Loaded Mimikatz components to harvest credentials
-	- Used discovery tools (AdFind, SOAPHound)
+	- Used discovery tools (`AdFind`, SOAPHound)
 	- Attempted privilege escalation with BadPotato
 - Defender blocked these efforts before lateral movement or domain compromise occurred.
 
 
-## 5. Investigation Timeline Highlight
+## 5. Timeline Highlights
 
 | Date              | Time (UTC)        | Event Description                                                                 |
 |-------------------|-------------------|-----------------------------------------------------------------------------------|
@@ -459,6 +446,6 @@ The sequence reflects a continuous attacker session, with actions increasing in 
 
 Based on the available data, the activity observed on mydfir-ndean-vm appears confined to early-stage intrusion behaviors involving credential misuse, reconnaissance, and attempted execution of credential-theft tools. All malicious tooling appears to have been blocked or remediated by Microsoft Defender, and no evidence was identified showing further spread, persistence, or data compromise.
 
-This incident began with a compromised user account `jsmith/jennysmith` on `mydfir-ndean-vm`, leading to unauthorized remote access from a foreign IP. Once connected, the attacker attempted credential theft using multiple Mimikatz variants, conducted discovery with AdFind and SOAPHound, and attempted privilege escalation through BadPotato. Defender intercepted each phase of the attack chain, preventing the attacker from gaining elevated privileges or moving laterally within the environment.
+This incident began with a compromised user account jsmith/jennysmith on mydfir-ndean-vm, leading to unauthorized remote access from a foreign IP. Once connected, the attacker attempted credential theft using multiple Mimikatz variants, conducted discovery with AdFind and SOAPHound, and attempted privilege escalation through BadPotato. Defender intercepted each phase of the attack chain, preventing the attacker from gaining elevated privileges or moving laterally within the environment.
 
 No sensitive data was accessed, no persistence mechanisms were established, and no signs of ransomware deployment or exfiltration were observed. The activity was fully contained on mydfir-ndean-vm, and the attack was effectively neutralized before achieving its objectives.
