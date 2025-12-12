@@ -10,7 +10,7 @@ This challenge helped me practice:
 
 ---
 
-## ⭐ Mini Projects (Portfolio Highlights)
+## Mini Projects (Portfolio Highlights)
 
 1. **Suspicious Email Investigation**  
    (To be added)
@@ -23,6 +23,10 @@ This challenge helped me practice:
 
 4. **Cross-Domain Incident Report – Hands-on Keyboard Attack**  
    → [`mini-projects/MP4-HandsOnKeyboard-Incident-Investigation.md`](mini-projects/MP4-HandsOnKeyboard-Incident-Investigation.md)
+
+4. **Cross-Domain Incident Report – Hands-on Keyboard Attack**  
+   - Full investigation covering phishing, identity compromise, and endpoint exploitation  
+   - 🔍 [View Investigation Report](mini-projects/MP4-HandsOnKeyboard-Incident-Investigation.md)
 
 ---
 
