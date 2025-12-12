@@ -21,11 +21,12 @@ This challenge helped me practice:
 3. **Conditional Access & Identity Attack Simulation**  
    (To be added)
 
-4. **Cross-Domain Incident – Hands-on Keyboard Attack**
-   - 🔍 Investigation Walkthrough (KQL, screenshots, analysis):  
-     [View Walkthrough](mini-projects/MP4-HandsOnKeyboard-Incident-Investigation.md)
-   - 📄 Formal Incident Report:  
-     [Download Incident Report](mini-projects/MP4-HandsOnKeyboard-Incident-Report.pdf)
+4. **Cross-Domain Incident Report – Hands-on Keyboard Attack**
+   - 📘 Walkthrough (evidence, queries, screenshots):  
+     → [`MP4-HandsOnKeyboard-Incident-Investigation.md`](mini-projects/MP4-HandsOnKeyboard-Incident-Investigation.md)
+   - 📄 Formal Incident Report (PDF):  
+     → [`MP4-HandsOnKeyboard-Incident-Report.pdf`](mini-projects/MP4-HandsOnKeyboard-Incident-Report.pdf)
+
 
 
 ---
