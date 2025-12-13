@@ -1,3 +1,5 @@
+# Microsoft 30-Day SOC Analyst Challenge
+
 A 30-day journey through real-world SOC workflows using **Microsoft Sentinel**, **Microsoft Defender XDR**, **Defender for Endpoint**, **Defender for Office**, and **EntraID Protection**.
 
 This challenge focused on building hands-on experience with detection, investigation, and incident response across identity, email, and endpoint telemetry.
