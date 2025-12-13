@@ -1,4 +1,4 @@
-A 30-day journey through real-world SOC workflows using **Microsoft Sentinel**, **Microsoft Defender XDR**, **Defender for Endpoint**, **Defender for Office**, and **Entra ID Protection**.
+A 30-day journey through real-world SOC workflows using **Microsoft Sentinel**, **Microsoft Defender XDR**, **Defender for Endpoint**, **Defender for Office**, and **EntraID Protection**.
 
 This challenge focused on building hands-on experience with detection, investigation, and incident response across identity, email, and endpoint telemetry.
 
@@ -20,8 +20,11 @@ Key skills practiced:
 ---
 
 ## Table of Contents
-- [Mini Projects (Portfolio Highlights)](#mini-projects-portfolio-highlights)
+- [Mini Projects](#mini-projects-portfolio-highlights)
 - [Repository Structure](#-repository-structure)
+- [Suspicious Email Investigation](mini-projects/MP1-Suspicious-Email.md)
+- [Cross-Domain Incident Report (PDF)](mini-projects/MP4-Incident-Report.pdf)
+
 
 ---
 
