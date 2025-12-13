@@ -1,12 +1,3 @@
-\# Mini Project 2 – Endpoint Compromise Analysis
-
-
-
-\## Objective
-
-Investigate suspicious endpoint behavior to determine whether a host was compromised, identify attacker actions, and assess impact using Microsoft Defender for Endpoint telemetry.
-
-
 
 # Mini Project 2 – Endpoint Compromise Analysis
 
