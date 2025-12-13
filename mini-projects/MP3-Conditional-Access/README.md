@@ -1,60 +1,44 @@
-\# Mini Project 3 – Conditional Access \& Identity Attack Simulation
+# Mini Project 3 – Conditional Access & Identity Attack Simulation
 
-
-
-\## Objective
+## Objective
 
 Simulate a foreign login attempt to evaluate Conditional Access enforcement and identity risk detection using Entra ID Protection.
 
-
-
-\## Scenario Overview
+## Scenario Overview
 
 This project simulates a sign-in from an unexpected geographic location to test how identity protections respond to risky authentication events. The investigation validates alerting, policy enforcement, and visibility into identity-based threats.
 
-
-
 This mirrors real-world SOC validation of identity controls and zero-trust access policies.
 
+## Investigation Focus
 
+- Risky sign-in detection
 
-\## Investigation Focus
+- Impossible travel indicators
 
-\- Risky sign-in detection
+- Conditional Access policy enforcement
 
-\- Impossible travel indicators
+- Identity log analysis
 
-\- Conditional Access policy enforcement
+## Tools Used
 
-\- Identity log analysis
+- Entra ID Protection
 
+- Microsoft Defender XDR
 
+- Microsoft Sentinel
 
-\## Tools Used
+- Advanced Hunting (KQL)
 
-\- Entra ID Protection
-
-\- Microsoft Defender XDR
-
-\- Microsoft Sentinel
-
-\- Advanced Hunting (KQL)
-
-
-
-\## Walkthrough
+## Walkthrough
 
 Step-by-step investigation and validation of identity protections are documented here:
 
+→ [README.md](README.md)
 
+## Screenshots
 
-→ \[`README.md`](README.md)
-
-
-
-\## Screenshots
-
-All screenshots and evidence from the identity attack simulation are stored in the `/screenshots` directory.
+All screenshots and evidence from the identity attack simulation are stored in the /screenshots directory.
 
 
 
