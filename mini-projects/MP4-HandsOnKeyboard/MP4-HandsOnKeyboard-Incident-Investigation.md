@@ -46,7 +46,7 @@ Hands-on Keyboard Activity via Possible Credential Misuse
 - BadPotato
 
 
-![Initial Mimikatz Detection](MP4-HandsOnKeyboard/screenshots/Intial-mimikatz-detection.png) 
+![Initial Mimikatz Detection](screenshots/Intial-mimikatz-detection.png) 
 *Figure 2 - Initial Mimikatz credential-theft detection on the compromised host.*
 
 ## 2. Investigation Summary
@@ -62,7 +62,7 @@ Defender blocked or remediated all malicious activity. No successful privilege e
 ### 3.1 Email – Phishing Attempt (Initial Vector)
 
 
-![Phishing Email](MP4-HandsOnKeyboard/screenshots/phishing-email-sent.png)
+![Phishing Email](screenshots/phishing-email-sent.png)
 *Figure 3 - Phishing email providing the likely initial credential exposure point.*
 
 - User received a phishing email containing a suspicious link
@@ -94,7 +94,7 @@ DeviceLogonEvents
 - Helps confirm credential misuse from 45.76.129.144
 
 
-![Risky Signin](MP4-HandsOnKeyboard/screenshots/risky-signin.png)
+![Risky Signin](screenshots/risky-signin.png)
 
 *Figure 4.1 - Successful foreign RemoteInteractive logons from 45.76.129.144 indicating credential misuse and potential impossible travel.*
 
@@ -123,7 +123,7 @@ DeviceLogonEvents
 - This helps strengthen the case of impossible travel and strongly supports credential compromise
 
 
-![Impossible Travel](MP4-HandsOnKeyboard/screenshots/Impossible-Travel1.png)
+![Impossible Travel](screenshots/Impossible-Travel1.png)
 
 *Figure 4.2 — Impossible Travel event showing rapid IP change from expected region (76.31.117.80) to foreign IP (45.76.129.144).*
 
@@ -177,14 +177,14 @@ union isfuzzy=true withsource=EventTable
 
 ##### What this query does:
 
-- Builds a unified attacker timeline by unioning multiple Microsoft Defender tables
+- Builds a unified attacker timeline by joining multiple Microsoft Defender tables
 - Filters activity to **mydfir-ndean-vm** to look at activity from the system the attacker actually touched.
 - Anchor the timeline to the known time of compromise **Timestamp > datetime(2025-11-22T11:48:53.8720476Z)**
 - Tracks hands-on-keyboard activity from the attacker by isolating actions tied to that session 
 - Normalize file/process paths with **EffectiveFolderPath = coalesce(FolderPath, InitiatingProcessFolderPath)**, giving me a single folder path even though different tables store it in different columns.
 
 
-![Attacker Timeline](MP4-HandsOnKeyboard/screenshots/Attacker-Timeline.png)
+![Attacker Timeline](screenshots/Attacker-Timeline.png)
 
 *Figure 5 — Attacker session timeline showing interactive commands and processes executed directly after initial access.*
 
@@ -230,7 +230,7 @@ union isfuzzy=true withsource=EventTable
     EffectiveFolderPath
 ```
 
-![Mimikatz Variants](MP4-HandsOnKeyboard/screenshots/mimikatz-variants.png)
+![Mimikatz Variants](screenshots/mimikatz-variants.png)
 
 *Figure 6 — Mimikatz components created and executed in rapid succession, showing hands-on-keyboard credential-theft activity immediately following the attacker’s remote logon.*
 
@@ -268,7 +268,7 @@ and ProcessCommandLine !has "-File"
     EffectiveFolderPat
 ```
 
-![Interactive PowerShell](MP4-HandsOnKeyboard/screenshots/Interactive-Powershell.png)
+![Interactive PowerShell](screenshots/Interactive-Powershell.png)
 
 *Figure 7 — Early attacker activity showing PowerShell execution, browser launch, named pipe usage, and repeated memory manipulation events (NtProtectVirtualMemory) occurring immediately after the foreign interactive logon, indicating hands-on-keyboard post-compromise actions.*
 
@@ -306,7 +306,7 @@ or AdditionalFields contains "adf"
     EffectiveFolderPath
 ```
 
-![Discovery Tools](MP4-HandsOnKeyboard/screenshots/adfind.png)
+![Discovery Tools](screenshots/adfind.png)
 
 *Figure 8 — Second activity wave showing AdFind and SOAPHound execution via PowerShell, followed by AV detections and file changes indicating renewed discovery attempts.*
 
@@ -343,7 +343,7 @@ or AdditionalFields contains "bad"
     EffectiveFolderPath
 ```
 
-![Privilege Escalation](MP4-HandsOnKeyboard/screenshots/badpotato.png)
+![Privilege Escalation](screenshots/badpotato.png)
 
 *Figure 9 — BadPotato privilege-escalation attempts detected and blocked, followed by related file modifications during the second activity wave.*
 
