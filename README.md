@@ -21,15 +21,6 @@ Key skills practiced:
 
 ---
 
-## Table of Contents
-- [Mini Projects](#mini-projects-portfolio-highlights)
-- [Repository Structure](#-repository-structure)
-- [Suspicious Email Investigation](mini-projects/MP1-Suspicious-Email.md)
-- [Cross-Domain Incident Report (PDF)](mini-projects/MP4-HandsOnKeyboard-Incident-Report.pdf)
-
-
----
-
 ## Mini Projects (Portfolio Highlights)
 
 ### 1. Suspicious Email Investigation
