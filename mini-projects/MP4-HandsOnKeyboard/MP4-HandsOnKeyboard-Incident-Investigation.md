@@ -10,9 +10,9 @@
 
 **Alert:** Hands-on Keyboard Attack via Possible Credential Misuse
 
-**Serverity:** High
+**Severity:** High
 
-![XDR Incident](MP4-HandsOnKeyboard/screenshots/xdr-incident.png)
+![XDR Incident](mini-projects/MP4-HandsOnKeyboard/screenshots/xdr-incident.png)
 
 *Figure 1 - Microsoft Defender XDR incident overview showing high-severity alerts.*
 
