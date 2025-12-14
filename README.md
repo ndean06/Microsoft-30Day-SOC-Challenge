@@ -53,10 +53,10 @@ Simulation of a foreign login attempt to test Conditional Access enforcement and
 End-to-end incident investigation correlating phishing, identity compromise, and hands-on-keyboard endpoint activity using Microsoft Defender XDR and KQL.
 
 - 📘 Walkthrough (evidence, queries, screenshots):  
-  → [Hands-On-Keyboard Incident Investigation](mini-projects/MP4-HandsOnKeyboard/MP4-HandsOnKeyboard-Incident-Investigation.md)
+  → [`Hands-On-Keyboard Incident Investigation`](mini-projects/MP4-HandsOnKeyboard/MP4-HandsOnKeyboard-Incident-Investigation.md)
 
 - 📄 Formal Incident Report (PDF):  
-  → [`mini-projects/MP4-HandsOnKeyboard-Incident-Report.pdf`](mini-projects/MP4-HandsOnKeyboard-Incident-Report.pdf)
+  → [`Hands-On-Keyboard Incident Report`](mini-projects/MP4-HandsOnKeyboard/MP4-HandsOnKeyboard-Incident-Report.pdf)
 
 ---
 
