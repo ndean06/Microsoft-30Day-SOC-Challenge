@@ -27,7 +27,7 @@ A suspicious invoice-themed email was received by **Jenny Smith**. The message u
 - Urgent subject line: **“URGENT Invoice Overdue Immediate Action Required”**
 - External sender: **Soc Johnson soc_test_acct@proton[.]me**
 - Social engineering language encouraging immediate action
-- Embedded hyperlink: \*\*“Overdue Invoice”\*\*
+- Embedded hyperlink: **“Overdue Invoice”**
 - Generic finance wording (“Accounts Payable”) with no company context
 
 This email exhibits classic phishing indicators intended to pressure the recipient into clicking quickly.
