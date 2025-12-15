@@ -36,7 +36,6 @@ This email exhibits classic phishing indicators intended to pressure the recipie
 *Outlook inbox showing suspicious invoice-themed email delivered to the user.*
 
 ---
-
 ## Step 2: Email Metadata Review in Defender Explorer
 
 After identifying the suspicious email in the user’s inbox, I pivoted to **Microsoft Defender → Email \& Collaboration → Explorer** to validate delivery details and assess risk.
