@@ -11,7 +11,7 @@ An invoice-themed phishing email was delivered to multiple users from an externa
 📘 **Technical Walkthrough**  
 Step-by-step email investigation with screenshots, Defender Explorer analysis, Advanced Hunting queries, and scoping decisions.
 
-→ [`MP1-Suspicious-Email-Walkthrough`](/walkthrough.md)
+→ [`MP1-Suspicious-Email-Walkthrough`](\walkthrough.md)
 
 ## Tools Used
 - Microsoft Defender for Office 365
