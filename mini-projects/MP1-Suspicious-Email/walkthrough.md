@@ -101,8 +101,8 @@ EmailEvents
 #### Key Findings
 - The same external sender IP delivered emails to multiple recipients
 - Targeted users:
- 	- jsmith
- 	- bsmith
+	- jsmith
+	- bsmith
 - Sender address remained consistent: soc_test_acct@proton.me
 - Confirms the activity was not limited to a single user
 - Indicates phishing behavior consistent with a small-scale campaign
