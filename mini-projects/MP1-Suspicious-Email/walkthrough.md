@@ -21,11 +21,11 @@ This activity aligns with common credential-harvesting phishing techniques targe
 
 ## Step 1: Suspicious Email Received in User Inbox
 
-A suspicious invoice-themed email was received by \*\*Jenny Smith\*\*. The message uses urgency and a payment/invoice lure to push the user to click a link (“Overdue Invoice”), which is a common phishing tactic.
+A suspicious invoice-themed email was received by **Jenny Smith**. The message uses urgency and a payment/invoice lure to push the user to click a link (“Overdue Invoice”), which is a common phishing tactic.
 
 **Initial red flags observed**
 - Urgent subject line: **“URGENT Invoice Overdue Immediate Action Required”**
-- External sender: \*\*Soc Johnson <soc\_test\_acct@proton.me>\*\*
+- External sender: **Soc Johnson soc_test_acct@proton[.]me**
 - Social engineering language encouraging immediate action
 - Embedded hyperlink: \*\*“Overdue Invoice”\*\*
 - Generic finance wording (“Accounts Payable”) with no company context
@@ -42,8 +42,8 @@ After identifying the suspicious email in the user’s inbox, I pivoted to **Mic
 
 **Key Findings**
 - **Email was successfully delivered** to the inbox (not blocked or quarantined)
-- **Recipient:** jsmith@30daysoctrainingchallenge.onmicrosoft.com
-- **Sender address:** soc_test_acct@proton.me
+- **Recipient:** jsmith@30daysoctrainingchallenge.onmicrosoft[.]com
+- **Sender address:** soc_test_acct@proton[.]me
 - **Sender domain:** proton.me (external email provider)
 - **Delivery location:** Inbox
 - **No tags or prior classification** applied by Defender at delivery time
@@ -72,8 +72,8 @@ union EmailUrlInfo, UrlClickEvents
 #### Key Findings
 - Multiple URL click events were recorded for the embedded link
 - ActionType: ClickAllowed
-- User account: jsmith@30daysoctrainingchallenge.onmicrosoft.com
-- URL: https://example.com
+- User account: jsmith
+- URL: https://example[.]com
 - Workload: Email
 - Source IP: Expected user Region
 
@@ -103,7 +103,7 @@ EmailEvents
 - Targeted users:
 	- jsmith
 	- bsmith
-- Sender address remained consistent: soc_test_acct@proton.me
+- Sender address remained consistent: soc_test_acct
 - Confirms the activity was not limited to a single user
 - Indicates phishing behavior consistent with a small-scale campaign
 
