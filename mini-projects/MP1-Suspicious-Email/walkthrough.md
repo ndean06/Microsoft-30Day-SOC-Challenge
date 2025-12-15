@@ -109,7 +109,7 @@ EmailEvents
 
 This scoping step determines how widespread the activity is and informs containment actions like bulk remediation, blocking the sender, and alerting impacted users.
 
-![URL Click Events (Advanced Hunting)](screenshots/04-advanced-hunting-sender-ip-scope.png)
+![URL Click Events Advanced Hunting ](screenshots/04-advanced-hunting-sender-ip-scope.png)
 *Advanced Hunting results showing multiple recipients targeted from the same sender IP.*
 
 ---
