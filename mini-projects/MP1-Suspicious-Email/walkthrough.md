@@ -1,8 +1,8 @@
-\#Mini Project 1 – Suspicious Email Investigation
+\# Mini Project 1 – Suspicious Email Investigation
 
 
 
-\##Objective
+\## Objective
 
 
 
@@ -81,8 +81,6 @@ This email exhibits classic phishing indicators intended to pressure the recipie
 
 
 ---
-
-
 
 
 
@@ -214,7 +212,7 @@ EmailEvents
 
 
 
-\####Key Findings  
+\####Key Findings
 
 
 
@@ -226,11 +224,11 @@ EmailEvents
 
 
 
-&nbsp;	- jsmith@30daysoctrainingchallenge.onmicrosoft.com
+ 	- jsmith@30daysoctrainingchallenge.onmicrosoft.com
 
 
 
-&nbsp;	- bsmith@30daysoctrainingchallenge.onmicrosoft.com
+ 	- bsmith@30daysoctrainingchallenge.onmicrosoft.com
 
 
 
@@ -339,6 +337,4 @@ Based on these findings, no incident escalation was required beyond email remedi
 
 
 This walkthrough demonstrates a SOC email investigation from inbox triage through Advanced Hunting validation. The incident was contained at the email layer, and no further compromise was observed, highlighting the value of Defender visibility into user interaction and click telemetry.
-
-
 

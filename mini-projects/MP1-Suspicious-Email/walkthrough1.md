@@ -1,4 +1,4 @@
-#Mini Project 1 – Suspicious Email Investigation
+# Mini Project 1 – Suspicious Email Investigation
 
 ##Objective
 
