@@ -1,32 +1,25 @@
 # Mini Project 1 – Suspicious Email Investigation
 
 ## Objective
+Simulate a phishing email delivery and demonstrate how a SOC analyst investigates sender behavior, delivery metadata, and user interaction using Microsoft Defender for Office and Advanced Hunting.
 
-Investigate a suspected phishing email to determine malicious intent and assess potential credential exposure.
+## Scenario Overview
+An invoice-themed phishing email was delivered to multiple users from an external sender. One user interacted with the embedded link, while another did not. This project documents the investigation, scoping, and impact assessment performed by a SOC analyst.
+
+## What’s Included
+
+📘 **Technical Walkthrough**  
+Step-by-step email investigation with screenshots, Defender Explorer analysis, Advanced Hunting queries, and scoping decisions.
+
+→ [`MP1-Suspicious-Email-Walkthrough`](/walkthrough.md)
 
 ## Tools Used
-
 - Microsoft Defender for Office 365
-
-- Microsoft Defender XDR
-
-- Threat Intelligence (VirusTotal, URL reputation)
-
-## Investigation Summary
-
-A suspicious email was reported by a user. Analysis focused on sender authenticity, URL reputation, and Defender verdicts to determine risk and downstream impact.
-
-## Findings
-
-- Email contained a credential-harvesting link
-
-- Defender Safe Links flagged the URL as malicious
-
-- No confirmed click, but identity risk increased
+- Microsoft Defender XDR (Advanced Hunting)
+- Outlook
+- KQL
 
 ## Screenshots
-
-Screenshots are stored in the /screenshots directory and referenced throughout this walkthrough.
-
+All screenshots referenced in the walkthrough are stored in the `/screenshots` directory.
 
 
