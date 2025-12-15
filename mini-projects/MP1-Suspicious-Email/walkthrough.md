@@ -53,13 +53,13 @@ These findings confirm the phishing email bypassed initial filtering controls an
 ![Defender Explorer Email Details](screenshots/02-defender-email-explorer.png)
 *Defender for Office Explorer showing delivery status and sender metadata for the suspicious email.*
 
-##Step 3: URL Click Analysis via Advanced Hunting
+## Step 3: URL Click Analysis via Advanced Hunting
 
 After confirming the phishing email was delivered to the user’s inbox, I pivoted to Advanced Hunting to determine whether the embedded link was interacted with and to assess potential user exposure.
 
 I queried EmailUrlInfo and UrlClickEvents to identify clicks associated with the suspicious domain.
 
-###Query Used
+### Query Used
 
 ```kql
 
@@ -69,7 +69,7 @@ union EmailUrlInfo, UrlClickEvents
 
 ```
 
-####Key Findings
+#### Key Findings
 - Multiple URL click events were recorded for the embedded link
 - ActionType: ClickAllowed
 - User account: jsmith@30daysoctrainingchallenge.onmicrosoft.com
@@ -84,11 +84,11 @@ This helps confirm the user interacted with the phishing link, increasing the ri
 
 ---
 
-##Step 4: Environment Scoping – Sender Infrastructure Analysis
+## Step 4: Environment Scoping – Sender Infrastructure Analysis
 
 After confirming user exposure, the next step was to determine whether this phishing activity was isolated or part of a broader campaign. To scope the impact across the environment, I searched for additional emails originating from the same sender infrastructure.
 
-###Query Used
+### Query Used
 
 ```kql
 
@@ -98,7 +98,7 @@ EmailEvents
 
 ```
 
-####Key Findings
+#### Key Findings
 - The same external sender IP delivered emails to multiple recipients
 - Targeted users:
  	- jsmith@30daysoctrainingchallenge.onmicrosoft.com
@@ -114,9 +114,9 @@ This scoping step determines how widespread the activity is and informs containm
 
 ---
 
-##Step 5: Impact Assessment and Outcome
+## Step 5: Impact Assessment and Outcome
 
-###Assessment by User
+### Assessment by User
 
 **jsmith**
 - Email delivered to inbox
@@ -130,7 +130,7 @@ This scoping step determines how widespread the activity is and informs containm
 - **No URL click activity observed**
 - No indicators of user interaction or compromise
 
-###Overall Outcome
+### Overall Outcome
 - No persistence mechanisms identified
 - No lateral movement detected
 - No endpoint or identity compromise observed
@@ -138,12 +138,12 @@ This scoping step determines how widespread the activity is and informs containm
 
 Based on these findings, no incident escalation was required beyond email remediation, sender blocking, and continued monitoring.
 
-##Recommendations
+## Recommendations
 1. Strengthen phishing detection rules for invoice-themed emails.
 2. Increase user awareness training around urgency-based messages.
 3. Monitor repeated URL clicks from similar sender domains.
 4. Consider tightening policies for free email provider domains.
 5. Enable automated investigation for similar email alerts.
 
-##Conclusion
+## Conclusion
 This walkthrough demonstrates a SOC email investigation from inbox triage through Advanced Hunting validation. The incident was contained at the email layer, and no further compromise was observed, highlighting the value of Defender visibility into user interaction and click telemetry.
