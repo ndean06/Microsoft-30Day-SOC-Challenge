@@ -1,8 +1,8 @@
-\# Mini Project 1 – Suspicious Email Investigation
+\#Mini Project 1 – Suspicious Email Investigation
 
 
 
-\## Objective
+\##Objective
 
 
 
@@ -10,7 +10,7 @@ Simulate a suspicious email delivery and demonstrate how a SOC analyst investiga
 
 
 
-\## Tools Used
+\##Tools Used
 
 
 
@@ -30,7 +30,7 @@ Simulate a suspicious email delivery and demonstrate how a SOC analyst investiga
 
 
 
-\## Incident Type
+\##Incident Type
 
 Phishing – Invoice Lure / Social Engineering
 
@@ -40,13 +40,13 @@ This activity aligns with common credential-harvesting phishing techniques targe
 
 
 
-\## Investigation Walkthrough
+\##Investigation Walkthrough
 
 
 
 
 
-\## Step 1: Suspicious Email Received in User Inbox
+\##Step 1: Suspicious Email Received in User Inbox
 
 
 
@@ -86,7 +86,7 @@ This email exhibits classic phishing indicators intended to pressure the recipie
 
 
 
-\## Step 2: Email Metadata Review in Defender Explorer
+\##Step 2: Email Metadata Review in Defender Explorer
 
 
 
@@ -126,7 +126,7 @@ These findings confirm the phishing email bypassed initial filtering controls an
 
 
 
-\## Step 3: URL Click Analysis via Advanced Hunting
+\##Step 3: URL Click Analysis via Advanced Hunting
 
 
 
@@ -138,7 +138,7 @@ I queried EmailUrlInfo and UrlClickEvents to identify clicks associated with the
 
 
 
-\### Query Used
+\###Query Used
 
 ```kql
 
@@ -150,7 +150,7 @@ union EmailUrlInfo, UrlClickEvents
 
 
 
-\#### Key Findings
+\####Key Findings
 
 
 
@@ -194,7 +194,7 @@ This helps confirm the user interacted with the phishing link, increasing the ri
 
 
 
-\## Step 4: Environment Scoping – Sender Infrastructure Analysis
+\##Step 4: Environment Scoping – Sender Infrastructure Analysis
 
 
 
@@ -202,7 +202,7 @@ After confirming user exposure, the next step was to determine whether this phis
 
 
 
-\### Query Used
+\###Query Used
 
 ```kql
 
@@ -214,7 +214,9 @@ EmailEvents
 
 
 
-\#### Key Findings  
+\####Key Findings  
+
+
 
 \- The same external sender IP delivered emails to multiple recipients
 
@@ -260,11 +262,11 @@ This scoping step determines how widespread the activity is and informs containm
 
 
 
-\## Step 5: Impact Assessment and Outcome
+\##Step 5: Impact Assessment and Outcome
 
 
 
-\### Assessment by User
+\###Assessment by User
 
 
 
@@ -292,7 +294,7 @@ This scoping step determines how widespread the activity is and informs containm
 
 
 
-\### Overall Outcome
+\###Overall Outcome
 
 \- No persistence mechanisms identified
 
@@ -308,7 +310,7 @@ Based on these findings, no incident escalation was required beyond email remedi
 
 
 
-\## Recommendations
+\##Recommendations
 
 
 
@@ -332,7 +334,7 @@ Based on these findings, no incident escalation was required beyond email remedi
 
 
 
-\## Conclusion
+\##Conclusion
 
 
 
