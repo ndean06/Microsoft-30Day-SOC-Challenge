@@ -2,10 +2,6 @@
 
 
 
-\## O# Mini Project 1 – Suspicious Email Investigation
-
-
-
 \## Objective
 
 
@@ -259,6 +255,8 @@ This scoping step determines how widespread the activity is and informs containm
 \*Advanced Hunting results showing multiple recipients targeted from the same sender IP.\*
 
 
+
+---
 
 
 
