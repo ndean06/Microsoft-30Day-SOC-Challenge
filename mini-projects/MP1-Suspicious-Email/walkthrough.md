@@ -38,7 +38,7 @@ This email exhibits classic phishing indicators intended to pressure the recipie
 ---
 ## Step 2: Email Metadata Review in Defender Explorer
 
-After identifying the suspicious email in the user’s inbox, I pivoted to **Microsoft Defender → Email \& Collaboration → Explorer** to validate delivery details and assess risk.
+After identifying the suspicious email in the user’s inbox, I pivoted to **Microsoft Defender → Email & Collaboration → Explorer** to validate delivery details and assess risk.
 
 **Key Findings**
 - **Email was successfully delivered** to the inbox (not blocked or quarantined)
