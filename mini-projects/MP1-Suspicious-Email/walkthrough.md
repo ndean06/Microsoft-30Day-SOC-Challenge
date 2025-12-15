@@ -53,8 +53,6 @@ These findings confirm the phishing email bypassed initial filtering controls an
 ![Defender Explorer Email Details](screenshots/02-defender-email-explorer.png)
 *Defender for Office Explorer showing delivery status and sender metadata for the suspicious email.*
 
----
-
 ##Step 3: URL Click Analysis via Advanced Hunting
 
 After confirming the phishing email was delivered to the user’s inbox, I pivoted to Advanced Hunting to determine whether the embedded link was interacted with and to assess potential user exposure.
