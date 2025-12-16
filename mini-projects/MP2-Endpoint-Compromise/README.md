@@ -16,7 +16,7 @@ Endpoint Suspicious Activity – Process Execution / Living-off-the-Land Behavio
 
 ## What’s Included
 
-📘 Technical Walkthrough  
+### Technical Walkthrough  
 Step-by-step endpoint investigation with process trees, command-line analysis, Advanced Hunting queries, and MITRE ATT&CK mapping.
 
 → walkthrough.md
