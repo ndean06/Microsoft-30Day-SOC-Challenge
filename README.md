@@ -27,6 +27,7 @@ Key skills practiced:
 Analysis of a phishing email using Defender for Office, Explorer, and threat intelligence to determine malicious intent and potential credential exposure.
 
 → Walkthrough:
+→ [`Suspicious Email Investigation`](mini-projects/MP1-Suspicious-Email/walkthrough.md)
 
 ### 2. Endpoint Compromise Analysis
 Investigation of suspicious endpoint activity using Defender for Endpoint telemetry, process execution analysis, and MITRE ATT&CK mapping.
