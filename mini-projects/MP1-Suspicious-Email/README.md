@@ -19,6 +19,10 @@ Step-by-step email investigation with screenshots, Defender Explorer analysis, A
 - Outlook
 - KQL
 
+## Outcome
+
+The email was confirmed as a phishing attempt delivered to two users. One user (`jsmith`) clicked the embedded link, while the other (`bsmith`) did not. The destination domain was benign, and no malware execution, endpoint alerts, or identity compromise were observed. The activity was contained at the email layer and required no further escalation beyond remediation and monitoring.
+
 ## Screenshots
 All screenshots referenced in the walkthrough are stored in the `/screenshots` directory.
 
