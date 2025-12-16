@@ -2,7 +2,6 @@
 
 ## Technical Walkthrough
 
----
 
 ## Step 1: Alert Triage and Initial Context
 
