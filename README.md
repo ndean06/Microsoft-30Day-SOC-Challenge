@@ -33,6 +33,7 @@ Analysis of a phishing email using Defender for Office, Explorer, and threat int
 Investigation of suspicious endpoint activity using Defender for Endpoint telemetry, process execution analysis, and MITRE ATT&CK mapping.
 
 → Walkthrough:
+→ [`Endpoint Compromise Analysis`](mini-projects/MP2-Endpoint-Compromise/walkthrough.md)
 
 ### 3. Conditional Access & Identity Attack Simulation
 Simulation of a foreign login attempt to test Conditional Access enforcement and identity risk detection in Entra ID.
