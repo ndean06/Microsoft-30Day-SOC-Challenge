@@ -20,6 +20,7 @@ This warrented immediate **process tree** and **timeline analysis**.
 ![Hands-on-Keyboard Alert Overview](screenshots/01-hands-on-keyboard-alert.png)
 
 *High-severity Microsoft Defender for Endpoint alert indicating hands-on-keyboard attacker activity.*
+
 ---
 
 ## Step 2: Process Tree Analysis
