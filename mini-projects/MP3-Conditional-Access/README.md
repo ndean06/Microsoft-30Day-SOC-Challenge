@@ -8,33 +8,45 @@ Simulate a foreign login attempt to evaluate Conditional Access enforcement and 
 
 This project simulates a sign-in from an unexpected geographic location to test how identity protections respond to risky authentication events. The investigation validates alerting, policy enforcement, and visibility into identity-based threats.
 
-This mirrors real-world SOC validation of identity controls and zero-trust access policies.
+The investigation simulates a SOC analyst validating identity-based threats before endpoint compromise occurs.
+
+## Incident Type
+Identity Threat – Risky Sign-In / Conditional Access Enforcement
+
+### Technical Walkthrough
+Step-by-step identity investigation using Entra ID sign-in logs, Conditional Access evaluation, and risk indicators.
+
+→ [README.md](README.md)
 
 ## Investigation Focus
 
 - Risky sign-in detection
-
-- Impossible travel indicators
-
 - Conditional Access policy enforcement
-
-- Identity log analysis
+- Sign-in log analysis (location, IP, device)
+- Identity risk vs successful authentication
+- Pre-endpoint attack prevention
 
 ## Tools Used
 
-- Entra ID Protection
+- Microsoft Entra ID (Azure AD)
+
+- Conditional Access
 
 - Microsoft Defender XDR
+
+- Sign-in Logs
+
+- Entra ID Protection
 
 - Microsoft Sentinel
 
 - Advanced Hunting (KQL)
 
-## Walkthrough
+## Outcome
+*(To be completed after walkthrough)*
 
-Step-by-step investigation and validation of identity protections are documented here:
+The simulated foreign login was **<blocked / challenged / logged>** by Conditional Access. No endpoint activity occurred, demonstrating effective identity-layer controls.
 
-→ [README.md](README.md)
 
 ## Screenshots
 
