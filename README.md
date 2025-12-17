@@ -39,6 +39,7 @@ Investigation of suspicious endpoint activity using Defender for Endpoint teleme
 Simulation of a foreign login attempt to test Conditional Access enforcement and identity risk detection in Entra ID.
 
 → Walkthrough: 
+→ [`Conditional Access Identity Investigation`](mini-projects/MP3-Conditional-Access/walkthrough.md)
 
 ---
 
