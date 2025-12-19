@@ -56,7 +56,7 @@ A Conditional Access policy was created and scoped to the affected user. The pol
 
 ---
 
-## Step 5: Policy Validation and Enforcement Outcome
+### Step 5: Policy Validation and Enforcement Outcome
 
 After the policy was enabled, a subsequent sign-in attempt from the same foreign IP was blocked. The user received an access denial message indicating the sign-in did not meet organizational security requirements.
 
@@ -66,7 +66,7 @@ After the policy was enabled, a subsequent sign-in attempt from the same foreign
 
 ---
 
-## Step 6: Correlation and Analyst Confidence
+### Step 6: Correlation and Analyst Confidence
 
 Correlation across sign-in logs, Identity Protection alerts, and Conditional Access enforcement confirmed the effectiveness of identity-layer security controls. The threat was mitigated before any endpoint interaction occurred.
 
