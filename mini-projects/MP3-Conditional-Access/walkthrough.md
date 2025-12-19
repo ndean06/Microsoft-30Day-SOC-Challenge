@@ -78,10 +78,13 @@ Correlation across sign-in logs, Identity Protection alerts, and Conditional Acc
 
 ## Outcome and Assessment
 
-- Foreign sign-in activity was detected and flagged as risky
-- Conditional Access successfully blocked access from non-business regions
-- No endpoint compromise or lateral movement occurred
-- Identity-based controls prevented escalation at the authentication layer
+- Foreign sign-in activity was detected and initially succeeded, but was flagged as high risk.
+- Conditional Access enforcement prevented continued access from the foreign location.
+- Although authentication succeeded, no endpoint telemetry indicated:
+  - Interactive user access
+  - Process execution
+  - Persistence mechanisms
+- Identity-layer controls identified and mitigated the risk before any evidence of endpoint compromise was observed.
 
 ---
 
