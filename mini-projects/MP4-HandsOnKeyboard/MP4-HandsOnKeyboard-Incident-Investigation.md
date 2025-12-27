@@ -47,6 +47,7 @@ Hands-on Keyboard Activity via Possible Credential Misuse
 
 
 ![Initial Mimikatz Detection](screenshots/Intial-mimikatz-detection.png) 
+
 *Figure 2 - Initial Mimikatz credential-theft detection on the compromised host.*
 
 ## 2. Investigation Summary

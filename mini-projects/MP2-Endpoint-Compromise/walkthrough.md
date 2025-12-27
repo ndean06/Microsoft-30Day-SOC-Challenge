@@ -2,6 +2,7 @@
 
 ## Technical Walkthrough
 
+---
 
 ## Step 1: Alert Triage and Initial Context
 
@@ -36,7 +37,6 @@ The presence of **interactive PowerShell execution originating from a logged-in 
 ![Process Tree Analysis](screenshots/02-process-tree-analysis.png)
 
 *Process tree showing explorer.exe spawning PowerShell, consistent with interactive attacker behavior.*
-
 ---
 
 ## Step 3: Suspicious Tooling and Post-Exploitation Behavior
@@ -52,7 +52,6 @@ These tools are commonly used after initial access for **discovery**, **credenti
 ![Post-Exploitation Tooling Detected](screenshots/03-suspicious-tooling.png)
 
 *PowerShell creating files associated with Meterpreter and PowerSploit post-exploitation tooling.*
-
 ---
 
 ## Step 4: Discovery and Command-Line Activity
@@ -69,7 +68,6 @@ These commands are typical of an attacker validating **system access** and **pri
 ![Discovery Activity](screenshots/04-1-discovery-activity.png)
 
 *Execution of discovery commands (hostname, whoami) used to validate system and user context.*
-
 ---
 
 ### 4.2 Command-Line Behavior
@@ -118,7 +116,6 @@ This correlation significantly increased confidence that the alert represented *
 ![Alert Timeline Correlation](screenshots/06-alert-timeline-correlation.png)
 
 *Chronological correlation of discovery, execution, and persistence activity confirming malicious intent.*
-
 ---
 
 ## Outcome and Assessment
